@@ -1,0 +1,15 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Data description}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Overview of the database}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Description of the tables}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{ER model}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{Goals definition}{}% 6
+\BOOKMARK [0][-]{chapter.4}{Information loss}{}% 7
+\BOOKMARK [1][-]{section.4.1}{General overview}{chapter.4}% 8
+\BOOKMARK [1][-]{section.4.2}{Information loss on records}{chapter.4}% 9
+\BOOKMARK [0][-]{chapter.5}{Patient journey - 1}{}% 10
+\BOOKMARK [1][-]{section.5.1}{Imposed criteria}{chapter.5}% 11
+\BOOKMARK [1][-]{section.5.2}{Initial data cleaning}{chapter.5}% 12
+\BOOKMARK [1][-]{section.5.3}{First approach}{chapter.5}% 13
+\BOOKMARK [1][-]{section.5.4}{Second approach}{chapter.5}% 14
+\BOOKMARK [1][-]{section.5.5}{Results comparison}{chapter.5}% 15

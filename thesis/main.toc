@@ -1,0 +1,37 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}
+\contentsline {chapter}{\numberline {2}Data description}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Overview of the database}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Description of the tables}{4}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}\textit {pazienti}}{4}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}\textit {nos\_002}}{4}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}\textit {cart\_pazpbl}}{5}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}\textit {cart\_terap}}{5}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}\textit {cart\_accert}}{5}{subsection.2.2.5}
+\contentsline {section}{\numberline {2.3}ER model}{6}{section.2.3}
+\contentsline {chapter}{\numberline {3}Goals definition}{7}{chapter.3}
+\contentsline {chapter}{\numberline {4}Information loss}{9}{chapter.4}
+\contentsline {section}{\numberline {4.1}General overview}{9}{section.4.1}
+\contentsline {section}{\numberline {4.2}Information loss on records}{10}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}\textit {pazienti} and \textit {nos\_002} (1 million of tuples)}{10}{subsection.4.2.1}
+\contentsline {subsubsection}{Summary}{10}{section*.2}
+\contentsline {subsubsection}{\textit {pazienti\_ok}}{10}{section*.3}
+\contentsline {subsection}{\numberline {4.2.2}\textit {cart\_pazpbl} (15 millions of tuples)}{11}{subsection.4.2.2}
+\contentsline {subsubsection}{ICD-9}{11}{section*.4}
+\contentsline {subsubsection}{Summary}{11}{section*.5}
+\contentsline {subsection}{\numberline {4.2.3}\textit {cart\_terap} (118 millions of tuples)}{11}{subsection.4.2.3}
+\contentsline {subsubsection}{ATC code}{11}{section*.6}
+\contentsline {subsubsection}{Summary}{12}{section*.7}
+\contentsline {subsection}{\numberline {4.2.4}\textit {cart\_accert} (151 millions of tuples)}{12}{subsection.4.2.4}
+\contentsline {subsubsection}{Summary}{12}{section*.8}
+\contentsline {chapter}{\numberline {5}Patient journey - 1}{13}{chapter.5}
+\contentsline {section}{\numberline {5.1}Imposed criteria}{13}{section.5.1}
+\contentsline {section}{\numberline {5.2}Initial data cleaning}{14}{section.5.2}
+\contentsline {section}{\numberline {5.3}First approach}{15}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Results breakdown}{15}{subsection.5.3.1}
+\contentsline {section}{\numberline {5.4}Second approach}{16}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Results breakdown}{16}{subsection.5.4.1}
+\contentsline {section}{\numberline {5.5}Results comparison}{16}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Changes in data composition}{17}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Improvement on patients information loss}{17}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Funnel graph of patients}{17}{subsection.5.5.3}
