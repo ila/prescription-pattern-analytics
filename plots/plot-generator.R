@@ -2,6 +2,7 @@
 require("ggplot2")
 require("scales")
 require("gridExtra")
+require("lubridate")
 
 
 # setting file path
@@ -99,13 +100,43 @@ aic4$co_codifa <- factor(aic4$co_codifa)
 
 png(filename=paste(image_path, "aic_4-year.png", sep=""), width=2200, height=1100, res=200)
 
-aic4plot <- ggplot(aic4, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Augmentin", "Levoxacin"))
+  aic4plot <- ggplot(aic4, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Augmentin", "Levoxacin"))
 
-print(aic4plot)
+  print(aic4plot)
 
 dev.off()
 
-# # codifa + atc
+
+# 4 AIC codes for a subset of patients
+aic4subset <- read.csv(paste(csv_path, "aic_4_subset-year.csv", sep=""))
+
+# turning values to factors and removing 2018
+aic4subset$co_codifa <- factor(aic4subset$co_codifa)
+
+png(filename=paste(image_path, "aic_4_subset-year.png", sep=""), width=2200, height=1100, res=200)
+
+  aic4subsetplot <- ggplot(aic4subset, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Augmentin", "Levoxacin"))
+
+  print(aic4subsetplot)
+
+dev.off()
+
+
+# zooming on top AIC of a subset of patients
+topaicsubset <- read.csv(paste(csv_path, "top_aic_subset-year.csv", sep=""))
+
+# turning values to factors and removing 2018
+topaicsubset$co_codifa <- factor(topaicsubset$co_codifa)
+
+png(filename=paste(image_path, "top_aic_subset-year.png", sep=""), width=2200, height=1100, res=200)
+
+  topaicsubsetplot <- ggplot(topaicsubset, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin"))
+
+  print(topaicsubsetplot)
+
+dev.off()
+
+# ATC
 # # trasformare a factor e date
 # codifa1 <- subset(codifa, co_codifa == "26089019")
 # topatc1 <- subset(topatc, co_atc == "J01CR02")
@@ -136,3 +167,47 @@ dev.off()
 # # province
 # ggplot(provincie, aes(x=anno, y=count, color=provincia)) + scale_color_discrete(name="Provincia", breaks=c(61, 62, 63, 64, 65), labels=c("Caserta", "Benevento", "Napoli", "Avellino", "Salerno")) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 1000000, by=50000)) + labs(x="Anno", y="Totale prescrizioni") 
 # 
+
+# distribution of number of prescriptions during the years
+pnyear <- read.csv(paste(csv_path, "prescriptions_number-year.csv", sep=""))
+
+plots <- list()
+values <- c()
+
+for (year in 2008:2017) {
+  plots[[length(plots) + 1]] <- ggplot(pnyear[which(pnyear$anno == year),], aes(x=factor(np), y=count)) + geom_bar(stat="identity") + geom_vline(aes(xintercept=mean(count))) + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(year) + scale_y_log10(limits = c(1,1e5), labels=comma)
+  
+  values <- c(values, pnyear[which(pnyear$anno == year & pnyear$np == 1),]$count)
+}
+
+statsyear <- c(mean(values), var(values), sd(values))
+
+do.call("grid.arrange", c(plots, ncol=2))
+
+png(filename=paste(image_path, "prescriptions_number-year.png", sep=""), width=8000, height=8000, res=300)
+
+  print(do.call("grid.arrange", c(plots, ncol=2)))
+
+dev.off()
+
+# months in 2017
+pnmonth <- read.csv(paste(csv_path, "prescriptions_number-month.csv", sep=""))
+
+pnmonth$data <- as.Date(pnmonth$data)
+pnmonth2017 <- pnmonth[which(pnmonth$data > as.Date("2016-12-01") & pnmonth$data < as.Date("2018-01-01")),]
+
+plots <- list()
+
+for (month in 1:12) {
+  plot <- pnmonth2017[which(month(pnmonth2017$data) == month),]
+  
+  plots[[length(plots) + 1]] <- ggplot(plot, aes(x=factor(np), y=count)) + geom_bar(stat="identity") + geom_vline(aes(xintercept=mean(count))) + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(month) + scale_y_log10(limits = c(1,1e5), labels=comma)
+  
+}
+
+png(filename=paste(image_path, "prescriptions_number-month.png", sep=""), width=5000, height=8000, res=300)
+
+  print(do.call("grid.arrange", c(plots, ncol=2)))
+
+dev.off()
+
