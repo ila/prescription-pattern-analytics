@@ -136,12 +136,22 @@ png(filename=paste(image_path, "top_aic_subset-year.png", sep=""), width=2200, h
 
 dev.off()
 
-# ATC
-# # trasformare a factor e date
-# codifa1 <- subset(codifa, co_codifa == "26089019")
-# topatc1 <- subset(topatc, co_atc == "J01CR02")
-# ggplot(topatc1, aes(x=mese, y=count)) + geom_line(color="cyan3") + geom_point(color="cyan3") + scale_y_continuous(breaks = seq(0, 25000, by=1000)) + geom_line(data=codifa1, aes(x=mese, y=count), color="blue2") + geom_point(data=codifa1, aes(x=mese, y=count), color="blue2") + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("6 months"))
-# 
+# ATC compared to AIC
+# extracting subsets
+aic1 <- subset(aicmonth, co_codifa == "26089019")
+atc1 <- subset(atcmonth, co_atc == "J01CR02")
+
+colnames(aic1) <- c("codice", "mese", "count")
+colnames(atc1) <- c("codice", "mese", "count")
+aicatc <- rbind(aic1, atc1)
+
+png(filename=paste(image_path, "atc_aic-month.png", sep=""), width=2200, height=1100, res=200)
+
+  atcaic <- ggplot(aicatc, aes(x=mese, y=count, colour=codice)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("6 months")) + scale_y_continuous(breaks=seq(0, 50000, by=2000), labels=comma) + labs(x="Month", y="Total prescriptions") + scale_color_discrete(name="Code", label=c("Augmentin", "Amoxicillin"))
+
+  print(atcaic)
+
+dev.off()
 
 # # donne
 # plot1 <- ggplot(donne, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 110000, by=5000), limits=c(0, 110000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("Donne")
@@ -163,26 +173,37 @@ dev.off()
 # janno <- aggregate(j$count, by=list(anno=a$mese, sesso=a$sesso), FUN=sum)
 # plot1 <- ggplot(aanno, aes(x=anno, y=x, group=sesso, color=sesso)) + geom_point() + geom_line() + scale_y_continuous(breaks=seq(0, 45000, by=5000), limits=c(0, 45000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("A07AA11")
 # plot2 <- ggplot(janno, aes(x=anno, y=x, group=sesso, color=sesso)) + geom_point() + geom_line() + scale_y_continuous(breaks=seq(0, 45000, by=5000), limits=c(0, 45000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("J01MA12")
-# 
-# # province
-# ggplot(provincie, aes(x=anno, y=count, color=provincia)) + scale_color_discrete(name="Provincia", breaks=c(61, 62, 63, 64, 65), labels=c("Caserta", "Benevento", "Napoli", "Avellino", "Salerno")) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 1000000, by=50000)) + labs(x="Anno", y="Totale prescrizioni") 
-# 
+
+
+# trending by province
+provinces <- read.csv(paste(csv_path, "provinces.csv", sep=""))
+provinces <- provinces[which(provinces$anno <= 2017),]
+provinces$provincia = factor(provinces$provincia)
+
+png(filename=paste(image_path, "provinces.png", sep=""), width=2200, height=1100, res=200)
+
+  provincesplot <- ggplot(provinces, aes(x=anno, y=count, color=provincia)) + scale_color_discrete(name="Province", breaks=c(61, 62, 63, 64, 65), labels=c("Caserta", "Benevento", "Napoli", "Avellino", "Salerno")) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018), labels=comma) + scale_y_continuous(breaks = seq(0, 1000000, by=50000)) + labs(x="Year", y="Total prescriptions") 
+  
+  print(provincesplot)
+
+dev.off()
+
 
 # distribution of number of prescriptions during the years
 pnyear <- read.csv(paste(csv_path, "prescriptions_number-year.csv", sep=""))
 
-plots <- list()
-values <- c()
+plots_year <- list()
+valuesyear <- c()
 
 for (year in 2008:2017) {
-  plots[[length(plots) + 1]] <- ggplot(pnyear[which(pnyear$anno == year),], aes(x=factor(np), y=count)) + geom_bar(stat="identity") + geom_vline(aes(xintercept=mean(count))) + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(year) + scale_y_log10(limits = c(1,1e5), labels=comma)
+  plots_year[[length(plots_year) + 1]] <- ggplot(pnyear[which(pnyear$anno == year),], aes(x=factor(np), y=count)) + geom_bar(stat="identity") + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(year) + scale_y_log10(limits=c(1,1e5), labels=comma)
   
-  values <- c(values, pnyear[which(pnyear$anno == year & pnyear$np == 1),]$count)
+  valuesyear <- c(values, pnyear[which(pnyear$anno == year & pnyear$np == 1),]$count)
 }
 
-statsyear <- c(mean(values), var(values), sd(values))
+statsyear <- c(mean(valuesyear), var(valuesyear), sd(valuesyear))
 
-do.call("grid.arrange", c(plots, ncol=2))
+do.call("grid.arrange", c(plots_year, ncol=2))
 
 png(filename=paste(image_path, "prescriptions_number-year.png", sep=""), width=8000, height=8000, res=300)
 
@@ -190,24 +211,30 @@ png(filename=paste(image_path, "prescriptions_number-year.png", sep=""), width=8
 
 dev.off()
 
+
 # months in 2017
 pnmonth <- read.csv(paste(csv_path, "prescriptions_number-month.csv", sep=""))
 
 pnmonth$data <- as.Date(pnmonth$data)
 pnmonth2017 <- pnmonth[which(pnmonth$data > as.Date("2016-12-01") & pnmonth$data < as.Date("2018-01-01")),]
 
-plots <- list()
+plots_month <- list()
+valuesmonth <- c()
 
 for (month in 1:12) {
   plot <- pnmonth2017[which(month(pnmonth2017$data) == month),]
   
-  plots[[length(plots) + 1]] <- ggplot(plot, aes(x=factor(np), y=count)) + geom_bar(stat="identity") + geom_vline(aes(xintercept=mean(count))) + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(month) + scale_y_log10(limits = c(1,1e5), labels=comma)
+  plots_month[[length(plots_month) + 1]] <- ggplot(plot, aes(x=factor(np), y=count)) + geom_bar(stat="identity") + geom_vline(aes(xintercept=mean(count))) + labs(x="Number of prescriptions", y="Number of patients") + ggtitle(month) + scale_y_log10(limits=c(1,1e5), labels=comma)
+  
+  valuesmonth <- c(valuesmonth, plot[which(plot$np == 1),]$count)
   
 }
 
+statsmonth <- c(mean(valuesmonth), var(valuesmonth), sd(valuesmonth))
+
 png(filename=paste(image_path, "prescriptions_number-month.png", sep=""), width=5000, height=8000, res=300)
 
-  print(do.call("grid.arrange", c(plots, ncol=2)))
+  print(do.call("grid.arrange", c(plots_month, ncol=2)))
 
 dev.off()
 
