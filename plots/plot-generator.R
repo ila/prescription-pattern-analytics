@@ -95,7 +95,7 @@ dev.off()
 # zooming on 4 AIC codes
 aic4 <- read.csv(paste(csv_path, "aic_4-year.csv", sep=""))
 
-# turning values to factors and removing 2018
+# turning values to factors
 aic4$co_codifa <- factor(aic4$co_codifa)
 
 png(filename=paste(image_path, "aic_4-year.png", sep=""), width=2200, height=1100, res=200)
@@ -152,6 +152,71 @@ png(filename=paste(image_path, "atc_aic-month.png", sep=""), width=2200, height=
   print(atcaic)
 
 dev.off()
+
+
+# plotting Velamox trends
+velamox <- read.csv(paste(csv_path, "velamox-year.csv", sep=""))
+
+# plotting and saving as .png
+png(filename=paste(image_path, "velamox-year.png", sep=""), width=2200, height=1100, res=200)
+
+  velamoxplot <- ggplot(velamox, aes(x=anno, y=count)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") 
+
+  print(velamoxplot)
+
+dev.off()
+
+
+# plotting Augmentin trends
+augmentin <- read.csv(paste(csv_path, "augmentin-year.csv", sep=""))
+
+# plotting and saving as .png
+png(filename=paste(image_path, "augmentin-year.png", sep=""), width=2200, height=1100, res=200)
+
+augmentinplot <- ggplot(augmentin, aes(x=anno, y=count)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") 
+
+print(augmentinplot)
+
+dev.off()
+
+
+# trending by age range
+
+for (range in 2:5) {
+  plots <- list()
+  
+  atc_year <- read.csv(paste(csv_path, "age/range", range, "/top_atc_", range, "-year.csv", sep=""))
+  atc_month <- read.csv(paste(csv_path, "age/range", range, "/top_atc_", range, "-month.csv", sep=""))
+  aic_year <- read.csv(paste(csv_path, "age/range", range, "/top_aic_", range, "-year.csv", sep=""))
+  aic_month <- read.csv(paste(csv_path, "age/range", range, "/top_aic_", range, "-month.csv", sep=""))
+  
+  atc_month$mese <- as.Date(atc_month$mese)
+  aic_month$mese <- as.Date(aic_month$mese)
+  
+  atc_month <- atc_month[which(atc_month$mese <= as.Date("2018-06-01")),]
+  atc_year <- atc_year[which(atc_year$anno <= 2017),]
+  aic_month <- aic_month[which(aic_month$mese <= as.Date("2018-06-01")),]
+  aic_year <- aic_year[which(aic_year$anno <= 2017),]
+  
+  atc_year$co_codifa <- factor(atc_year$co_codifa)
+  atc_month$co_codifa <- factor(atc_month$co_codifa)
+  
+  plots[1] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), labels=comma) + labs(x="Year", y="Total ATC prescriptions", color="ATC code")
+    
+  plots[2] <- ggplot(atc_month, aes(x=mese, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("6 months")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma) + labs(x="Month", y="Total ATC prescriptions")
+  
+  plots[3] <- ggplot(aic_year, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), labels=comma) + labs(x="Year", y="Total AIC prescriptions")
+    
+  plots[4] <- ggplot(aic_month, aes(x=mese, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("6 months")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma) + labs(x="Month", y="Total AIC prescriptions")
+  
+  png(filename=paste(image_path, "prescriptions_age-", range, ".png", sep=""), width=5000, height=8000, res=300)
+  
+    print(do.call("grid.arrange", c(plots, ncol=2)))
+  
+  dev.off()
+  
+}
+
 
 # # donne
 # plot1 <- ggplot(donne, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 110000, by=5000), limits=c(0, 110000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("Donne")
