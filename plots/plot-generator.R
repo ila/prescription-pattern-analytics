@@ -4,6 +4,8 @@ require("scales")
 require("gridExtra")
 require("lubridate")
 require("grid")
+require("ggpubr")
+require("RColorBrewer")
 
 
 # setting file path
@@ -169,8 +171,13 @@ dev.off()
 
 
 # trending by age range
-# to finish: eventually plot by AIC, ATC instead of age, fix labels
 augmentinageyear <- data.frame(year=numeric(0), range=numeric(0), count=numeric(0))
+
+atccolors <- c("A07AA11"="#66BF0C", "J01CA04"="#0EC419", "J01CR02"="#0FC982", "J01DD04"="#10ACCE", "J01DD08"="#1245D3", "J01FA09"="#4E13D8","J01FA10"="#C015DD", "J01MA02"="#E2168E", "J01MA12"="#E7181D", "J01XX01"="#EC8A1A", "J02AC01"="#DEF11B")
+
+aiccolors <- c("20601035"="#66BF0C", "23086150"="#26A90F", "23097102"="#0FC75E", "25202058"="#10CBB8", "25300029"="#118AD0", "25680024"="#1233D4", "26089019"="#A21CF2", "26089108"="#AD15DC", "26141147"="#E116B2", "26664021"="#E51756", "27134030"="#E93A19", "27860042"="#ED9F1A", "33940038"="#DEF11B")
+
+agerange <- c("15-24", "25-44", "45-64", "65+")
 
 plotsatcyear <- list()
 plotsatcmonth <- list()
@@ -178,14 +185,32 @@ plotsaicyear <- list()
 plotsaicmonth <- list()
 
 atcyearlabels <- list(
-  c("Amoxicillin", "Amoxicillin and \nbeta-lactamase inhibitor", "Ceftriaxone", "Clarithromycin", "Azithromycin", "Ciprofloxacin"),
-  c("Amoxicillin", "Amoxicillin and \nbeta-lactamase inhibitor", "Clarithromycin", "Azithromycin", "Ciprofloxacin"),
-  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase inhibitor", "Clarithromycin", "Ciprofloxacin", "Levofloxacin"),
-  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase inhibitor", "Ceftriaxone", "Ciprofloxacin", "Levofloxacin")
+  c("Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Ceftriaxone", "Clarithromycin", "Azithromycin", "Ciprofloxacin"),
+  c("Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Clarithromycin", "Azithromycin", "Ciprofloxacin"),
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Clarithromycin", "Ciprofloxacin", "Levofloxacin"),
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Ceftriaxone", "Ciprofloxacin", "Levofloxacin")
   )
-atcmonthlabels <- c()
-aicyearlabels <- c()
-aicmonthlabels <- c()
+
+atcmonthlabels <- list(
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Cefixim", "Clarithromycin", "Azithromycin", "Ciprofloxacin", "Fosfomycin"),
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Ceftriaxone", "Cefixim", "Clarithromycin", "Azithromycin", "Ciprofloxacin", "Levofloxacin", "Fosfomycin", "Fluconazole"),
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Ceftriaxone", "Clarithromycin", "Ciprofloxacin", "Levofloxacin", "Fosfomycin"),
+  c("Rifaximin", "Amoxicillin", "Amoxicillin and \nbeta-lactamase \ninhibitor", "Ceftriaxone", "Ciprofloxacin", "Levofloxacin", "Fosfomycin")
+)
+
+aicyearlabels <- list(
+  c("Zimox", "Velamox", "Normix", "Monuril", "Augmentin", "Augmentin \nin sachets", "Neoduplamox", "Ciproxin", "Zitromax"),
+  c("Velamox", "Normix", "Monuril", "Augmentin", "Augmentin \nin sachets", "Ciproxin", "Zitromax"),
+  c("Velamox", "Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin"),
+  c("Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin")
+)
+
+aicmonthlabels <- list(
+  c("Zimox", "Velamox", "Normix", "Monuril", "Augmentin", "Augmentin \nin sachets", "Neoduplamox", "Ciproxin", "Cefixoral", "Zitromax"),
+  c("Lincocin", "Zimox", "Velamox", "Rocefin", "Normix", "Monuril", "Augmentin", "Augmentin \nin sachets", "Ciproxin", "Zitromax", "Levoxacin"),
+  c("Zimox", "Velamox", "Rocefin", "Normix", "Monuril", "Augmentin", "Ciproxin", "Zitromax", "Levoxacin"),
+  c("Velamox", "Rocefin", "Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin")
+)
 
 for (range in 2:5) {
   
@@ -211,13 +236,13 @@ for (range in 2:5) {
   
   }
   
-  plotsatcyear[[length(plotsatcyear) + 1]] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma, limits=c(0, 60000)) + labs(x="Year", y="Total ATC prescriptions") + ggtitle(paste("Range ", range, sep="")) + scale_color_discrete(name="ATC code", label=atcyearlabels[range + 1])
+  plotsatcyear[[length(plotsatcyear) + 1]] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma, limits=c(0, 70000)) + labs(x="Year", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
     
-  plotsatcmonth[[length(plotsatcmonth) + 1]] <- ggplot(atc_month, aes(x=mese, y=count, color=co_atc)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 6000)) + labs(x="Month", y="Total ATC prescriptions") + ggtitle(paste("Range ", range, sep="")) #+ scale_color_discrete(name="ATC code", label=atcmonthlabels[range])
+  plotsatcmonth[[length(plotsatcmonth) + 1]] <- ggplot(atc_month, aes(x=mese, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcmonthlabels[[range-1]]) + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 7000)) + labs(x="Month", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
   
-  plotsaicyear[[length(plotsaicyear) + 1]] <- ggplot(aic_year, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), limits=c(0, 45000), labels=comma) + labs(x="Year", y="Total AIC prescriptions") + ggtitle(paste("Range ", range, sep="")) #+ scale_color_discrete(name="AIC code", label=aicyearlabels[range])
+  plotsaicyear[[length(plotsaicyear) + 1]] <- ggplot(aic_year, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_colour_manual(values=aiccolors, name="AIC code", labels=aicyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), limits=c(0, 45000), labels=comma) + labs(x="Year", y="Total AIC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
     
-  plotsaicmonth[[length(plotsaicmonth) + 1]] <- ggplot(aic_month, aes(x=mese, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 5000)) + labs(x="Month", y="Total AIC prescriptions") + ggtitle(paste("Range ", range, sep="")) #+ scale_color_discrete(name="AIC code", label=aicmonthlabels[range])
+  plotsaicmonth[[length(plotsaicmonth) + 1]] <- ggplot(aic_month, aes(x=mese, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_colour_manual(values=aiccolors, name="AIC code", labels=aicmonthlabels[[range-1]]) + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 4000)) + labs(x="Month", y="Total AIC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
   
 }
 
@@ -229,12 +254,12 @@ png(filename=paste(image_path, "top_atc_age-month.png", sep=""), width=4200, hei
   grid.arrange(grobs=plotsatcmonth, ncol=2, top=(textGrob(paste("ATC codes for month", sep=""), gp=gpar(fontsize=20))))
 dev.off()
 
-  png(filename=paste(image_path, "top_aic_age-year.png", sep=""), width=4200, height=2700, res=300)
-grid.arrange(grobs=plotsaicyear, ncol=2, top=(textGrob(paste("AIC codes for year", sep=""), gp=gpar(fontsize=20))))
+png(filename=paste(image_path, "top_aic_age-year.png", sep=""), width=4200, height=2700, res=300)
+  grid.arrange(grobs=plotsaicyear, ncol=2, top=(textGrob(paste("AIC codes for year", sep=""), gp=gpar(fontsize=20))))
 dev.off()
 
 png(filename=paste(image_path, "top_aic_age-month.png", sep=""), width=4200, height=2700, res=300)
-grid.arrange(grobs=plotsaicmonth, ncol=2, top=(textGrob(paste("AIC codes for month", sep=""), gp=gpar(fontsize=20))))
+  grid.arrange(grobs=plotsaicmonth, ncol=2, top=(textGrob(paste("AIC codes for month", sep=""), gp=gpar(fontsize=20))))
 dev.off()
 
 
@@ -360,4 +385,23 @@ png(filename=paste(image_path, "prescriptions_number-month.png", sep=""), width=
   print(do.call("grid.arrange", c(plots_month, ncol=2)))
 
 dev.off()
+
+
+# AIC coupled with Augmentin in 2017
+aiccouplesmonth <- read.csv(paste(csv_path, "aic_couples_2017-month.csv", sep=""))
+
+aiccouplesmonth$co_codifa <- factor(aiccouplesmonth$co_codifa)
+aiccouplesmonth$mese <- as.Date(aiccouplesmonth$mese)
+
+aiccouplesmonth <- rbind(aiccouplesmonth, aicmonth[which(aicmonth$mese <= as.Date("2017-12-01") & aicmonth$mese >= as.Date("2017-01-01") & aicmonth$co_codifa == "26089019"),])
+
+png(filename=paste(image_path, "aic_couples_2017-month.png", sep=""), width=2000, height=1100, res=200)
+
+  aiccouplesmonthplot <- ggplot(aiccouplesmonth, aes(x=mese, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 month")) + scale_y_continuous(breaks=seq(0, 20000, by=1000), labels=comma) + labs(x="Month", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Clenil", "Lasix", "Cardioaspirin", "Normix", "Omeprazen", "Pantorc", "Dibase", "Dibase 2 flasks", "Augmentin"))
+
+  print(aiccouplesmonthplot)
+
+dev.off()
+
+
 
