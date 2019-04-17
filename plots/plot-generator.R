@@ -404,4 +404,30 @@ png(filename=paste(image_path, "aic_couples_2017-month.png", sep=""), width=2000
 dev.off()
 
 
+# Augmentin paired with Clenil
+acmonth <- read.csv(paste(csv_path, "augmentin_clenil-month.csv", sep=""))
+
+acmonth$co_codifa <- factor(acmonth$co_codifa)
+acmonth$mese <- as.Date(acmonth$mese)
+
+png(filename=paste(image_path, "augmentin_clenil-month.png", sep=""), width=2000, height=1100, res=200)
+
+  acmonthplot <- ggplot(acmonth, aes(x=mese, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("6 months")) + scale_y_continuous(breaks=seq(0, 12000, by=1000), labels=comma) + labs(x="Month", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Clenil", "Augmentin"))
+
+  print(acmonthplot)
+
+dev.off()
+
+
+acyear <- read.csv(paste(csv_path, "augmentin_clenil-year.csv", sep=""))
+
+acyear$co_codifa <- factor(acyear$co_codifa)
+
+png(filename=paste(image_path, "augmentin_clenil-year.png", sep=""), width=2000, height=1100, res=200)
+
+  acyearplot <- ggplot(acyear, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 102000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Clenil", "Augmentin"))
+
+  print(acyearplot)
+
+dev.off()
 
