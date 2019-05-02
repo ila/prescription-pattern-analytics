@@ -12,7 +12,7 @@ library(factoextra) # clustering algorithms & visualization
 library(gridExtra)  # for plotting
 library(fpc)
 
-path = "C:\\Users\\WIN_KNIME_ATB\\Desktop\\dbcampania\\k-means\\"
+path = "/Users/ila/Desktop/codes/cmr-internship/k-means/"
 data2017 <- read.csv(paste(path, "dataset2017.csv", sep=""))
 data2010 <- read.csv(paste(path, "dataset2010.csv", sep=""))
 
