@@ -1,0 +1,71 @@
+\documentclass[a4paper,12pt]{report}
+\input{packages.tex}
+\pagestyle{fancy}
+
+\begin{document}
+	
+	\begin{titlepage}
+		
+		\begin{minipage}[t]{0.19\textwidth}
+			\vspace{-4mm}{\includegraphics[scale=1.15]{images/logo_unimib.pdf}}
+		\end{minipage}
+		\begin{minipage}[t]{0.81\textwidth}
+			{
+				\setstretch{1.42}
+				{\textsc{Università degli Studi di Milano - Bicocca}} \\
+				\textbf{Scuola di Scienze} \\
+				\textbf{Dipartimento di Informatica, Sistemistica e Comunicazione} \\
+				\textbf{Corso di laurea in Informatica} \\
+				\par
+			}
+		\end{minipage}
+		
+		\vspace{40mm}
+		
+		\begin{center}
+			{\LARGE{
+					\setstretch{1.2}
+					\textbf{A Data Analytics Framework for \\Medical Prescription Pattern Dynamics}
+					\par
+			}}
+		\end{center}
+		
+		\vspace{40mm}
+		
+		{\large \textbf{Relatore:} Prof. Francesco Archetti} \\
+		
+		{\large \textbf{Correlatore:} Prof. Antonio Candelieri} \\
+		
+		{\large \textbf{Tutor aziendale:} Dott. Gaia Arosio} \\
+		
+		\vspace{15mm}
+		
+		\begin{flushright}
+			{\large \textbf{Relazione della prova finale di:}} \\
+			\large{Ilaria Battiston} \\
+			\large{Matricola 816339} 
+		\end{flushright}
+		
+		\vspace{30mm}
+		\begin{center}
+			{\large{\bf Anno Accademico 2018-2019}}
+		\end{center}
+		
+		\restoregeometry
+		
+	\end{titlepage}
+    
+\newpage
+\input{chapters/abstract.tex}
+\newpage
+\setcounter{tocdepth}{1}
+\tableofcontents
+\newpage
+\input{chapters/introduction.tex}
+\input{chapters/data_description.tex}
+\input{chapters/defining_goals.tex}  % work in progress
+\input{chapters/information_loss.tex}
+\input{chapters/patient_journey.tex}
+\input{chapters/bibliography.tex}
+
+\end{document}

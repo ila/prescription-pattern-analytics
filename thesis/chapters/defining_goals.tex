@@ -1,0 +1,59 @@
+\chapter{Goals definition}
+
+Since health big data can be so vary and informative, it's important to have some clear \textit{objectives} in mind to keep on track and avoid losing focus. 
+
+The research is centred on the \textbf{changes of prescription patterns on chronic patients}: this is a wide goal, and more information is needed to achieve results. It's necessary to narrow the field down, only concentrating on some classes of diseases, and define how a patient can be considered chronic. 
+
+To obtain constraints the more objective as possible, some further analysis can be useful. Focussing on chronic patients is a relatively fast way to reduce the huge amount of rows to elaborate, but causes the loss of most information.
+
+The first step to take, having a deep understanding of the data, is recognising the extent and impact of the \textbf{progressive information loss}, to define the final amount of clear records. Trying to fix mistakes is a risk, since the outcome could be incorrect, so deleting is the best option.
+
+Removing unclear and futile data may not be enough to have consistent results: 18 years of data is a wide range, and \textit{splitting the dataset} or deciding to only consider a smaller scope can be beneficial for the analysis quality. 
+
+Some constraints can be imposed on general practitioners as well: since the results have to be coherent and consistent, it's good to only consider \textbf{active GPs} with a \textbf{constant number of patients} (to be defined). \\ This would partially remedy the fact that doctors may have different approaches to the same disease.
+
+The creation of cohorts (chronic patients) among the statistical population is an example of \textbf{cluster sampling}.
+
+After the initial parsing, there will be a rough draft of the final result which then will be subject of the following steps:
+\begin{enumerate}
+	\item Further analysis on data correctness with record linkage;
+	\item Elaboration of the statistics and time series clustering.
+\end{enumerate}
+
+Another relevant instance for analysis is the \textbf{subset} of chronic diseases to consider: choices have to be made according to \textit{external studies}, \textit{marketing researches} and further \textit{discoveries on the provided data}. Focussing on the \textbf{most common ones} is a guideline to start.
+
+Having an idea of which illnesses and prescription have unstable patterns might give a better vision, and can be done through statistics on the whole database. 
+
+Some examples of analytics are:
+\begin{itemize}
+	\item Most common diseases through the years;
+	\item Most common \textit{chronic} diseases through the years;
+	\item Changes of the number of prescriptions for diseases in the same area;
+	\item Changes of diagnoses based on the patient gender and age.
+\end{itemize}
+
+An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate that, it's useful to confront some experts in the field. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
+
+The tools to analyse and elaborate the health data are:
+\begin{itemize}
+	\item \textbf{PostgreSQL}, for data management and querying;
+		\begin{itemize}
+			\item The software project to interface with the web server is \textbf{PgAdmin 4};
+			\item All queries need to be optimized to avoid huge computational times, using indexes and Common Table Expressions;
+		\end{itemize}
+	\item \textbf{R}, for machine learning and graphics computing;
+	\begin{itemize}
+		\item There are many ways to create plots;
+		\item Possible uses are time series analysis and trajectory clustering.
+	\end{itemize}
+\end{itemize}
+
+Reports and slide-shares have been created and accessed using the \textbf{Google Suite}.
+
+Due to the amount of sensitive data, detailed results won't be shared: the final conclusions will be a product of aggregation and schematisation.
+
+\section{Methodologies}
+%Com’è organizzato il sistema? Descrizione essenziale, tutte le attività del medico generale, ma ci concentriamo su farmaci, diagnosi ecc.
+%Non usare i nomi delle tabelle (migliore fruizione del lavoro)
+%Relazione, modello ER, db stratificato, soglia temporale (dati disponibili & usati: avvento del generico, 10 anni)
+%Funnel, perdita progressiva di informazioni, aree individuate, patologie (atc, prodotti), analisi globali 

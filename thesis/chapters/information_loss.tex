@@ -1,0 +1,119 @@
+\chapter{Information loss}
+
+The first analysis aims to give a \textbf{qualitative assessment} of the whole database, giving an overall idea on how impactful is the progressive information loss. 
+
+After understanding the correctness and completeness of records, some fields will be eventually excluded from the analysis, while others that cannot be removed will have a major impact on the results.
+
+Having missing fields, particularly in the process of joining tables, can take to a cumulative augmentation of the information loss: empty data such as the patient date of birth or gender will cause the deletion of the entire patient, in case analytics is centred on pathologies by age or gender.
+
+Joining is in fact an operation which requires all fields of reference to be present, combining entries of the selected tables\cite{DC2}.
+
+\section{General overview}
+Before starting running queries, there are some factors to consider and issues which sometimes cannot be addressed just with database interrogations:
+\begin{enumerate}
+	\item The geographic information is sometimes imprecise and hard to comprehend;
+	\item Some diagnoses descriptions don't match with the corresponding ICD-9 code;
+	\item A lot of missing data is originated when a general practitioner doesn't prescribe anything but makes other operations (medical certificates, examinations and such);
+	\item Prescriptions in hospitals are missing;
+	\item Some medicines don't need prescriptions, so there is no entry in the DB;
+	\item General practitioners might prescribe a medicine to a different patient than the one who actually needs it (relatives, friends, \dots);
+	\item There is inappropriate prescribing, misuse or over-use of medicines;
+	\item A patient can change doctor, so the approach to the same disease may vary.
+\end{enumerate}
+
+Furthermore, there have been noticed some common patterns of incorrect data:
+\begin{itemize}
+	\item Some dates don't fall in the given range (e.g.\ 1999, 2034, \dots), \\
+	a date is considered wrong if it's before 01-01-2000 or after 10-01-2018;
+	\item A lot of fields are empty or null.
+\end{itemize}
+
+Overall, the loss on single data isn't a relevant issue since the total amount of rows allows safe removal, yet the cumulative augmentation (funnel analysis) gives a progressive deletion of information.
+
+\section{Information loss on records}
+
+\subsection{\textit{pazienti} and \textit{nos\_002} (1 million of tuples)}
+\subsubsection{Summary}
+Both tables contain similar data related to patients, with a 1 : 1 correspondence between primary keys, so joining them is an elementary operation and there is no information loss.
+
+\begin{itemize}
+	\item Patients with null or empty sex: $2.752 \rightarrow 0,27\%$;
+	\item Patients with sex different from M and F: $54 \rightarrow 0.005\%$;
+	\item Patients with beginning of the patient-doctor relationship outside the accepted range: $226.858 \rightarrow 22,33\%$;
+	\item Patients with null province: $99.981 \rightarrow 9,84\%$.
+\end{itemize}
+
+\subsubsection{\textit{pazienti\_ok}}
+An auxiliary view \textit{pazienti\_ok} has been created to highlight the information loss augmentation on patients and be compared to the original tables. 
+
+The view is derived by the union of \textit{pazienti} and \textit{nos\_002}, with the following conditions:
+\begin{enumerate}
+	\item Join on equal patient code (\textit{codice});
+	\item Not null date of birth;
+	\item Dates between 2000 and 2018;
+	\item Existing and not null sex;
+	\item Existing and not null province.
+\end{enumerate}
+
+The total rows respecting all those constraints are 713.352, so approximatively 300.000 tuples (patients) have been lost. 
+
+This means that during analysis there will be at least $\nicefrac{1}{3}$ of the data which will be removed due to incompleteness and inaccuracy: not considering patients will imply deleting their diagnoses and prescriptions as well.
+
+\subsection{\textit{cart\_pazpbl} (15 millions of tuples)}
+\subsubsection{ICD-9}
+An ICD-9 code is correct if it's in the official ICD-9 database\cite{icd9}. General practitioners may use different formats and notations, so before removing codes each one has been subject to some parsing.
+
+An ICD-9 code is considered wrong if there is no match in the official DB after none of those transformations:
+\begin{enumerate}
+	\item Removal of the dot;
+	\item Addition of 0 at the beginning;
+	\item Addition of 0 at the end;
+	\item Removal of the last 0.
+\end{enumerate}
+
+There are 76 incorrect ICD-9 codes, a very small amount considering the total records.
+
+\subsubsection{Summary}
+\begin{itemize}
+	\item Incorrect ICD-9 codes: $76 \rightarrow 0,0005\%$;
+	\item Null or empty ICD-9 codes: $2.103.169 \rightarrow 13.02\%$;
+	\item Null or empty descriptions: $656.067 \rightarrow 4,24\%$;
+	\item Dates out of range: $807.985 \rightarrow 5,23\%$.
+\end{itemize}
+
+\subsection{\textit{cart\_terap} (118 millions of tuples)}
+\subsubsection{ATC code}
+The ATC code, unlike ICD-9, has only one possible format (a numeric string of 6 digits), and no parsing is needed. All the codes have been checked with the ontologies in a well-known biology portal\cite{atc}, and an ATC is considered incorrect if there is no match.
+
+There are $1.750.292$ non-existent codes, which are caused by:
+\begin{enumerate}
+	\item Alteration of the codes within the years without updating the database;
+	\item Single prescriptions indexed using the superclass code;
+	\item Codes only recognised by local pharmacies.
+\end{enumerate}
+
+The latter is the most common reason: there are up to $90.000$ occurrences of a single unofficial code. Those numbers, despite being high, aren't really relevant considering the total amount of 118 millions of records.
+
+\subsubsection{Summary}
+\begin{itemize}
+	\item Incorrect ATC codes: $1.750.292 \rightarrow 0,1,47\%$;
+	\item Null or empty ATC codes: $1.577.749 \rightarrow 1,33\%$;
+	\item Null or empty AC codes: $1.310.719 \rightarrow 1,1\%$;
+	\item Null or empty descriptions: $101.248.410 \rightarrow 85,28\%$;
+	\item Dates out of range: $3.472.119 \rightarrow 2,92\%$.
+\end{itemize}
+
+Clearly, the prescription description is not a field which can be used for reliable analytics since empty values prevail.
+
+The field \textit{te\_npezzi} (number of boxes) might be useful to check for appropriate prescribing, but since the field is a string it requires casting and parsing to integer, and it's more important to focus on chronic patients analysis.
+
+\subsection{\textit{cart\_accert} (151 millions of tuples)}
+\subsubsection{Summary}
+\begin{itemize}
+	\item Null or empty examination codes: $208.939 \rightarrow 0,14\%$;
+	\item Null or empty descriptions: $9.377 \rightarrow 0,006\%$;
+	\item Dates out of range: $4.451.626 \rightarrow 2,94\%$.
+\end{itemize}
+
+The official ICD-9-CM database is available for future checks on correctness of the codes.
+
