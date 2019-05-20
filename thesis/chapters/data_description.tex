@@ -6,11 +6,18 @@
 %Non sempre le prescrizioni non sono centrate sul pazienti
 
 \section{Overview of the database}
-The database used for analytics contains data on medical histories of patients between \textbf{January 2000} and \textbf{October 2018.} 
+The database used for analytics contains data on medical histories of patients between \textbf{January 2000} and \textbf{October 2018}. This leads to some observations:
+\begin{enumerate}
+	\item The year 2018 is not complete, so it cannot be used while making time series with years;
+	\item A timespan of 20 years is too wide to make consistent analytics;
+	\item Early dated records might contain outdated or incomplete information.
+\end{enumerate}
 
-It's important to note that the research work has been done on only a part of the whole database, consisting in \textbf{5 tables}. There is information available on \textbf{general practitioners}, \textbf{patients}, \textbf{diagnoses} and \textbf{prescriptions}: each macro-category is included in a separated table, so it's necessary to recognise the relationship between fields.
+Global inferences have been made with the entire dataset, while the need of detailed recent reports leads to the decision of using a limited range of years for prescription pattern changes and patient journey.
 
-The 5 tables and their relative sizes are:
+It's important to note that the research work has been done on only a part of the original Millewin database, consisting in \textbf{4 tables}. There is information available on \textbf{general practitioners}, \textbf{patients}, \textbf{diagnoses} and \textbf{prescriptions}: each macro-category is included in a separated table, so it's necessary to identify the relationship between fields.
+
+The 5 tables with their sizes are:
 \begin{itemize}
 	\item \textit{pazienti}, 1.015.618 tuples; \\
 	Basic information about patients, identified by an encrypted UID;
@@ -24,7 +31,7 @@ The 5 tables and their relative sizes are:
 	Information about medical checks and examinations.
 \end{itemize}
 
-It's easy to see that the number of rows is varying a lot: there are a lot more prescriptions than diagnosis, and 150 millions of medical examinations. 
+It's easy to see that the number of rows is varying: there are a much more prescriptions than diagnosis, and 150 millions of medical examinations. 
 
 Each diagnosis, prescription and examination is uniquely distinguished by the triplet patient-GP-date, which maps to \textit{codice--userid--time\_last} in the database. 
 
@@ -33,7 +40,7 @@ There are many other date fields, but \textit{time\_last} (last update of the re
 Analysis is performed using dates in the \textit{YYYY-MM-DD} format, since there's no need of unique data: there are lots of different prescription for the same patient made on the same day.
 
 \section{Description of the tables}
-Below is reported a brief description of the 5 tables, along with the main fields used for analytics and their meaning.
+Below is reported a brief description of the 5 tables, along with the main fields used for analytics, statistics and meaning.
 
 \subsection{\textit{pazienti}}
 The table \textit{pazienti} includes information about patients. To maintain privacy, there are no real names: everything is \textbf{encrypted} as a 22-character string containing letters, numbers and special symbols.
@@ -48,8 +55,20 @@ Other relevant fields are:
 	\item \textit{pa\_convenzione}, type of convention with the Italian insurance system.
 \end{itemize}
 
+The principal features of the table are:
+%\begin{center}
+%	\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c}
+%		Characteristic & 2008 & 2009 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\
+%		Patients number 
+%		Age mean
+%		Age variance
+%		Women \%
+%		Men \%
+%	\end{tabular}
+%\end{center}
+
 \subsection{\textit{nos\_002}}
-The table \textit{nos\_002} contains the same information as \textit{pazienti}, with additional fields which are essential to analyse data:
+The table \textit{nos\_002} contains the same information as \textit{pazienti}, with additional fields which are essential to link and analyse data:
 \begin{itemize}
 	\item \textit{pa\_medi}, \textbf{encrypted} UID of the general practitioner of the patient;
 	\item \textit{pa\_cap}, zip-code of the patient (for geographical analysis);
@@ -91,7 +110,7 @@ Fields summary:
 	\item \textit{euro}, price.
 \end{itemize}
 
-\subsection{\textit{cart\_accert}}
+\subsection{\textit{cart\_accert}} % da rimuovere
 The table \textit{cart\_accert} includes all the medical checks and examination for each patient. The first goals of the research only included diagnoses and prescriptions, hence why the comprehension of this table isn't as deep as the others.
 
 Each examination is defined by an \textbf{ICD-9-CM} code, an extension of the ICD-9 database with standard procedures. 

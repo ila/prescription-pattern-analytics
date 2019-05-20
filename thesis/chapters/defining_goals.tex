@@ -1,26 +1,41 @@
-\chapter{Goals definition}
+\chapter{Goals definition} % finire da qui
+\section{Methodologies}
+A general practitioner can do a wide range of daily activities, consisting in:
+\begin{itemize}
+	\item 
+\end{itemize}
+This specifical research is focussed on doctor-patient relationships, in particular information concerning diagnoses and prescriptions and their changes according to habits, time and geographical area. 
 
-Since health big data can be so vary and informative, it's important to have some clear \textit{objectives} in mind to keep on track and avoid losing focus. 
+The dataset is modelled in a relational schema, which allows organization of records in structures (tables) to maintain integrity and compatibility between different kind of fields. For a better fruition of the workload, table names have been changed to standard English keywords.
 
-The research is centred on the \textbf{changes of prescription patterns on chronic patients}: this is a wide goal, and more information is needed to achieve results. It's necessary to narrow the field down, only concentrating on some classes of diseases, and define how a patient can be considered chronic. 
 
-To obtain constraints the more objective as possible, some further analysis can be useful. Focussing on chronic patients is a relatively fast way to reduce the huge amount of rows to elaborate, but causes the loss of most information.
 
-The first step to take, having a deep understanding of the data, is recognising the extent and impact of the \textbf{progressive information loss}, to define the final amount of clear records. Trying to fix mistakes is a risk, since the outcome could be incorrect, so deleting is the best option.
+
+%Relazione, modello ER, db stratificato, soglia temporale (dati disponibili & usati: avvento del generico, 10 anni)
+%Funnel, perdita progressiva di informazioni, aree individuate, patologie (atc, prodotti), analisi globali 
+
+\section{Considerations}
+Since health big data can provide a high variety of information, it is required to have some clear \textit{objectives} in mind to keep on track and avoid losing focus. 
+
+The research is centred on the \textbf{changes of prescription patterns of antibiotics}: this is a wide goal, and more information is needed to achieve results. It's necessary to narrow the field down, only concentrating on some classes of medicines, and define subgroups of GPs and patients in a restricted amount of time.
+
+To obtain constraints the more objective as possible, some further analysis can be useful. For instance, focussing on chronic patients is a relatively fast way to reduce the huge amount of rows to elaborate, but causes the loss of most information.
+
+The first step to take, having a deep understanding of the data, is recognising the extent and impact of the \textbf{progressive information loss}, to define the final amount of clear records. Trying to fix mistakes is a risk, since the outcome could be incorrect, so deleting is the most practical option.
 
 Removing unclear and futile data may not be enough to have consistent results: 18 years of data is a wide range, and \textit{splitting the dataset} or deciding to only consider a smaller scope can be beneficial for the analysis quality. 
 
-Some constraints can be imposed on general practitioners as well: since the results have to be coherent and consistent, it's good to only consider \textbf{active GPs} with a \textbf{constant number of patients} (to be defined). \\ This would partially remedy the fact that doctors may have different approaches to the same disease.
+Some constraints can be imposed on general practitioners as well: since the results have to be coherent and accurate, it's best practice to only consider \textbf{active GPs} with a \textbf{constant number of patients} (to be defined). \\ This would partially remedy the fact that doctors may have different approaches to the same disease.
 
 The creation of cohorts (chronic patients) among the statistical population is an example of \textbf{cluster sampling}.
 
 After the initial parsing, there will be a rough draft of the final result which then will be subject of the following steps:
 \begin{enumerate}
-	\item Further analysis on data correctness with record linkage;
+	\item Further analysis on data correctness (record linkage);
 	\item Elaboration of the statistics and time series clustering.
 \end{enumerate}
 
-Another relevant instance for analysis is the \textbf{subset} of chronic diseases to consider: choices have to be made according to \textit{external studies}, \textit{marketing researches} and further \textit{discoveries on the provided data}. Focussing on the \textbf{most common ones} is a guideline to start.
+Another relevant instance for analysis is the \textbf{subset} of diseases to consider: choices have to be made according to \textit{external studies}, \textit{marketing researches} and further \textit{discoveries on the provided data}. Focussing on the \textbf{most common ones} is a guideline to start.
 
 Having an idea of which illnesses and prescription have unstable patterns might give a better vision, and can be done through statistics on the whole database. 
 
@@ -29,11 +44,12 @@ Some examples of analytics are:
 	\item Most common diseases through the years;
 	\item Most common \textit{chronic} diseases through the years;
 	\item Changes of the number of prescriptions for diseases in the same area;
-	\item Changes of diagnoses based on the patient gender and age.
+	\item Changes of prescriptions based on the patient phenotype or market trends.
 \end{itemize}
 
-An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate that, it's useful to confront some experts in the field. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
+An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
 
+% spostare
 The tools to analyse and elaborate the health data are:
 \begin{itemize}
 	\item \textbf{PostgreSQL}, for data management and querying;
@@ -50,10 +66,6 @@ The tools to analyse and elaborate the health data are:
 
 Reports and slide-shares have been created and accessed using the \textbf{Google Suite}.
 
-Due to the amount of sensitive data, detailed results won't be shared: the final conclusions will be a product of aggregation and schematisation.
+Due to the amount of sensitive data, detailed results are going to be omitted: the final conclusions will be a product of aggregation and schematisation.
 
-\section{Methodologies}
-%Com’è organizzato il sistema? Descrizione essenziale, tutte le attività del medico generale, ma ci concentriamo su farmaci, diagnosi ecc.
-%Non usare i nomi delle tabelle (migliore fruizione del lavoro)
-%Relazione, modello ER, db stratificato, soglia temporale (dati disponibili & usati: avvento del generico, 10 anni)
-%Funnel, perdita progressiva di informazioni, aree individuate, patologie (atc, prodotti), analisi globali 
+\section{Practical goals}
