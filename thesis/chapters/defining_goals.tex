@@ -1,18 +1,34 @@
-\chapter{Goals definition} % finire da qui
+\chapter{Goals definition} 
 \section{Methodologies}
-A general practitioner can do a wide range of daily activities, consisting in:
+A general practitioner, according to WONCA (World Organization of Family Doctors)  is responsible of supply of integrated and continuative care. Some fundamental skills and activities\cite{wonka} to pursue this goal are:
 \begin{itemize}
-	\item 
+	\item Communication with patients;
+	\item Management of the practice;
+	\item Clinical tasks;
+	\item Problem solving;
+	\item Holistic modelling.
 \end{itemize}
-This specifical research is focussed on doctor-patient relationships, in particular information concerning diagnoses and prescriptions and their changes according to habits, time and geographical area. 
 
-The dataset is modelled in a relational schema, which allows organization of records in structures (tables) to maintain integrity and compatibility between different kind of fields. For a better fruition of the workload, table names have been changed to standard English keywords.
+This research is specifically focussed on the doctor-patient relationship: person-centred care concerning diagnoses and prescriptions, analysing their changes according to habits, physiological aspects, time and geographical area of both interested parts. 
 
+There are several external factors influencing market trends of medicines, for instance the advent of generic drugs, having the same active principle and bioequivalence with brand medicines, but lower prices thanks to their dissociation from pharmaceutical companies.
 
+The concept of generic drug has been introduced in Italy in 1995, to be legally formalised in 1996\cite{generico}, yet it has initially been perceived by general practitioners and pharmacists as a mere instrument to save money at the expense of quality\cite{medicinaliequivalenti}.
 
+Only in the past 10 years, advertisement efforts have been made to make the population aware of the strict quality checks and the reliability of generic drugs, starting a slow switching process. If sales of a brand product decrease, then, it might have been replaced with its equivalent.
 
-%Relazione, modello ER, db stratificato, soglia temporale (dati disponibili & usati: avvento del generico, 10 anni)
-%Funnel, perdita progressiva di informazioni, aree individuate, patologie (atc, prodotti), analisi globali 
+This is only an instance of event which cannot be predicted using the raw data: information about market withdrawals, advertisement or economic availability need to be cross-checked with analytical results.
+
+Considering a wide time span is essential to have an overall idea of data quality, information loss and potentiality of available resources. All those factors contribute to progressive rescaling of the dataset:
+\begin{enumerate}
+	\item Detailed analytics must be done according to restricted areas (pathologies, products);
+	\item Different time spans can be compared, going deeper into the general view;
+	\item Incorrect or unclear information has to be removed, causing retention of total records whose amount gets narrower while cleaning is in progress (funnel).
+\end{enumerate}
+
+The dataset is modelled in a relational schema, which allows organization of records in structures (tables) to maintain integrity and compatibility between different kind of fields. This allows flexibility using dynamic views and query optimisation based on set theory. 
+
+For a better fruition of the workload, table names have been changed to standard English keywords.
 
 \section{Considerations}
 Since health big data can provide a high variety of information, it is required to have some clear \textit{objectives} in mind to keep on track and avoid losing focus. 
@@ -49,17 +65,29 @@ Some examples of analytics are:
 
 An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
 
-% spostare
+\section{Practical goals }
+Having a better vision of the medical domain and the rising issues in the Italian system, before approaching analytical procedures it is necessary to underline practical objectives and expected outcomes.
+
+The first essential statistic to extract is about progressive information loss: this makes possible to estimate how much data can give reliable and complete results, compared to the total. It is defined \textit{progressive} since the more iterations of cleaning are being made, the more data is going to be lost. 
+
+Parsing remaining data is essential to have a correct functioning of database interrogations. Fields need to be checked for correctness using lookup tables, record linkage or regular expression matching; text has to be cast to numbers to apply mathematical operations, and dates can be divided into months and years.
+
+Performances require a high level of optimisation due to the huge workload of information, obtained through targeted expressions, strict constraints and better memory management of records. 
+
+% finire
+
+\section{Tools} % finire
 The tools to analyse and elaborate the health data are:
 \begin{itemize}
-	\item \textbf{PostgreSQL}, for data management and querying;
-		\begin{itemize}
-			\item The software project to interface with the web server is \textbf{PgAdmin 4};
-			\item All queries need to be optimized to avoid huge computational times, using indexes and Common Table Expressions;
-		\end{itemize}
-	\item \textbf{R}, for machine learning and graphics computing;
+	\item \textbf{PostgreSQL}, for data management and querying. 
 	\begin{itemize}
-		\item There are many ways to create plots;
+		\item The development platform to interface with the web server is \textbf{PgAdmin 4};
+		\item All queries need to be optimized to avoid huge computational times, using indexes and Common Table Expressions;
+	\end{itemize}
+	\item \textbf{Neo4j}, che mi sta dando l'inferno;
+	\item \textbf{R}, for machine learning and graphics computing. 
+	\begin{itemize}
+		\item It offers many ways to create plots;
 		\item Possible uses are time series analysis and trajectory clustering.
 	\end{itemize}
 \end{itemize}
@@ -67,5 +95,3 @@ The tools to analyse and elaborate the health data are:
 Reports and slide-shares have been created and accessed using the \textbf{Google Suite}.
 
 Due to the amount of sensitive data, detailed results are going to be omitted: the final conclusions will be a product of aggregation and schematisation.
-
-\section{Practical goals}
