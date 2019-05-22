@@ -65,7 +65,7 @@ Some examples of analytics are:
 
 An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
 
-\section{Practical goals }
+\section{Practical goals}
 Having a better vision of the medical domain and the rising issues in the Italian system, before approaching analytical procedures it is necessary to underline practical objectives and expected outcomes.
 
 The first essential statistic to extract is about progressive information loss: this makes possible to estimate how much data can give reliable and complete results, compared to the total. It is defined \textit{progressive} since the more iterations of cleaning are being made, the more data is going to be lost. 
@@ -74,21 +74,36 @@ Parsing remaining data is essential to have a correct functioning of database in
 
 Performances require a high level of optimisation due to the huge workload of information, obtained through targeted expressions, strict constraints and better memory management of records. 
 
-% finire
+A global overview of the data allows to detect anomalies or trends of specific areas to focus on: potential analysis pertains dividing patients according to distinctive characteristics (sex, age group) to observe variations of diagnoses and prescriptions. 
 
-\section{Tools} % finire
-The tools to analyse and elaborate the health data are:
+After collecting the first batch of results and checking them using external knowledge, information with unusual patterns is outlined, and further examination is made on a subset of features.
+
+Final outcomes are then subject of more advanced techniques, which include:
 \begin{itemize}
-	\item \textbf{PostgreSQL}, for data management and querying. 
+	\item Time series analysis;
+	\item Clustering of trajectories;
+	\item Graph algorithms.
+\end{itemize}
+
+\section{Tools}
+Modern technologies make possible to process big data with reduced costs: there are plenty of data stores, development and integration tools for each research purpose. 
+
+Since the project requires a relational structure along with statistical computing and machine learning, analysing and elaborating the health data is made through:
+\begin{itemize}
+	\item \textbf{PostgreSQL}\cite{pg}, an open source object-relational database management system known for its robustness and reliability:
 	\begin{itemize}
-		\item The development platform to interface with the web server is \textbf{PgAdmin 4};
-		\item All queries need to be optimized to avoid huge computational times, using indexes and Common Table Expressions;
+		\item The development platform to interface with the web server containing the dataset is \textbf{PgAdmin 4};
+		\item Indexes and Common Table Expressions are useful to avoid huge computational times.
 	\end{itemize}
-	\item \textbf{Neo4j}, che mi sta dando l'inferno;
-	\item \textbf{R}, for machine learning and graphics computing. 
+	\item \textbf{Neo4j}\cite{neo}, a native graph database which gives data a different representation, processing entities as nodes while highlighting their connections:
 	\begin{itemize}
-		\item It offers many ways to create plots;
-		\item Possible uses are time series analysis and trajectory clustering.
+		\item Queries are expressed using \textbf{Cypher};
+		\item The additional plugin Graph Algorithms returns implemented, parallel version of common network problems. 
+	\end{itemize}
+	\item \textbf{R}\cite{r}, a free software environment for statistics and graphics computing, offering a wide range of techniques and formulae:
+	\begin{itemize}
+		\item \textit{ggplot2} is a package to create and visualise plots;
+		\item Clustering is performed using embedded functions.
 	\end{itemize}
 \end{itemize}
 
