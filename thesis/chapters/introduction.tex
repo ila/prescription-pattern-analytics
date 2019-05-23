@@ -14,9 +14,9 @@ Therefore, to minimise the development of resistance, contributing factors must 
 
 To be effective in the long run, work to optimise use of antibiotics must influence the prescribing practices of individual physicians. The goal is “rational use”, i.e. the correct patient receives the correct antibiotic at the correct dose and for the correct duration of treatment, in accordance with evidence-based guidelines. Over-prescribing should be avoided without resulting in under-prescribing\cite{sweden}.
 
-Such work should be carried out close to the prescriber, something which also requires high resolution prescription data, down to the clinic and health centre level or better still at the level of \textbf{individual prescribers}.
+Such work should be carried out close to the prescriber, something which also requires high resolution prescription data, down at the level of \textbf{individual prescribers}.
 
-\section{National Sanitary Service in Italy} % finire
+\section{Italian National Sanitary Service}
 The Italian National Sanitary Service (SSN) consists the complex of functions, activities and healthcare services offered by the State. It is based on subsidiarity, a general principle of the European Union law, stating that a central authority should have a subsidiary function, performing only those tasks which cannot be performed at a more local level\cite{oxford}.
 
 SSN is articulated in different responsibility levels divided among the State, Regions, institutions and organisations, along with private structures and the Health Ministry, which coordinates the national sanitary plan.
@@ -28,21 +28,58 @@ Citizens benefit of healthcare services paying a related ticket\cite{ticket}, wh
 	\item Thermal care.
 \end{itemize}
 
-General practitioners' visits are exempted from payment of tickets. 
-% tickets, ruolo del medico di base (prescrive le ricette) in modo generico, tanto c'è scritto dopo
+Sanitary assistance on the territory is free, in fact general practitioners' visits are exempted from payment of tickets (while additional services such as certificates may require a fee). A general practitioner (GP) is a way for the citizen to access SSN in terms of global care and health education.
 
-\subsection{Drugs and prescriptions}
-% AIFA
-% prescrizioni di farmaci etici (scenario, evoluzione del settore) 30 pagine
-%Rapporti di farmindustria, siti ministero Salute, agenas, federfarma
+GPs manage types of illness that present in an undifferentiated way at an early stage of development, which may require urgent intervention. Their duties are not confined to specific organs of the body, and they have particular skills in treating people with multiple health issues\cite{wonca2}. 
+
+According to WONCA (World Organization of Family Doctors), they are responsible of supplying integrated and continuative care. Some fundamental skills and activities\cite{wonca2} to pursue this goal are:
+\begin{itemize}
+	\item Communication with patients;
+	\item Management of the practice;
+	\item Clinical tasks;
+	\item Problem solving;
+	\item Holistic modelling.
+\end{itemize}
+
+In Italy, GPs have a crucial role in preventing diseases, understanding the symptoms, introducing patients to therapeutical approaches and monitoring the development or regression of illnesses\cite{gp}. Primary aid is guaranteed through diagnoses, prescription, therapy and basic levels of assistance.
+
+Visits take place at the medical office, according to methodologies established by the doctor, generically on appointment or at the patient's domicile. After a visit, a common task of the general practitioner in agreement with SSN is prescribing drugs or further medical checks through a prescription.
+
+Prescriptions are healthcare documents that govern the plan of care for an individual patient\cite{ascpt}, consisting in written authorization to purchase a specific medicine from a pharmacy.
+
+Drugs are dispensed according to the national guidelines\cite{ricette}, with the following regimes:
+\begin{itemize}
+	\item OTC (Over The Counter), not subject to medical prescription;
+	\item RR (Repeatable Prescription), to be sold after presenting a prescription;
+	\item RNR (Non-Repeatable Prescription), to be sold after presenting a prescription which has to be renewed each time;
+	\item RL (Limitative Prescription), used in hospitals and clinics;
+	\item RMR (Ministerial Tracing Prescription), for narcotics and psychotropic substances.
+\end{itemize}
+
+\subsection{Drugs and prescriptions}   %%% da qui
+The Italian Pharmacy Agency (AIFA) is the public institution for regulatory activity of drugs in Italy. 
+
+Before a drug can be sold in pharmacies among the Italian territory, it must have received the authorisation by AIFA: each medicine is subject to checks regarding chemical, pharmaceutical, biological, toxicological, and clinical aspects and researches, to see if it satisfies security and efficacy standards\cite{aic}.
+
+After passing all the quality controls, a product is assigned an unique AIC code for it to be identified with its specific details.
+
+% finire parte aifa
 
 From the year 2000 every form of participation to sanitary expenses from citizens has been abolished\cite{ticket}, yet most Regions have introduced special drugs classes with a fixed quota for each medical prescription or package, to remedy the economic deficit. 
 
-% le classi di farmaci sono: a, h, ???
+Currently existing categories according to reimbursement are\cite{classi}:
+\begin{itemize}
+	\item A, entirely at the expense of SSN, comprehending essential medicines and the ones for chronic diseases;
+	\item H, at the expense of SSN only in a hospital environment;
+	\item C, fully paid by citizens according to the brand price.
+\end{itemize}
+Complete lists for classes A and H are publicly available, while each single drug or active principle can be individually looked up on the official AIFA database. Prescriptions can fall into any category, while OTCs follow a C regime. 
 
-% farmaci generci
+Generic drugs have reduced costs, and to have a brand product the citizen must explicitly ask for it and pay the additional price\cite{ticket}.
 
 \subsection{Antibiotic resistance in Italy}
+% prescrizioni di farmaci etici (scenario, evoluzione del settore)
+% Rapporti di farmindustria, agenas, federfarma
 
 \section{Healthcare data}
 %dati, collezione, come sono raccolti, open data in italia, società (aicuvia oims health), promofarma (farmacisti, organizza informaticamente i dati e li vende → aziende farmaceutiche), agenzia delle entrate (codice fiscale), spiegare come sono organizzati ecc
@@ -50,7 +87,63 @@ From the year 2000 every form of participation to sanitary expenses from citizen
 %3 canali di produzione del dato (medici, farmacisti, ae) + canale derivato aicuvia
 
 \section{Data classification}
-% idc9, atc, etc
+Healthcare data needs to be classified according to national or international standards, in a way that information cannot be misinterpreted and fields can be mapped to wider categories.
+
+\subsection{ICD}
+ICD (International Classification of Diseases) is the foundation for global identification of health trends and statistics, and the international standard for reporting diseases and health conditions. It is the diagnostic classification standard for all clinical and research purposes\cite{who}, maintained by the World Health Organization (WHO).
+
+ICD defines the universe of diseases, disorders, injuries and other related health conditions, listed in a comprehensive, hierarchical fashion that allows for: 
+\begin{itemize}
+	\item Easy storage, retrieval and analysis of health information for evidenced-based decision-making;
+	\item Sharing and comparing health information between hospitals, regions, settings and countries;
+	\item Data comparisons in the same location across different time periods\cite{who}.
+\end{itemize}
+
+The ICD is revised periodically and is currently in its 10th version, while in Italy the latter has only been adopted to classify death causes\cite{icdit}. Until a complete upgrade, the diagnostic system is standardised using ICD-9.
+
+\subsubsection{ICD-9}
+ICD-9, officialized in 1978, is the 9th version of the International Classification of Diseases, ordering diseases and traumas in groups according to defined criteria, allowing a common language to code information related to morbidity and mortality for comparisons and statistics\cite{icdit}.
+
+ICD9-CM is an adaption to ICD-9 used in Italy to assign diagnostic and procedure identifiers, providing additional morbidity detail. Diagnoses are extended with codes for surgical, diagnostic and therapeutical procedures. 
+
+It is composed by a group of three digits followed by up to two optional ones adding further details, separated with a dot:
+\begin{enumerate}
+	\item The first number (001-999) represents the macro-category based on the type of the disease or the injury they describe;
+	\item The second number provide more specific information about the type, location, and severity of the disease or injury.
+\end{enumerate}
+
+There are also two sets of alphanumeric codes in ICD-9-CM. E-codes describe external causes of injury, while V-codes describe factors that influence health status and/or describe interactions with health services\cite{icd9en}.
+
+Example: 414.12, falling in diseases of the circulatory system (390-459), specifically into ischemic heart disease (410-414):
+\begin{itemize}
+	\item 414: other forms of chronic ischemic heart disease;
+	\begin{itemize}
+		\item 1: aneurysm and dissection of heart;
+		\begin{itemize}
+			\item 2: dissection of coronary artery.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\subsection{ATC}
+
+\subsection{AIC}
+AIC represents authorisation to admission to commerce of a medicine, and is a 9-digit code conceded by AIFA after a careful check of safeness and efficacy. It is a sort of ``identity card" of the drug, since it contains the essential characteristics defining it\cite{aicdef}.
+
+AIC establishes:
+\begin{itemize}
+	\item The drug name;
+	\item Its composition (active principle);
+	\item Description of the fabrication method;
+	\item Therapeutical instructions, contraindications and adverse reactions;
+	\item Dosage and way of administration;
+	 \item Conservation measures;
+	 \item Characteristics of the product and its packaging;
+	 \item Brochure;
+	 \item Risks evaluation for the environment.
+\end{itemize}
+
+Every possible modification of those characteristics involves a further request for authorization to AIFA. Official databases such as Fedefarma contain information related to every product, along with its eventual expire of authorisation.
 
 \section{Healthcare analytics}
 \textbf{Healthcare analytics} is a field of growing importance which allows a deep understanding of results collected in the healthcare area. 
