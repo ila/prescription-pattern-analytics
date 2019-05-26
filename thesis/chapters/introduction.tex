@@ -56,16 +56,16 @@ Drugs are dispensed according to the national guidelines\cite{ricette}, with the
 	\item RMR (Ministerial Tracing Prescription), for narcotics and psychotropic substances.
 \end{itemize}
 
-\subsection{Drugs and prescriptions}   %%% da qui
-The Italian Pharmacy Agency (AIFA) is the public institution for regulatory activity of drugs in Italy. 
+\subsection{Drugs and prescriptions}  
+The Italian Pharmacy Agency (AIFA) is the public institution for regulatory activity of drugs in Italy. Its main duty consists in all the activities related to the regulatory process of drugs, registering and authorising them to commercialization with a negotiated price. 
 
 Before a drug can be sold in pharmacies among the Italian territory, it must have received the authorisation by AIFA: each medicine is subject to checks regarding chemical, pharmaceutical, biological, toxicological, and clinical aspects and researches, to see if it satisfies security and efficacy standards\cite{aic}.
 
 After passing all the quality controls, a product is assigned an unique AIC code for it to be identified with its specific details.
 
-% finire parte aifa
+AIFA guarantees uniformity and equity of the pharmaceutical system, coordinating national and local authorities such as Regions. Procedures are based on safeness, innovation and accessible healthcare: pharmaceutical costs are regulated in a context of financial compatibility with industry competitiveness, while pursuing goals of economic balance and population' safeguard.
 
-From the year 2000 every form of participation to sanitary expenses from citizens has been abolished\cite{ticket}, yet most Regions have introduced special drugs classes with a fixed quota for each medical prescription or package, to remedy the economic deficit. 
+From the year 2000 every form of participation to sanitary expenses from citizens has been abolished\cite{ticket}, yet most Regions have introduced special drugs classes with a fixed quota for each medical prescription or package, to remedy the profit deficit. 
 
 Currently existing categories according to reimbursement are\cite{classi}:
 \begin{itemize}
@@ -80,6 +80,7 @@ Generic drugs have reduced costs, and to have a brand product the citizen must e
 \subsection{Antibiotic resistance in Italy}
 % prescrizioni di farmaci etici (scenario, evoluzione del settore)
 % Rapporti di farmindustria, agenas, federfarma
+Italy is the European nation with the highest antibiotic resistance mortality (~10.000 deaths every year), in terms of infection caused by resistant bacteria\cite{repubblica}. 
 
 \section{Healthcare data}
 %dati, collezione, come sono raccolti, open data in italia, società (aicuvia oims health), promofarma (farmacisti, organizza informaticamente i dati e li vende → aziende farmaceutiche), agenzia delle entrate (codice fiscale), spiegare come sono organizzati ecc
@@ -109,26 +110,50 @@ ICD9-CM is an adaption to ICD-9 used in Italy to assign diagnostic and procedure
 It is composed by a group of three digits followed by up to two optional ones adding further details, separated with a dot:
 \begin{enumerate}
 	\item The first number (001-999) represents the macro-category based on the type of the disease or the injury they describe;
-	\item The second number provide more specific information about the type, location, and severity of the disease or injury.
+	\item The second group provides more specific information about the type, location, and severity of the disease or injury.
 \end{enumerate}
 
 There are also two sets of alphanumeric codes in ICD-9-CM. E-codes describe external causes of injury, while V-codes describe factors that influence health status and/or describe interactions with health services\cite{icd9en}.
 
-Example: 414.12, falling in diseases of the circulatory system (390-459), specifically into ischemic heart disease (410-414):
+Example: 414.12, falling in diseases of the circulatory system (390-459), specifically into ischaemic heart disease (410-414).
 \begin{itemize}
-	\item 414: other forms of chronic ischemic heart disease;
-	\begin{itemize}
+	\item 414: other forms of chronic ischaemic heart disease;
 		\item 1: aneurysm and dissection of heart;
-		\begin{itemize}
 			\item 2: dissection of coronary artery.
-		\end{itemize}
-	\end{itemize}
 \end{itemize}
 
 \subsection{ATC}
+The Anatomical Therapeutic Chemical Classification System (ATC) is a drug coding system adopted worldwide, controlled by World Health Organisation.
+
+Medicines are divided into different groups according to to the organ or system on which they act, their therapeutic intent or nature, and the drug's chemical characteristics. Different brands share the same code if they have the same active principle and indications.
+
+One single drug can have multiple codes, since ATC also comprehends instructions regarding administration or use, and a code can represent more than one active ingredient.
+
+The ATC classification is composed by seven alphanumeric symbols split into five adjacent hierarchical sets, defined levels and having the following structure\cite{atclevels}:
+\begin{enumerate}
+	\item One letter indicating the anatomical/pharmacological main group among 14;
+	\item Two digits indicating the therapeutic subgroup;
+	\item One letter indicating the pharmacological subgroup;
+	\item One letter indicating the chemical subgroup;
+	\item Two digits indicating the chemical substance.
+\end{enumerate}
+
+The ATC system also includes many defined daily doses (DDDs). This is a measurement of the assumed average maintenance dose per day for a drug used for its main indication in adults.
+
+Alterations in ATC classification can be made when the main use of a product has clearly changed, and when new groups are required to accommodate new substances or to achieve better specificity in the groupings. Changes are twice annually submitted to the WHO official database.
+
+Example: C03BA12.
+\begin{itemize}
+	\item C: cardiovascular system;
+		\item 03: diuretics;
+			\item B: low-ceiling diuretics, excluding thiazides;
+				\item A: sulfonamides, plain;
+					\item 12: Clorexolone.
+\end{itemize}
+
 
 \subsection{AIC}
-AIC represents authorisation to admission to commerce of a medicine, and is a 9-digit code conceded by AIFA after a careful check of safeness and efficacy. It is a sort of ``identity card" of the drug, since it contains the essential characteristics defining it\cite{aicdef}.
+AIC represents authorisation to admission to commerce of a medicine, and is a 9-digit code conceded by AIFA after a careful check of safeness and efficacy. It is a sort of ``identity card" of the drug, since it contains the essential characteristics defining it\cite{aicdef}. Different brands are identified by different AIC.
 
 AIC establishes:
 \begin{itemize}

@@ -1,0 +1,63 @@
+\chapter{Antibiotic trends analytics}
+Having obtained a general analytical view on couples of first-time diagnoses and prescriptions, and cross-checking those results with global trends, the research focusses on antibiotic prescriptions to identify changes of patterns.
+
+Defined time frames in limited temporal windows are selected to make a detailed trajectory analysis related to prescriptive appropriateness compared to antibiotic resistance, without going into details of pathologies.
+
+Such analytics are useful for research, highlighting rising health issues alongside the AIFA reports, and to support pharmaceutical companies using the potentiality of healthcare data. Having information about AICs allows to give a new insight not only on ethical matters, but also on the global market trends.
+
+\section{Identifying antibiotics}
+Antibiotics, also known as antibacterials, are medications produced by microorganisms that destroy or slow down the growth of bacteria. They include a range of powerful drugs and are used to treat diseases caused by bacteria. 
+
+A doctor can prescribe a broad-spectrum antibiotic to treat a wide range of infections. A narrow-spectrum antibiotic is only effective against a few types of bacteria. In some cases, a healthcare professional may prescribe to prevent rather than treat an infection, as might be the case before surgery. 
+ 
+ ATC codes related to antibiotics divided by class are:
+ \begin{itemize}
+ 	\item A01AB, A02BD, A07A;
+ 	\item D01, D06, D07C, D09AA, D10AF;
+ 	\item G01;
+ 	\item J, the whole class;
+ 	\item R02AB;
+ 	\item S01A, S02A, S03A (removing hormones).
+ \end{itemize}
+
+\section{Subset extraction}
+The first criteria to impose, considering analytics is going to be made on antibiotic prescriptions, is the actual presence of such. This can be reworded by removing all data related to patients who never had a prescription of an ATC code among the ones previously listed.
+
+There are 794.267 patient with at least one antibiotic prescription in the whole time range (2000-2018), whose total prescriptions consist in 114.044.470 tuples. This implies the remaining 200.000\~ patients only have 4m\~ prescriptions, which is probably justified by a healthier physical state.
+
+Since antibiotics patterns are subject to major changes during years, a big amount of data can be dispersive: pharmaceutical companies make analysis only considering 2-3 years, yet for research purposes an intermediate range is the most informative. A good time span is 10 years, considering most recent ones: since 2018 has to be excluded due to incompleteness, 2008-2017 is the final choice.
+
+Progressive data loss has to be considered, imposing additional constraints of completeness and accuracy. The latest version of the used dataset is a subset of the table prescriptions, with the following restrictions:
+\begin{itemize}
+	\item AIC corresponding to an antibiotic;
+	\item Prescription date between 2008-01-01 and 2017-12-31;
+	\item Active general practitioners;
+	\item Patients with usable information about sex, date of birth and location.
+\end{itemize}
+
+The obtained record set is composed by 8.386.057 tuples, each representing a single prescription.
+
+\section{Global statistics} % todo
+
+\section{ATC rankings}
+
+\subsection{According to sex}
+
+\subsection{According to age}
+
+\subsection{Comparison with ICD-9}
+
+\section{AIC rankings}
+
+\subsection{According to sex} % todo
+
+\subsection{According to age}
+
+\subsection{According to geographical area}
+
+\subsection{An insight on Velamox}
+
+\subsection{An insight on Augmentin}
+
+\section{ATC and AIC correlation}
+
