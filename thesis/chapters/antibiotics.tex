@@ -48,7 +48,7 @@ Values are calculated using the R functions \texttt{mean} and \texttt{sd}, only 
 \begin{center}
 	\begin{tabular}{|c|c|c|}
 		\hline
-		Year & Average & Standard deviation \\
+		Year & Mean & Standard deviation \\
 		\hline
 		2008 & 2,72 & 2,73 \\
 		\hline
@@ -73,13 +73,13 @@ Values are calculated using the R functions \texttt{mean} and \texttt{sd}, only 
 	\end{tabular}
 \end{center}
 
-Values show the average tends to slowly increase, and although there are patients getting up to 30 antibiotic prescriptions each month, the standard deviation is low: the mode both for year and month is 1, so lower values weigh more.
+Values show the mean tends to slowly increase, and although there are patients getting up to 30 antibiotic prescriptions each month, the standard deviation is low: the mode both for year and month is 1, so lower values weigh more.
 
-Statistics related to the number of patients with only one antibiotic prescription:
+Statistics related to the number of patients with only one antibiotic prescription, making statistics comparing time spans between 2008-2017:
 \begin{center}
 	\begin{tabular}{|c|c|c|}
 		\hline
-		Interval & Average & Standard deviation \\
+		Interval & Mean & Standard deviation \\
 		\hline
 		Year & 118 301,4 & 2 831,65 \\
 		\hline
@@ -160,10 +160,6 @@ The most noticeable unusual trend corresponds to amoxicillin and beta-lactose in
 
 It is evident that the monthly prescriptions follow a seasonal trend: the number of prescription rises during the winter and falls during the summer.
 
-\subsection{According to sex} % todo
-
-\subsection{According to age}
-
 \subsection{Comparison with ICD-9}
 Since ICD-9 have some unusual trends, comparing them with antibiotics might provide additional information. The interested area comprehends ICD-9 class A, diseases of the digestive tract whose diagnoses have doubled in the span of 10 years. Antibiotics to treat this subset are:
 \begin{itemize}
@@ -198,8 +194,37 @@ Having a difference of 30 000 between 2010 and 2017 without a correspondent incr
 
 The drug Velamox has an opposite behaviour compared to the others: while most medicines are increasing their number of prescriptions, while Velamox is subject to progressive decrease until disappearance from the most prescribed drugs.
 
+A better understanding between orders of magnitudes could be obtained counting the total prescriptions in 10 years of the most common AICs:
+
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Code & Prescriptions & Antibiotic \\
+		\hline
+		026089019 & 934 942 & Augmentin 875 mg + 125 mg 12 coated tablets \\
+		\hline
+		025300029 & 586 782 & Normix 200 mg 12 coated tablets\\
+		\hline
+		026664021 & 373 720 & Ciproxin 500 mg 6 coated tablets \\
+		\hline
+		033940038 & 264 604 & Levoxacin 500 mg 5 coated tablets \\
+		\hline
+		025680024 & 229 816 & Monuril 3 g 2 sachets \\
+		\hline
+		023097102 & 132 787 & Velamox 1 g 12 dispersible tablets \\
+		\hline
+	\end{tabular}
+\end{center}
+
 \subsection{An insight on Velamox}
-Velamox, according to AIFA, is an amoxicillin-based drug used for respiratory trait, ear and genital infections. It is sold in different packages, whose the most popular is the 1g dispersible tablets with 12 tablets.
+Velamox, according to AIFA, is an amoxicillin-based drug used for respiratory trait, ear and genital infections. It is sold in different packages, whose the most popular is the 1 g dispersible tablets with 12 tablets.
+
+Since the general trending of most prescribed antibiotics only gave a partial vision of the comparisons between products, a complete chart is extracted using Velamox and three other popular drugs: Augmentin, Normix and Levoxacin. The difference is evident:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{../plots/aic_4-year.png}
+\end{figure}
 
 The first hypothesis of such a drastic drop of a product is its switch with another one, changing prescriptive habits of doctors. If that was the case, graphs related to the specific subset of patients would have a correspondent rise of values belonging to another antibiotic.
 
@@ -265,20 +290,106 @@ Most Augmentin consumers are adults in the range of 45-64 years of age, followin
 	\includegraphics[scale=0.3]{../plots/augmentin_age-year.png}
 \end{figure}
 
-\newpage
-\subsubsection{Prescription coupling}
-An excessive usage of antibiotics causes death of microorganisms in the human body which provide to maintaining immune cells and killing certain oral infections\cite{bacteria}.
-
-To equilibrate the intestinal flora, lactic ferments are often taken along with antibiotics, so that new ``good'' bacteria can restore the probiotic action.
-
-% pagina 22 documento
-
-
-\subsection{According to sex} % todo
-
-\subsection{According to age}
-
 \subsection{According to geographical area}
+There is information loss on geographical area of patients, therefore it is necessary to extract a further subset of antibiotic prescriptions, applying a level of cleansing.
 
-\section[ATC-AIC]{ATC and AIC correlation}
+Patients with complete and correct province of residence fields are selected, obtaining:
+\begin{itemize}
+	\item 590 472 patients, 74,34\%;
+	\item 7 458 312 prescriptions, 88,94\%.
+\end{itemize}
+
+Campania has five provinces: Naples, Avellino, Caserta, Benevento and Salerno. Analytics are expected to show an uniform distribution of prescriptions among those, yet outcomes are skewed towards Naples (significantly bigger) and other cities.
+
+Top 5 municipalities for total prescriptions in 2008-2017:
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Postcode & Province & Prescriptions \\
+		\hline
+		063049 & Naples & 2 854 056 \\
+		\hline
+		063002 & Afragola & 618 519 \\
+		\hline
+		063024 & Castellammare di Stabia & 497 309 \\
+		\hline
+		063005 & Arzano & 314 640 \\
+		\hline
+		063035 & Gragnano & 210.960 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Prescriptions come from 932 different cities, while there are 550 distinct cities in Campania. This implies a slice of patients having residence in a different place outside the region.
+
+Results might be altered by the non-uniform provenance of doctors and patients (mostly from the Naples area), and other big municipalities have large population although not qualifying as provinces. 
+
+Discrepancies among provinces are also shown by the following plot, identifying trends:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{../plots/provinces.png}
+\end{figure}
+
+\subsubsection{Pharmacies}
+The number of pharmacies divided by province with related population (ISTAT 2018) confirms the gap between Naples and the others: 
+\begin{enumerate}
+	\item 857 pharmacies in the Naples area, 3 101 002 inhabitants;
+	\item 375 pharmacies in the Salerno area, 1 101 763 inhabitants;
+	\item 254 pharmacies in the Caserta area, 923 445 inhabitants;
+	\item 161 pharmacies in the Avellino area, 421 523 inhabitants;
+	\item 107 pharmacies in the Benevento area, 279 127 inhabitants.
+\end{enumerate}
+
+\section{ATC and AIC trends}
+
+\subsection{By sex}
+
+\subsection{By age}
+Analytics by age are deployed dividing the subset in the 5 official age ranges, however since patients in the youngest group should receive prescriptions by paediatricians and there is no related information in the database, the range 1-14 has to be considered incorrect and therefore removed.
+
+This causes a difference of approximately 150 000 tuples, and the remaining ones are arranged by age of patient counting the amount of prescriptions in 2008-2017:
+
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Age range & Prescriptions & Mean\\
+		\hline
+		15-24 & 643 540 & 5,25 \\
+		\hline
+		25-44 & 1 776 228 & 7,29 \\
+		\hline
+		45-64 & 2 674 494 & 10,81 \\
+		\hline
+		65+ & 3 115 334 & 16,16 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+A patient on average receives 9,8 prescriptions in 10 years, but there are big differences between older and younger people: the number progressively increases.
+
+ATC and AIC popular codes are related, observing that some of the most common ones gets prescribed starting from an early age while others are prevalent between higher ranges.
+
+5 top AICs and ATCs for age, yearly and monthly: % todo fixare i grafici, togliere qualche etichetta
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.29]{../plots/top_atc_age-year.png}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.29]{../plots/top_atc_age-month.png}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.29]{../plots/top_aic_age-year.png}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.29]{../plots/top_aic_age-month.png}
+\end{figure}
+
+\subsection{ATC and AIC correlation}
 

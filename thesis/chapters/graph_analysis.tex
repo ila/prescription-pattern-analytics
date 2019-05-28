@@ -1,1 +1,115 @@
 \chapter{Graph analysis}
+
+\section{Prescription coupling}
+An excessive usage of antibiotics causes death of microorganisms in the human body which provide to maintaining immune cells and killing certain oral infections\cite{bacteria}.
+
+To equilibrate the intestinal flora, lactic ferments are often taken together with antibiotics, so that new ``good'' bacteria can restore the probiotic action.
+
+If this hypothesis is correct, the dataset will show antibiotic prescriptions paired with other drugs, on the same date --- or it will highlight potential linkings between infections and other pathologies receiving a specific prescription.
+
+\section{Graph databases}
+Graph databases are data management systems allowing persistent representation of entity and relationship in a graph structure, implementing the Property Graph Model efficiently down to the storage level. % todo citare le slide di maurino
+
+A graph $G\: =\: <E, V>$ is an abstract data type showing connections (edges $E$) between pairs of vertices ($V$). Nodes identify entities and their properties, while relationships are joining attributes between tables with eventual additional characteristics. 
+
+Queries allow to match pattern of nodes and relationships in a graph, providing ACID transaction compliance without specifying details on how to implement operations. Graph-crossing and related algorithms are highly efficient.
+
+\section{Goals}
+Goals of analytics through graphs is completion of antibiotic patterns changes and patient journey, providing a different point of view on those two important aspects altogether.
+
+This part of the research aims to focus on:
+\begin{itemize}
+	\item Co-prescriptions, understanding whether specified couples of drugs are often prescribed together;
+	\item Clustering, to identify similar kinds of patients according to their prescription history;
+	\item Centrality measures of nodes, to highlight particularly important entities in the graph.
+\end{itemize}
+
+\section{Practical approach}
+
+\subsection{Relational database structure}
+The available data comprehends patients, general practitioners, and their prescriptions in the time span from 2000 to 2018. Summarising the amount of records for each entity:
+\begin{itemize}
+	\item ... patients;
+	\item ... doctors;
+	\item ... prescriptions.
+\end{itemize}
+% todo attributi
+Due to the amount and veracity of data, identifying a subset of records is useful to have detailed and targeted results, removing dispersive information and leaving a restricted pool of prescriptions, setting acceptability conditions.
+
+Since analytics are aimed to identify antibiotic prescription patterns, similarly to previous work a new dataset has been extracted, imposing the following constraints:
+\begin{enumerate}
+	\item AIC corresponding to an antibiotic;
+	\item Prescription date between 2008-01-01 and 2017-12-31;
+	\item Active general practitioners;
+	\item Patients with usable information about sex, date of birth and location.
+\end{enumerate}
+
+This leads to obtaining a new relationship, composed by:
+\begin{itemize}
+	\item ... patients;
+	\item ... doctors;
+	\item ... prescriptions.
+\end{itemize}
+
+To allow analytics on patient journey and co-prescriptions, it is necessary to access all the prescriptions. A major extraction is performed from the main table, comprehending:
+\begin{enumerate}
+	\item Identifier of patients who received at least one other antibiotic prescription;
+	\item Prescription date between 2008-01-01 and 2017-12-31.
+\end{enumerate}
+
+% todo scrivere che ho tolto 60 milioni di prescrizioni
+
+\subsection{Migration of the database and graph modelling}
+The database has to be structured following the SQL to Cypher practices and guidelines, assigning nodes and relationships in an appropriate way considering the existing dataset and the related goals.
+
+After having a final version of the data to import, the entity-relationship model translates with the following nodes:
+\begin{itemize}
+	\item Patient;
+	\begin{itemize}
+		\item Attributes: ID, birthdate, sex;
+	\end{itemize}
+	\item Doctor;
+	\begin{itemize}
+		\item Attributes: ID; % luogo?
+	\end{itemize}
+	\item Antibiotic;
+	\begin{itemize}
+		\item Attributes: AIC code, ATC code, active principle;
+	\end{itemize}
+	\item Medicine (not Antibiotic);
+	\begin{itemize}
+		\item Attributes: AIC code, ATC code, active principle;
+	\end{itemize}
+	\item Prescription;
+	\begin{itemize}
+		\item Attributes: patient, doctor, date, drug;
+	\end{itemize}
+	\item OtherPrescription (not Antibiotic Prescription);
+	\begin{itemize}
+		\item Attributes: patient, doctor, date, drug.
+	\end{itemize}
+\end{itemize}
+
+All nodes are imported, and main indexes are created for optimisation of queries speed. Duplicates of Antibiotic and Medicine are then removed, to avoid the same AIC with two different ATC or principle.
+
+Relationships are then created according to IDs and AIC codes:
+\begin{itemize}
+	\item Prescription $-$ TO $\rightarrow$ Patient;
+	\item Prescription $-$ FROM $\rightarrow$ Doctor;
+	\item OtherPrescription $-$ OF $\rightarrow$ Antibiotic;
+	\item OtherPrescription $-$ TO $\rightarrow$ Patient;
+	\item OtherPrescription $-$ FROM $\rightarrow$ Doctor;
+	\item OtherPrescription $-$ OF $\rightarrow$ Medicine.
+\end{itemize}
+
+
+\section{Visualisation and analytics}
+
+\section{Considerations}
+
+
+
+
+
+
+

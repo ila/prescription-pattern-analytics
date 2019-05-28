@@ -113,9 +113,9 @@ aic4 <- read.csv(paste(csv_path, "aic_4-year.csv", sep=""))
 # turning values to factors
 aic4$co_codifa <- factor(aic4$co_codifa)
 
-png(filename=paste(image_path, "aic_4-year.png", sep=""), width=2200, height=1100, res=200)
+png(filename=paste(image_path, "aic_4-year.png", sep=""), width=1500, height=600, res=200)
 
-  aic4plot <- ggplot(aic4, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Augmentin", "Levoxacin"))
+  aic4plot <- ggplot(aic4, aes(x=date_part, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=10000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Augmentin", "Levoxacin"))
 
   print(aic4plot)
 
@@ -250,30 +250,30 @@ for (range in 2:5) {
   
   }
   
-  plotsatcyear[[length(plotsatcyear) + 1]] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma, limits=c(0, 70000)) + labs(x="Year", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
+  plotsatcyear[[length(plotsatcyear) + 1]] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), labels=comma, limits=c(0, 70000)) + labs(x="Year", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep="")) 
     
   plotsatcmonth[[length(plotsatcmonth) + 1]] <- ggplot(atc_month, aes(x=mese, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcmonthlabels[[range-1]]) + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 7000)) + labs(x="Month", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
   
-  plotsaicyear[[length(plotsaicyear) + 1]] <- ggplot(aic_year, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_colour_manual(values=aiccolors, name="AIC code", labels=aicyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), limits=c(0, 45000), labels=comma) + labs(x="Year", y="Total AIC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
+  plotsaicyear[[length(plotsaicyear) + 1]] <- ggplot(aic_year, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_colour_manual(values=aiccolors, name="AIC code", labels=aicyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), limits=c(0, 45000), labels=comma) + labs(x="Year", y="Total AIC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
     
   plotsaicmonth[[length(plotsaicmonth) + 1]] <- ggplot(aic_month, aes(x=mese, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_colour_manual(values=aiccolors, name="AIC code", labels=aicmonthlabels[[range-1]]) + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=1000), labels=comma, limits=c(0, 4000)) + labs(x="Month", y="Total AIC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep=""))
   
 }
 
-png(filename=paste(image_path, "top_atc_age-year.png", sep=""), width=4200, height=2700, res=300)
-  grid.arrange(grobs=plotsatcyear, ncol=2, top=(textGrob(paste("ATC codes for year", sep=""), gp=gpar(fontsize=20))))
+png(filename=paste(image_path, "top_atc_age-year.png", sep=""), width=1600, height=2400, res=300)
+  grid.arrange(grobs=plotsatcyear, ncol=1, top=(textGrob(paste("ATC codes for year", sep=""), gp=gpar(fontsize=18))))
 dev.off()
 
-png(filename=paste(image_path, "top_atc_age-month.png", sep=""), width=4200, height=2700, res=300)
-  grid.arrange(grobs=plotsatcmonth, ncol=2, top=(textGrob(paste("ATC codes for month", sep=""), gp=gpar(fontsize=20))))
+png(filename=paste(image_path, "top_atc_age-month.png", sep=""), width=1600, height=2400, res=300)
+  grid.arrange(grobs=plotsatcmonth, ncol=1, top=(textGrob(paste("ATC codes for month", sep=""), gp=gpar(fontsize=18))))
 dev.off()
 
-png(filename=paste(image_path, "top_aic_age-year.png", sep=""), width=4200, height=2700, res=300)
-  grid.arrange(grobs=plotsaicyear, ncol=2, top=(textGrob(paste("AIC codes for year", sep=""), gp=gpar(fontsize=20))))
+png(filename=paste(image_path, "top_aic_age-year.png", sep=""), width=1600, height=2400, res=300)
+  grid.arrange(grobs=plotsaicyear, ncol=1, top=(textGrob(paste("AIC codes for year", sep=""), gp=gpar(fontsize=18))))
 dev.off()
 
-png(filename=paste(image_path, "top_aic_age-month.png", sep=""), width=4200, height=2700, res=300)
-  grid.arrange(grobs=plotsaicmonth, ncol=2, top=(textGrob(paste("AIC codes for month", sep=""), gp=gpar(fontsize=20))))
+png(filename=paste(image_path, "top_aic_age-month.png", sep=""), width=1600, height=2400, res=300)
+  grid.arrange(grobs=plotsaicmonth, ncol=1, top=(textGrob(paste("AIC codes for month", sep=""), gp=gpar(fontsize=18))))
 dev.off()
 
 
@@ -283,7 +283,7 @@ augmentin <- read.csv(paste(csv_path, "augmentin-year.csv", sep=""))
 # plotting and saving as .png
 png(filename=paste(image_path, "augmentin-year.png", sep=""), width=1500, height=600, res=200)
 
-  augmentinplot <- ggplot(augmentin, aes(x=anno, y=count)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=5000), labels=comma) + labs(x="Year", y="Total prescriptions") 
+  augmentinplot <- ggplot(augmentin, aes(x=anno, y=count)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), labels=comma) + labs(x="Year", y="Total prescriptions") 
 
   print(augmentinplot)
 
@@ -344,7 +344,7 @@ provinces <- read.csv(paste(csv_path, "provinces.csv", sep=""))
 provinces <- provinces[which(provinces$anno <= 2017),]
 provinces$provincia = factor(provinces$provincia)
 
-png(filename=paste(image_path, "provinces.png", sep=""), width=2200, height=1100, res=200)
+png(filename=paste(image_path, "provinces.png", sep=""), width=1500, height=600, res=200)
 
   provincesplot <- ggplot(provinces, aes(x=anno, y=count, color=provincia)) + scale_color_discrete(name="Province", breaks=c(61, 62, 63, 64, 65), labels=c("Caserta", "Benevento", "Napoli", "Avellino", "Salerno")) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks=seq(0, 1000000, by=50000), labels=comma) + labs(x="Year", y="Total prescriptions") 
   
