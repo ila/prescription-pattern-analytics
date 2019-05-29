@@ -115,9 +115,7 @@ Fields summary:
 \end{itemize}
 
 \section{ER model}
-Graphical representations provide immediate comprehensions of how entities are related, visualising information to identify keys and unique fields, essential for joining data.
-
-After identifying the main fields, it is possible to build and include an \textbf{ER model}\cite{draw} to have a better understanding of the tables and their relationships.
+After identifying the main fields, it is possible to build and include an \textbf{ER model}\cite{draw}, to provide immediate comprehension of how entities are related, visualising information to identify keys and unique fields, essential for joining data.
 \smallskip
 \begin{figure}[h]
 	\centering
@@ -125,7 +123,7 @@ After identifying the main fields, it is possible to build and include an \textb
 \end{figure}
 
 \section{Variations through time}
-To give a general idea of variations of patients, a snapshot of 2010-2017 is used to show patterns and differences, counting the number of patients having at least one prescription:
+To give a general idea of variations of patients and magnitude orders, a snapshot of 2010-2017 is used to show patterns and differences, counting the number of patients getting at least a diagnosis for each year:
 \begin{center}
 	\small
 	\begin{tabular}{c|c|c|c|c|c|c|c|c}
@@ -137,24 +135,19 @@ To give a general idea of variations of patients, a snapshot of 2010-2017 is use
 		\hline
 		Age st.\ dev. & 20,7 & 20,81 & 20,84 & 20,86 & 20,87 & 20,84 & 20,85 & 20,79 \\
 		\hline
-		Females & 185 035 & 179 700 & 178 248 & 180 304 & 182 286 & 181 313 & 185 729 & 183 419 \\
+		Women & 185 035 & 179 700 & 178 248 & 180 304 & 182 286 & 181 313 & 185 729 & 183 419 \\
 		\hline
 		Men & 144 016 & 140 330 & 137 514 & 139 780 & 141 727 & 141 158 & 143 931 & 142 363 \\
 	\end{tabular}
 \end{center}
-\medskip
-
-Values are similar, with slight oscillations through years. An analogue example can be obtained counting the number of diagnoses each year:
+\bigskip
+Another example can be obtained counting the number of prescriptions each year:
 \begin{center}
 	\small
-	\begin{tabular}{c|c|c|c|c|c|c|c|c}
-		& 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\
+	\begin{tabular}{c|c|c|c|c|c|c|c}
+		2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\
 		\hline
-		Number & 329 715 & 320 253 & 316 431 & 320 948 & 324 920 & 323 441 & 330 641 & 326 987 \\
-		\hline
-		Mean & 47,43 & 47,89 & 48,44 & 48,68 & 48,98 & 49,78 & 50,12 & 50,54 \\
-		\hline
-		St.\ dev. & 20,7 & 20,81 & 20,84 & 20,86 & 20,87 & 20,84 & 20,85 & 20,79 \\
+		7 326 923 & 7 108 288 & 7 269 855 & 7 541 539 & 7 777 753 & 7 847 313 & 7 856 246 & 7 785 325 \\
 	\end{tabular}
 \end{center}
 
