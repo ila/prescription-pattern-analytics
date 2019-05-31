@@ -29,12 +29,13 @@ This part of the research aims to focus on:
 \subsection{Relational database structure}
 The available data comprehends patients, general practitioners, and their prescriptions in the time span from 2000 to 2018. Summarising the amount of records for each entity:
 \begin{itemize}
-	\item ... patients;
-	\item ... doctors;
-	\item ... prescriptions.
+	\item 888 219 patients;
+	\item 2 486 doctors;
+	\item 118 716 403 prescriptions;
+	\item 33 523 drugs.
 \end{itemize}
-% todo attributi
-Due to the amount and veracity of data, identifying a subset of records is useful to have detailed and targeted results, removing dispersive information and leaving a restricted pool of prescriptions, setting acceptability conditions.
+
+Due to the amount and veracity of data, identifying a subset of records is useful to have detailed and targeted results, removing dispersive information and leaving a restricted pool of prescriptions, setting acceptability conditions. 
 
 Since analytics are aimed to identify antibiotic prescription patterns, similarly to previous work a new dataset has been extracted, imposing the following constraints:
 \begin{enumerate}
@@ -46,53 +47,63 @@ Since analytics are aimed to identify antibiotic prescription patterns, similarl
 
 This leads to obtaining a new relationship, composed by:
 \begin{itemize}
-	\item ... patients;
-	\item ... doctors;
-	\item ... prescriptions.
+	\item 670 634 patients;
+	\item 1 377 doctors;
+	\item 8 386 057 prescriptions;
+	\item 2 802 antibiotics.
 \end{itemize}
 
-To allow analytics on patient journey and co-prescriptions, it is necessary to access all the prescriptions. A major extraction is performed from the main table, comprehending:
+To allow analytics on patient journey and co-prescriptions, it is necessary to access all the prescriptions assigned to all patients belonging in the subset. A major extraction is performed from the main table, comprehending:
 \begin{enumerate}
 	\item Identifier of patients who received at least one other antibiotic prescription;
 	\item Prescription date between 2008-01-01 and 2017-12-31.
 \end{enumerate}
 
-% todo scrivere che ho tolto 60 milioni di prescrizioni
+This reduces the number of other prescriptions, adding drugs not belonging to the antibiotic class. Duplicates, mistakes and empty fields are removed. The final composition of data is:
+
+\begin{itemize}
+	\item 670 634 patients;
+	\item 1 377 doctors;
+	\item 8 328 272 prescriptions of antibiotics;
+	\item 2 465 antibiotics;
+	\item 7 587 009 other prescriptions;
+	\item 21 248 other medicines.
+\end{itemize}
+
+% todo grafici
 
 \subsection{Migration of the database and graph modelling}
 The database has to be structured following the SQL to Cypher practices and guidelines, assigning nodes and relationships in an appropriate way considering the existing dataset and the related goals.
 
-After having a final version of the data to import, the entity-relationship model translates with the following nodes:
+After having a final version of the data to import, the entity-relationship model translates with the following nodes and attributes:
 \begin{itemize}
 	\item Patient;
 	\begin{itemize}
-		\item Attributes: ID, birthdate, sex;
+		\item ID, birthdate, sex;
 	\end{itemize}
 	\item Doctor;
 	\begin{itemize}
-		\item Attributes: ID; % luogo?
+		\item ID; % luogo?
 	\end{itemize}
 	\item Antibiotic;
 	\begin{itemize}
-		\item Attributes: AIC code, ATC code, active principle;
+		\item AIC code, ATC code, active principle;
 	\end{itemize}
-	\item Medicine (not Antibiotic);
+	\item Medicine (anything not Antibiotic);
 	\begin{itemize}
-		\item Attributes: AIC code, ATC code, active principle;
+		\item AIC code, ATC code, active principle;
 	\end{itemize}
 	\item Prescription;
 	\begin{itemize}
-		\item Attributes: patient, doctor, date, drug;
+		\item patient, doctor, date, drug;
 	\end{itemize}
 	\item OtherPrescription (not Antibiotic Prescription);
 	\begin{itemize}
-		\item Attributes: patient, doctor, date, drug.
+		\item patient, doctor, date, drug.
 	\end{itemize}
 \end{itemize}
 
-All nodes are imported, and main indexes are created for optimisation of queries speed. Duplicates of Antibiotic and Medicine are then removed, to avoid the same AIC with two different ATC or principle.
-
-Relationships are then created according to IDs and AIC codes:
+All nodes are imported, and main indexes are created for optimisation of queries speed. Relationships are then created according to IDs and AIC codes:
 \begin{itemize}
 	\item Prescription $-$ TO $\rightarrow$ Patient;
 	\item Prescription $-$ FROM $\rightarrow$ Doctor;
@@ -102,8 +113,13 @@ Relationships are then created according to IDs and AIC codes:
 	\item OtherPrescription $-$ OF $\rightarrow$ Medicine.
 \end{itemize}
 
+After migrating all elements of the graph database, additional features of Patient representing age is added. Since age changes within years, and the considered timespan is 2008-2017, 10 node properties are created for each patient (age2008, age2009, \dots).
 
 \section{Visualisation and analytics}
+A subset of nodes and relationships is displayed below, using a sample of 100 patients:
+% todo
+
+
 
 \section{Considerations}
 
