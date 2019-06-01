@@ -113,12 +113,115 @@ All nodes are imported, and main indexes are created for optimisation of queries
 	\item OtherPrescription $-$ OF $\rightarrow$ Medicine.
 \end{itemize}
 
-After migrating all elements of the graph database, additional features of Patient representing age is added. Since age changes within years, and the considered timespan is 2008-2017, 10 node properties are created for each patient (age2008, age2009, \dots).
+After migrating all elements of the graph database, additional features of Patient representing age is added. Since age changes within years, and the considered timespan is 2008-2017, 10 node properties are created for each patient (age2008, age2009, \dots). %todo
 
 \section{Visualisation and analytics}
-A subset of nodes and relationships is displayed below, using a sample of 100 patients:
-% todo
+An example of graph subset can be obtained extracting one of the individuals with the most antibiotic prescriptions (the 10th in descending order), a male patient born in 1943, and his associated drugs and doctors.
 
+The graph displays:
+\begin{enumerate}
+	\item 1 patient, the green node in the middle;
+	\item 360 antibiotic prescriptions, the pink nodes;
+	\item 524 other prescriptions, the brown nodes;
+	\item 4 doctors, the light blue nodes;
+	\item 25 antibiotics, the orange nodes;
+	\item 59 other medicines, the blue nodes. 
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.14]{./images/patient-graph.png}
+\end{figure}
+
+Having a view focussed on prescriptions, the same procedure is applied extracting the 500th antibiotic in descending order according to number of prescriptions, corresponding to Locabiotal spray bottle 15 ml (50 mg / 5 ml).
+
+The graph displays:
+\begin{enumerate}
+	\item 1 antibiotic, the orange node in the middle;
+	\item 896 antibiotic prescriptions, the pink nodes;
+	\item 107 doctors, the light blue nodes;
+	\item 817 patients, the green nodes.
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.11]{./images/antibiotic-graph.png}
+\end{figure}
+
+Those two examples allow to have a general idea of how nodes interact with each other, grouping in clusters. 
+
+\subsection{Graph statistics}
+A first set of global and local statistics are used to get the first insight on the graph and its components.
+
+\begin{center}
+	\begin{tabular}{c|c}
+		Number of nodes & 16 611 005 \\
+		\hline
+		Number of relationships & 47 745 841 \\
+		\hline
+		Average prescriptions per doctor & 11 557,93 \\
+		\hline
+		Standard deviation & 15 457,6 \\
+		\hline
+		Maximum per doctor & 96 841 \\
+		\hline
+		Minimum per doctor & 1 \\
+		\hline
+		Average prescriptions per patient & 23,73 \\
+		\hline
+		Standard deviation & 40,46 \\
+		\hline
+		Maximum per patient & 1 567 \\
+		\hline
+		Minimum per patient & 1
+	\end{tabular}
+\end{center}
+
+\subsection{Projecting a co-prescription graph}
+Since the restriction on generic prescriptions involves having the same date and patient of another antibiotic prescription, couples are analysed adding a relationship between Antibiotic and Medicines in the main graph.
+
+After counting the number of repetitions for each couple Antibiotic-Medicine, the first 100 most popular ones are used to couple nodes, with the amount as property of the relationship PRESCRIBED\_WITH.
+
+Visualising the newly created relationships, two connected components are highlighted (orange antibiotics, blue other medicines).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{./images/couples-graph.png}
+\end{figure}
+
+The component with only one couple corresponds to Plaquenil - Deltacortene, prescribed together approximately 5 000 times. Plaquenil can be used as antibiotic (antimalarial), but it is mostly given to treat arthritis, while Deltacortene is a corticosteroid for rheumatisms. 
+
+The range of values varies from 4 145 to 38 153 in the timespan of 10 years. The 5 most popular co-prescriptions are:
+\begin{enumerate}
+	\item Augmentin - Oki;
+	\item Rocefin - Bentelan;
+	\item Augmentin - Bentelan;
+	\item Normix - Cardioaspirin;
+	\item Augmentin - Aulin.
+\end{enumerate}
+
+Bentelan is a corticosteroid which cannot be used without an antibiotic in presence of systemic (concerning the whole organism) infections\cite{bentelan}, since it is an immunosuppressive drug, and this would explain the frequent co-prescriptions.
+
+All the antibiotics are among the most prescribed ones, which justifies their presence in the co-prescriptions as well.
+
+\subsection{Centrality algorithms}
+
+%\subsubsection{Betweenness}
+%The Betweenness Centrality algorithm calculates the shortest (weighted) path between every pair of nodes in a connected graph, using the breadth-first search algorithm. 
+%
+%Each node receives a score, based on the number of these shortest paths that pass through the node. Nodes that most frequently lie on these shortest paths will have a higher betweenness centrality score. 
+%
+%Since betweenness is used to identify influencers among individuals, Doctor nodes are the best fit for the algorithm.
+
+\subsubsection{Closeness}
+
+
+
+\subsubsection{Degree}
+
+\subsection{Community detection}
+
+\subsection{Similarity detection}
 
 
 \section{Considerations}
