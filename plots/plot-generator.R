@@ -13,6 +13,18 @@ csv_path = "/Users/ila/Desktop/codes/cmr-internship/plots/csv/"
 image_path = "/Users/ila/Desktop/codes/cmr-internship/plots/"
 
 
+# scatterplot of doctors, patients and amoxicillin prescriptions
+pp <- read.csv(paste(csv_path, "prescriptions-patients-amoxicillin.csv", sep=""))
+
+png(filename=paste(image_path, "patients-prescriptions.png", sep=""), width=1200, height=550, res=200)
+
+  ppplot <- ggplot(pp, aes(x=pazienti, y=prescrizioni)) + geom_point() + scale_y_continuous(breaks = seq(0, 13000, by=1000), labels=comma) + scale_x_continuous(breaks = seq(0, 4500, by=500), labels=comma) + labs(x="Patients", y="Total prescriptions")
+
+  print(ppplot)
+
+dev.off()
+
+
 # plotting prescription numbers for years
 p <- read.csv(paste(csv_path, "yearly_prescriptions.csv", sep=""))
 

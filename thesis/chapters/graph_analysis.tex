@@ -310,9 +310,19 @@ Doctors prescribing too much and not strictly when needed is one of the main cau
 % todo closeness?
 
 \subsection{Community detection}
+% cos'è la CD e perché
+
 Communities are identified according to patients getting the same antibiotic or other medicine. To ease computational time, a new relationship GETS is created, with an attribute representing the number of time a patient received that determined prescription.
 
-Since data is in the magnitude order of millions, only the top 10 most frequent antibiotics and medicines are selected. 
+ \begin{wrapfigure}{L}{0.4\textwidth}
+	\vspace{-10pt}
+	\includegraphics[width=0.4\textwidth]{./images/patient-gets-graph.png}
+	\vspace{-30pt}
+\end{wrapfigure}
+
+Since data is in the magnitude order of millions, only the top 10 most frequent antibiotics and medicines are selected, creating roughly 2 millions of relationships between 580 282 patients and 20 total drugs.
+
+This means 85,5\% of patients received a prescription among a subset representing 0,08\% of antibiotics and other medicines.
 
 \subsection{Similarity detection}
 
