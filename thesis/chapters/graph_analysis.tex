@@ -1,5 +1,5 @@
 \chapter{Graph analysis}
-
+% todo citare documentazione di neo4j
 \section{Prescription coupling}
 An excessive usage of antibiotics causes death of microorganisms in the human body which provide to maintaining immune cells and killing certain oral infections\cite{bacteria}.
 
@@ -116,6 +116,16 @@ All nodes are imported, and main indexes are created for optimisation of queries
 After migrating all elements of the graph database, additional features of Patient representing age is added. Since age changes within years, and the considered timespan is 2008-2017, 10 node properties are created for each patient (age2008, age2009, \dots). %todo
 
 \section{Visualisation and analytics}
+\subsection{Sample graph}
+A sample graph is obtained using the \texttt{apoc} functions.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{./images/sample-graph.png}
+\end{figure}
+
+
+\subsection{Examples}
 An example of graph subset can be obtained extracting one of the individuals with the most antibiotic prescriptions (the 10th in descending order), a male patient born in 1943, and his associated drugs and doctors.
 
 The graph displays:
@@ -130,7 +140,7 @@ The graph displays:
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.14]{./images/patient-graph.png}
+	\includegraphics[scale=0.14]{./images/1-patient-graph.png}
 \end{figure}
 
 Having a view focussed on prescriptions, the same procedure is applied extracting the 500th antibiotic in descending order according to number of prescriptions, corresponding to Locabiotal spray bottle 15 ml (50 mg / 5 ml).
@@ -145,7 +155,7 @@ The graph displays:
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.11]{./images/antibiotic-graph.png}
+	\includegraphics[scale=0.11]{./images/1-antibiotic-graph.png}
 \end{figure}
 
 Those two examples allow to have a general idea of how nodes interact with each other, grouping in clusters. 
@@ -204,22 +214,105 @@ Bentelan is a corticosteroid which cannot be used without an antibiotic in prese
 
 All the antibiotics are among the most prescribed ones, which justifies their presence in the co-prescriptions as well.
 
+\subsection{Projecting prescriptive habits}
+Having a detailed view of doctors' most common prescriptions gives another insight on how antibiotics are related.
+
+The three most prescribed antibiotics for each doctor are taken, along with their count, and a new relationship OFTEN\_PRESCRIBED between Doctor and Antibiotic is created. Only amounts of prescriptions greater or equal to 50 are taken into account, for consistency of results, resulting in 2 353 links.
+
+The obtained graph displays:
+\begin{enumerate}
+	\item 809 doctors, the light blue nodes;
+	\item 95 antibiotics, the orange nodes.
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.11]{./images/doctors-antibiotics-graph.png}
+\end{figure}
+
+Comparing the quantity of antibiotics and doctors and their relationships, it can be seen that most doctors prescribe a very restricted set of antibiotics.
+
+To have a better understanding of the popularity of specific drugs, an auxiliary relationship PRESCRIBED\_BY\_SAME\_DOCTOR is created between Antibiotics. 
+
+Antibiotics are interlinked with 294 new relationships:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{./images/antibiotics-graph.png}
+\end{figure}
+
 \subsection{Centrality algorithms}
 
-%\subsubsection{Betweenness}
-%The Betweenness Centrality algorithm calculates the shortest (weighted) path between every pair of nodes in a connected graph, using the breadth-first search algorithm. 
-%
-%Each node receives a score, based on the number of these shortest paths that pass through the node. Nodes that most frequently lie on these shortest paths will have a higher betweenness centrality score. 
-%
-%Since betweenness is used to identify influencers among individuals, Doctor nodes are the best fit for the algorithm.
+\subsubsection{Betweenness}
+The Betweenness Centrality algorithm calculates the shortest (weighted) path between every pair of nodes in a connected graph, using the breadth-first search algorithm. 
 
-\subsubsection{Closeness}
+Each node receives a score, based on the number of these shortest paths that pass through the node. Nodes that most frequently lie on these shortest paths will have a higher betweenness centrality score. 
 
-
+Betweenness among the top 5 antibiotics:
+\begin{center}
+	\begin{tabular}{c|c}
+		Antibiotic & Centrality \\
+		\hline
+		Augmentin (tablets) & 2 562 \\
+		\hline
+		Normix & 1 852, 74 \\
+		\hline
+		Velamox & 683, 78 \\
+		\hline
+		Ciproxin & 562, 71 \\
+		\hline
+		Augmentin (bottles) & 489,93 \\
+	\end{tabular}
+\end{center}
 
 \subsubsection{Degree}
+Degree Centrality is the simplest of all the centrality algorithms. It measures the number of incoming and outgoing relationships from a node, analysing its influence.
+
+Degree among the top 5 antibiotics, according to co-prescriptions:
+\begin{center}
+	\begin{tabular}{c|c}
+		Antibiotic & Degree \\
+		\hline
+		Augmentin (tablets) & 32 \\
+		\hline
+		Normix & 22 \\
+		\hline
+		Ciproxin & 14 \\
+		\hline
+		Augmentin (bottles) & 12 \\
+		\hline
+		Velamox & 10 \\
+	\end{tabular}
+\end{center}
+
+Calculating degree among doctors is useful to determine whether the top antibiotics prescribers are also the top prescribers, using the top 5 doctors.
+
+\begin{center}
+	\begin{tabular}{c|c|c|c|c}
+		Doctor & Degree (antibiotics) & Degree (medicine) & Total degree & Patients \\
+		\hline
+		1 & 45 625 & 51 221 & 96 846 & 4 466 \\
+		\hline
+		2 & 42 554 & 41 594 & 84 148 & 2 022 \\
+		\hline
+		3 & 35 645 & 22 383 & 58 028 & 1 816 \\
+		\hline
+		4 & 34 587 & 40 315 & 74 902 & 2 028 \\
+		\hline
+		5 & 34 380 & 28 763 & 63 143 & 1 874
+	\end{tabular}
+\end{center}
+
+Seeing the obtained results, the overprescribing of some general practitioners is clear: most of them makes a number of antibiotic prescriptions equal to others having double the amount of patients.
+
+Doctors prescribing too much and not strictly when needed is one of the main causes of antibiotic resistance in Italy.
+
+% todo closeness?
 
 \subsection{Community detection}
+Communities are identified according to patients getting the same antibiotic or other medicine. To ease computational time, a new relationship GETS is created, with an attribute representing the number of time a patient received that determined prescription.
+
+Since data is in the magnitude order of millions, only the top 10 most frequent antibiotics and medicines are selected. 
 
 \subsection{Similarity detection}
 
