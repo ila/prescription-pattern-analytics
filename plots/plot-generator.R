@@ -6,6 +6,30 @@ require("lubridate")
 require("grid")
 require("ggpubr")
 require("RColorBrewer")
+require("dplyr")
+require("ggforce")
+
+
+# creating custom pie charts
+patients1 <- data.frame(
+  Property = c("Deceased", "No sanitary convention", "Changing doctor", "Usable"),
+  n = c(81927, 33695, 368106, 531890),
+  prop = c(8.1, 3.3, 36.2, 52.4)
+)
+
+patients1 <- patients1 %>%
+  arrange(desc(Property)) %>%
+  mutate(lab.ypos = cumsum(prop) - 0.5*prop)
+
+colors <- c("#8fbfe0", "#7c77b9", "#0bc9cd", "#278c82")
+
+png(filename=paste(image_path, "patients-pie-1.png", sep=""), width=1200, height=900, res=300)
+
+  patientspie1 <- ggplot(patients1, aes(x = "", y = prop, fill = Property)) + geom_bar(width = 1, stat = "identity", color = "white") + coord_polar("y", start = 0) + geom_text(aes(y = lab.ypos, label = prop), color = "white") + scale_fill_manual(values = colors) + theme_void()
+  
+  print(patientspie1)
+
+dev.off()
 
 
 # setting file path
@@ -16,9 +40,9 @@ image_path = "/Users/ila/Desktop/codes/cmr-internship/plots/"
 # scatterplot of doctors, patients and amoxicillin prescriptions
 pp <- read.csv(paste(csv_path, "prescriptions-patients-amoxicillin.csv", sep=""))
 
-png(filename=paste(image_path, "patients-prescriptions.png", sep=""), width=1200, height=550, res=200)
+png(filename=paste(image_path, "patients-prescriptions.png", sep=""), width=1000, height=550, res=200)
 
-  ppplot <- ggplot(pp, aes(x=pazienti, y=prescrizioni)) + geom_point() + scale_y_continuous(breaks = seq(0, 13000, by=1000), labels=comma) + scale_x_continuous(breaks = seq(0, 4500, by=500), labels=comma) + labs(x="Patients", y="Total prescriptions")
+  ppplot <- ggplot(pp, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 13000, by=1000), labels=comma) + scale_x_continuous(breaks = seq(0, 4500, by=500), labels=comma) + labs(x="Patients", y="Total prescriptions")
 
   print(ppplot)
 
