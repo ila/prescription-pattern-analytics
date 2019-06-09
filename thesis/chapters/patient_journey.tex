@@ -131,8 +131,13 @@ The 1 465 005 complete tuples are composed by:
 Only 7\% of the total prescription has been taken in consideration, yet a million and half is still a satisfying amount.
 
 \subsubsection{Funnel graph of patients}
-A funnel graph is useful to see how imposing every restriction made the patients number decrease: starting from a million, in the end there only is about $\nicefrac{1}{4}$ of it.
-% funnel
+The funnel chart is used to visualize the progressive reduction of data as it passes from one phase to another. Data in each of these phases is represented as different portions of 100\% (the whole)\cite{funnel}.
+
+Imposing every restriction made the patients number decrease: starting from a million, the remaining ones are $\nicefrac{1}{4}$ of it.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{images/funnel.png}
+\end{figure}
 
 \subsection{Examples of analysis}
 Resulting information, despite needing further checking and lookup, is a starting point for time series analysis.
@@ -156,11 +161,47 @@ Average new prescriptions per patient:
 
 The range goes from 1 to 129 new prescriptions associated with diagnosis in three years.
 
+\subsubsection{Most common couples}
+The 5 most common diagnoses and prescriptions happening on the same day are displayed below.
+\begin{center}
+	\small
+	\begin{tabular}{c|c|c}
+		Diagnosis & Prescription & Count \\
+		\hline
+		Vitamin D deficiency, unspecified & Colecalciferol & 13 122 \\
+		\hline
+		Periapical abscess without sinus & Amoxicillin and beta-lactamase inhibitor & 7 761 \\
+		\hline
+		Esophageal reflux & Pantoprazole & 6 093 \\
+		\hline
+		Diarrhea, unspecified & Rifaximin & 6 000 \\
+		\hline
+		Cystitis, unspecified & Fosfomycin & 5 885 \\
+	\end{tabular}
+\end{center}
+The first one is a type of vitamin D, and Pantopranzole is a medicine for digestive tract diseases: all the others are antibiotics. 
+
+This prior analysis already shows a concerning amount of antibiotic prescriptions. 
+
+\subsubsection{Most common antibiotics}
+Antibiotic prescriptions compose 20\% of total, which consists in 300 503 instances. The most popular ones are:
+\begin{enumerate}
+	\item Amoxicillin and beta-lactose inhibitors, 62 560 prescriptions;
+	\item Ciprofloxacin, 23 762 prescriptions;
+	\item Levofloxacin, 22 595 prescriptions;
+	\item Rifaximin, 21 680 prescriptions;
+	\item Ceftriaxone, 19 523 prescriptions.
+\end{enumerate}
+
 \section{Results comparison}
 Comparing the two patient journey outcomes through graphs is a good way to visualize changes and improvements.
 
 \subsection{Changes in data composition}
-% grafico
+Below are shown barplots highlighting the changes between data categories in the two approaches.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.33]{../plots/pj-barplots.png}
+\end{figure}
 
 \subsection{Improvement on patients information loss}
 A pie chart for data loss on patients in the range 2016-2018 has been made to compare with the previous one.
@@ -183,3 +224,5 @@ Examples of future work are:
 	\item Analysis on specific diseases (digestive system and tumours);
 	\item Time series analysis and clustering approaches.
 \end{itemize}
+
+Since research shows a considerable amount of antibiotic instances, the data is linking to with the issue of antibiotic resistance. More detailed analysis with time series can give a wider perspective.

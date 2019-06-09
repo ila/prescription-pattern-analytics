@@ -10,31 +10,29 @@ require("dplyr")
 require("ggforce")
 
 
-# creating custom pie charts
-patients1 <- data.frame(
-  Property = c("Deceased", "No sanitary convention", "Changing doctor", "Usable"),
-  n = c(81927, 33695, 368106, 531890),
-  prop = c(8.1, 3.3, 36.2, 52.4)
-)
-
-patients1 <- patients1 %>%
-  arrange(desc(Property)) %>%
-  mutate(lab.ypos = cumsum(prop) - 0.5*prop)
-
-colors <- c("#8fbfe0", "#7c77b9", "#0bc9cd", "#278c82")
-
-png(filename=paste(image_path, "patients-pie-1.png", sep=""), width=1200, height=900, res=300)
-
-  patientspie1 <- ggplot(patients1, aes(x = "", y = prop, fill = Property)) + geom_bar(width = 1, stat = "identity", color = "white") + coord_polar("y", start = 0) + geom_text(aes(y = lab.ypos, label = prop), color = "white") + scale_fill_manual(values = colors) + theme_void()
-  
-  print(patientspie1)
-
-dev.off()
-
-
 # setting file path
 csv_path = "/Users/ila/Desktop/codes/cmr-internship/plots/csv/"
 image_path = "/Users/ila/Desktop/codes/cmr-internship/plots/"
+
+
+# creating custom barplots
+df <- data.frame(Patients=c(27733, 230381), GPs=c(422, 412), Diagnoses=c(1381, 4324), Prescriptions=c(904, 1280), Year=c("'10-'18", "'16-'18"))
+
+p1 <-ggplot(data=df, aes(x=Year, y=Patients)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p2 <-ggplot(data=df, aes(x=Year, y=GPs)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p3 <-ggplot(data=df, aes(x=Year, y=Diagnoses)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p4 <-ggplot(data=df, aes(x=Year, y=Prescriptions)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+
+png(filename=paste(image_path, "pj-barplots.png", sep=""), width=1390, height=600, res=200)
+
+  p <- grid.arrange(p1, p2, p3, p4, ncol=4)
+  print(p)
+  
+dev.off()
 
 
 # scatterplot of doctors, patients and amoxicillin prescriptions
