@@ -23,8 +23,8 @@ Before starting running queries, there are some factors to consider and issues w
 Furthermore, there have been noticed some common instances of incorrect data:
 \begin{itemize}
 	\item Some dates don't fall in the acceptable range (e.g.\ 1999, 2034, \dots), \\
-	a date is considered wrong if it's before 01-01-2000 or after 10-01-2018;
-	\item A lot of fields are empty or null.
+	a date is considered wrong if it falls before 01-01-2000 or after 10-01-2018;
+	\item A consistent amount of fields are empty or null.
 \end{itemize}
 
 Overall, the loss on single records isn't a relevant issue since the total amount of rows allows safe removal, yet the cumulative augmentation (funnel analysis) gives a progressive deletion of information.
@@ -37,12 +37,12 @@ Both tables contain similar data related to patients, with a $1 : 1$ corresponde
 
 \begin{itemize}
 	\item Patients with null or empty sex: 2 752 $\rightarrow 0,27\%$;
-	\item Patients with sex different from M and F: $54 \rightarrow 0.005\%$;
+	\item Patients with sex different from M and F: 54 $\rightarrow 0.005\%$;
 	\item Patients with beginning of the patient-doctor relationship outside the accepted range: 226 858 $\rightarrow 22,33\%$;
 	\item Patients with null province: 99 981 $\rightarrow 9,84\%$.
 \end{itemize}
 
-A subset of patients is creating through an auxiliary view to highlight the final progressive data loss compared to the original tables, joining patients and patients\_doctors according to those constraints
+A subset of patients is creating through an auxiliary view to highlight the final progressive data loss compared to the original tables, joining \textit{patients} and \textit{patients\_doctors} according to those constraints
 \begin{enumerate}
 	\item Join on equal patient code (\textit{id});
 	\item Not null date of birth;
@@ -55,9 +55,17 @@ The total rows respecting all those constraints are 713 352, so approximatively 
 
 This result implies that during analysis there will be at least $\nicefrac{1}{3}$ of the data which is going to be removed due to incompleteness and inaccuracy: not considering patients will imply deleting their diagnoses and prescriptions as well.
 
+A waffle chart is shown below, highlighting the total tuples and the impact of every restriction, standardised on a scale from 1 to 100:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{../plots/patients-waffle.png}
+\end{figure}
+
+There are no null provinces and birthdates. The bigger impact is caused by dates falling outside the acceptable range, meaning patients started treatment with their general practitioner earlier than 2000.
+
 \subsection{\textit{diagnoses} (15 millions of tuples)}
 \subsubsection{ICD-9}
-An ICD-9 code is correct if it's in the official ICD-9 database\cite{icd9}. General practitioners may use different formats and notations, so before removing codes each one has been subject to some parsing.
+An ICD-9 code is correct if it is present in the official ICD-9 database\cite{icd9}. General practitioners may use different formats and notations, so before removing codes each one has been subject to some parsing.
 
 An ICD-9 code is considered wrong if there is no match in the official DB after any of those transformations:
 \begin{enumerate}
@@ -94,7 +102,7 @@ The latter is the most common reason: there are up to 90 000 occurrences of a si
 \begin{itemize}
 	\item Incorrect ATC codes: 1 750 292 $\rightarrow 0,1,47\%$;
 	\item Null or empty ATC codes: 1 577 749 $\rightarrow 1,33\%$;
-	\item Null or empty AC codes: 1 310 719 $\rightarrow 1,1\%$;
+	\item Null or empty AIC codes: 1 310 719 $\rightarrow 1,1\%$;
 	\item Null or empty descriptions: 101 248 410 $\rightarrow 85,28\%$;
 	\item Dates out of range: 3 472 119 $\rightarrow 2,92\%$.
 \end{itemize}

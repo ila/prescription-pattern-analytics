@@ -8,6 +8,7 @@ require("ggpubr")
 require("RColorBrewer")
 require("dplyr")
 require("ggforce")
+require("waffle")
 
 
 # setting file path
@@ -35,14 +36,63 @@ png(filename=paste(image_path, "pj-barplots.png", sep=""), width=1390, height=60
 dev.off()
 
 
+# information loss plot
+# ilp <- data.frame(label=c("Correct data", "Date out of range", "Incorrect sex", "Null province", "Two or more constraints not respected"), value=c(70, 20, 9, 1))
+                  
+# value=c(713352, 200159, 1919, 9052, 91136)
+
+ilp <- c("Correct data" = 70, "Date out of range" = 20, "Incorrect sex" = 9, "Null province" = 1, "Two or more constraints \nnot respected" = 10)
+
+png(filename=paste(image_path, "patients-waffle.png", sep=""), width=1000, height=400, res=200)
+
+  waffle <- waffle(ilp, rows=8)
+
+  print(waffle)
+
+dev.off()
+
+
 # scatterplot of doctors, patients and amoxicillin prescriptions
-pp <- read.csv(paste(csv_path, "prescriptions-patients-amoxicillin.csv", sep=""))
+pp_amoxicillin <- read.csv(paste(csv_path, "prescriptions-patients-amoxicillin.csv", sep=""))
 
-png(filename=paste(image_path, "patients-prescriptions.png", sep=""), width=1000, height=550, res=200)
+png(filename=paste(image_path, "patients-prescriptions-amoxicillin.png", sep=""), width=2000, height=2000, res=200)
 
-  ppplot <- ggplot(pp, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 13000, by=1000), labels=comma) + scale_x_continuous(breaks = seq(0, 4500, by=500), labels=comma) + labs(x="Patients", y="Total prescriptions")
+  pplot_amoxicillin <- ggplot(pp_amoxicillin, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 12500, by=500), labels=comma, limits=c(0, 12500)) + scale_x_continuous(breaks = seq(0, 12500, by=500), limits=c(0, 12500), labels=comma) + labs(x="Patients", y="Total prescriptions")
 
-  print(ppplot)
+  print(pplot_amoxicillin)
+
+dev.off()
+
+
+pp_augmentin <- read.csv(paste(csv_path, "prescriptions-patients-augmentin.csv", sep=""))
+
+png(filename=paste(image_path, "patients-prescriptions-augmentin.png", sep=""), width=1100, height=1100, res=200)
+
+  pplot_augmentin <- ggplot(pp_augmentin, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 13000, by=500), limits=c(0, 6000), labels=comma) + scale_x_continuous(breaks = seq(0, 6000, by=500), limits=c(0, 6000), labels=comma) + labs(x="Patients", y="Total prescriptions")
+  
+  print(pplot_augmentin)
+
+dev.off()
+
+
+pp_antibiotics <- read.csv(paste(csv_path, "prescriptions-patients-antibiotics.csv", sep=""))
+
+png(filename=paste(image_path, "patients-prescriptions-antibiotics.png", sep=""), width=1500, height=2500, res=200)
+
+  pplot_antibiotics <- ggplot(pp_antibiotics, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 50000, by=1000), labels=comma, limits=c(0, 50000)) + scale_x_continuous(breaks = seq(0, 5000, by=500), limits=c(0, 5000), labels=comma) + labs(x="Patients", y="Total prescriptions")
+
+  print(pplot_antibiotics)
+
+dev.off()
+
+
+pp_total <- read.csv(paste(csv_path, "prescriptions-patients-total.csv", sep=""))
+
+png(filename=paste(image_path, "patients-prescriptions-total.png", sep=""), width=1000, height=1750, res=200)
+
+  pplot_total <- ggplot(pp_total, aes(x=pazienti, y=prescrizioni)) + geom_point(size=0.5) + scale_y_continuous(breaks = seq(0, 380000, by=10000), labels=comma, limits=c(0, 380000)) + scale_x_continuous(breaks = seq(0, 5000, by=500), limits=c(0, 5000), labels=comma) + labs(x="Patients", y="Total prescriptions")
+
+  print(pplot_total)
 
 dev.off()
 

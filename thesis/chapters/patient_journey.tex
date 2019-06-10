@@ -41,7 +41,7 @@ About half of patients is going to be lost, due to not respecting the consistenc
 \subsection{ICD-9}
 ICD-9 codes have been removed after a comparison with the official WHO database.
 
-The total number of rows is 14 460 199, of which 17\% must be deleted due to falling among one of the categories below.
+The total number of rows is 15 460 199, of which 17\% must be deleted due to falling among one of the categories below.
 
 The 2 669 312 removed tuples have the following issues:
 \begin{itemize}
@@ -50,19 +50,20 @@ The 2 669 312 removed tuples have the following issues:
 	\item Empty description: 24,6 \%.
 \end{itemize}
 
-The total number of rows is 14 460 199, of which 17\% must be deleted due to falling among one of the above categories.
+The total number of rows is 15 460 199, of which 17\% must be deleted due to falling among one of the above categories.
 
-\subsection{AIC}
-AIC have been removed following the same procedure as ICD-9.
+\subsection{ATC}
+ATC have been removed according to the same procedure as ICD-9.
 
-The 2 669 312 removed tuples have the following issues:
+The 3 328 041 removed tuples have the following issues:
 \begin{itemize}
-	\item Wrong code: 0,005\%;
-	\item Empty code: 75,4\%;
-	\item Empty description: 24,6 \%.
+	\item Wrong code: 52,6\%;
+	\item Empty code: 47,4\%.
 \end{itemize}
 
-Those consist in --- of total. % todo
+Those consist in 21,5\% of total.
+
+Further statistics related to data loss are extracted after having a first set of results, comparing individual values to the original after each step of restriction imposition. 
 
 \section{First approach}
 The first approach consists in testing with an \textbf{arbitrary range constraint}: all dates must fall in the span between 2010 and 2018.
@@ -87,7 +88,7 @@ The 144 618 complete tuples are composed by:
 Further causes for those low values can be found counting how many dates would not fall in the considered range. The percentage of records with date earlier than 2010 in each table is:
 \begin{itemize}
 	\item Patients: 75\%;
-	\item Diagnosis: 54,6\%;
+	\item Diagnoses: 54,6\%;
 	\item Prescriptions: 44,7\%.
 \end{itemize}
 

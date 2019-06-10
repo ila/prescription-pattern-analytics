@@ -34,7 +34,7 @@
 		\vspace{40mm}
 		
 		{\large \textbf{Relatore:} Prof. Francesco Archetti \medskip} \\
-		{\large \textbf{Correlatore:} Prof. Antonio Candelieri \medskip} \\
+		{\large \textbf{Correlatore:} Prof. Paolo Mariani \medskip} \\
 		{\large \textbf{Tutor aziendale:} Dott. Gaia Arosio \medskip} \\
 		
 		\vspace{15mm}
@@ -57,25 +57,56 @@
 \newpage
 \input{chapters/abstract.tex}
 \newpage
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{0}
 \tableofcontents
 \newpage
 % mettere grassetto e corsivo ovunque
+
+% 1.2.1 pharmaceutical products (anche in graph analytics)
+% methodologies: statistiche descrittive, pca, cluster (k-medie)
+% titoli delle figure e tabelle con source (medical data etc)
+% primo approccio patient oriented secondo prescription oriented
+
 \input{chapters/introduction.tex} % finire un paragrafo e mezzo
 \input{chapters/defining_goals.tex}
 \input{chapters/data_description.tex} 
-\input{chapters/information_loss.tex} % aggiungere grafici
+\input{chapters/information_loss.tex} 
 \input{chapters/global_analytics} % tutto
-\input{chapters/patient_journey.tex} % fare grafici, finire bene
-% \input{chapters/antibiotics.tex} % finire analitiche sul sesso, sistemare grafici età, analitiche icd9-atc
-\input{chapters/k_means.tex} % tutto
-% \input{chapters/graph_analysis.tex}  % finire analitiche grafi + information loss grafico
-\input{chapters/results.tex} % tutto
+\input{chapters/patient_journey.tex}
+\input{chapters/antibiotics.tex} % finire analitiche sul sesso, sistemare grafici età, analitiche icd9-atc
+\input{chapters/k_means.tex} % tutto: costruzione della tabella, risultati, dimensioni, caratterizzati da che tipo di dati
+\input{chapters/graph_analysis.tex}  % finire analitiche grafi + information loss grafico
+\input{chapters/results.tex} % 10 conclusioni diverse ma non 10 paragrafi! 15ish righe per ognuno
+% questo è solo l'inizio blabla limiti dello studio
 \input{chapters/bibliography.tex} % sistemare link
 
 % finire scatterplot conclusivi
 
+% clustering e community detection sul 2017
+% market basket analysis?
+% provare jefi (connettore?)
+
+% medici confrontabili, chi sono i pazienti del 2017 per ogni medico? tornare indietro da lì di 2-3 anni
+% effetto composizione
+
 % entro 10 giugno: introduzione, pj, antibiotici
 % entro 16 giugno (mariani): kmeans, results
+
+% 1 articolo: sanità, soltanto il database --> dati a disposizione con fonte i medici di medicina generale, magari un grafo
+% IJSA italian journal of applied statistics
+% --> 15-20 pagine
+% overleaf
+
+% 3 articolo: social indicator (rivista)
+% db grafo
+% 30 giugno
+
+% 2 articolo: patient journey
+% ISJA per DDSR
+% agosto-settembre
+
+% springer: maurino
+% 30 settembre
+% riassunto pj grafi e dataset
 
 \end{document}
