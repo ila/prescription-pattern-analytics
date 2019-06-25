@@ -1,1 +1,53 @@
 \chapter{k-means approach for cluster analysis}
+
+%Esistono attività di coprescrizione, analisi traiettorie
+%Ie: normix come strumento di profilazione (es. età), layer, modelli di utilizzo del prodotto: spazio, tempo, fattore di struttura (antibiotici più prescritti)
+%Cluster in base ai medici, se il medico è un fedele prescrittore: esistono tipologie (analisi fattoriale?) k-means, variabili attive (antibiotici) e illustrative
+%Se esistono comportamenti che classificano i medici: medici, prescrizioni, tempo 
+%Medici | antibiotici | numero prescrizioni | età pazienti | città
+%3 di queste per capire se i modelli di comportamento
+%Cluster annidate? Numero cluster? Iniziare con 5 gruppi, 100 iterazioni
+
+%# trajectories analysis for co-prescription activities
+%# antibiotics as profiling tools, with additional layers (ways to use most prescribed products)
+%# factorial analysis to understand whether a GP makes constant prescriptions
+
+
+A practical application of clustering consists in grouping general practitioners according to their prescriptive habits of antibiotics.
+
+$k$-means is the best clustering algorithm, since the approach is non-hierarchical and simple robe cose
+
+\section{Range of time}
+Since the aim of clustering is identifying prescription patterns and their changes, extracting different time slices allows better insights on evolutions of trends.
+
+To avoid the impact of seasonality, having values increasing in the winter months, data is collected and aggregated in a range of one year: the final table contains cumulative results and features, without distinction between different times of the year.
+
+Comparisons are made selecting two photographies of data according to different years, and visualising outcomes to understand whether values have shifted cluster (general practitioners have changed habits).
+
+Data in two years needs to be distant enough to ensure the presence of potential changes, yet consistent enough to prevent information loss. 
+
+Selected years are 2010 and 2017, 2017 being the latest complete time range and 2010 being the first year considered for antibiotics analysis.
+
+\section{Dataset construction}
+The most important constraint while constructing the matrix is consistency of data: all general practitioners must be active in both years, to make comparison possible.
+
+The number of constantly active doctors is 372, having respectively 228.022 and 214.316 patients in 2010 and 2017. This represent a data loss of about 75\% in both values.
+
+Features to consider are:
+\begin{itemize}
+	\item Antibiotic prescriptions;
+	\item Patients data;
+	\item Other prescriptions data.
+\end{itemize}
+
+Antibiotic prescriptions are divided into the 8 most popular products, while patients data include sex and most common age range. Information about the total amount of prescriptions might be helpful to understand the influence of antibiotics.
+
+The final table appears this way:
+% table
+
+\section{Features selection}
+
+\section{Optimal number of clusters}
+
+\section{Results}
+% quanti doctors hanno cambiato cluster?

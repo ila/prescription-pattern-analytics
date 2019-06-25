@@ -65,7 +65,7 @@ Those consist in 21,5\% of total.
 
 Further statistics related to data loss are extracted after having a first set of results, comparing individual values to the original after each step of restriction imposition. 
 
-\section{First approach}
+\section{Patient-based approach}
 The first approach consists in testing with an \textbf{arbitrary range constraint}: all dates must fall in the span between 2010 and 2018.
 
 The first analysis has pure research and testing purposes, to understand the impact of a cutting the the dataset in terms of information loss. All the previously introduced criteria must be considered as well, so there must be a continuous doctor-patient relationship between active GPs and non-deceased patients with sanitary conventions.
@@ -103,7 +103,7 @@ There is an enormous loss on patients: the possible reason might be that most pa
 
 8 years is a too wide range to obtain a consistent patient journey, and such information loss isn't negligible: the conclusion of the first approach is that introducing time boundaries is something which needs an accurate control, to avoid missing out most of the data.
 
-\section{Second approach}
+\section{Prescription-based approach}
 Since extracting a slice of records according to their date span is an abrupt approach, careful parameters tuning and detailed constraints introduction is necessary to have a solid and consistent amount of information.
 
 The focus is on the number of prescriptions: given a small range of years, only patients with at least one new prescription are going to be considered. All the previous criteria must be respected, so there must be a continuous doctor-patient relationship between active GPs and non-deceased patients with sanitary conventions.

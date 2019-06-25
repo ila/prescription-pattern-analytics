@@ -1,4 +1,4 @@
-\chapter{Information loss} %todo adding fancy plots
+\chapter{Information loss} 
 The first analysis aims to give a \textbf{qualitative assessment} of the whole database, giving an overall idea on how impactful is the progressive information loss. 
 
 After understanding the correctness and completeness of records, some fields will be eventually excluded from the analysis, while others that cannot be removed will have a major impact on the results.
@@ -59,6 +59,7 @@ A waffle chart is shown below, highlighting the total tuples and the impact of e
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{../plots/patients-waffle.png}
+	\caption{\small Information loss on patients, waffle plot, Campania Millennium database}
 \end{figure}
 
 There are no null provinces and birthdates. The bigger impact is caused by dates falling outside the acceptable range, meaning patients started treatment with their general practitioner earlier than 2000.

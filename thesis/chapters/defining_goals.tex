@@ -56,7 +56,7 @@ Some examples of analytics are:
 
 An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
 
-\section{Practical goals}
+\section{Practical methods}
 Having a better vision of the medical domain and the rising issues in the Italian system, before approaching analytical procedures it is necessary to underline practical objectives and expected outcomes.
 
 The first essential statistic to extract is about progressive information loss: this makes possible to estimate how much data can give reliable and complete results, compared to the total. It is defined \textit{progressive} since the more iterations of cleaning are being made, the more data is going to be lost. 
@@ -76,6 +76,136 @@ Final outcomes are then subject of more advanced techniques, which include:
 	\item Graph algorithms.
 \end{itemize}
 
+\section{Approaches description}
+While systematically applying methodologies, it is essential to make a difference based on use cases and types of algorithms, to have an overview of different techniques and results to expect.
+
+\subsection{Descriptive statistics}
+Descriptive statistics are used to summarize and describe basic features of information, to give a full picture of a sample without generalizing beyond the data in hand.
+
+They are used to offer an insight without getting into conclusions, presenting values in a manageable form and simplifying large amounts of records. Such summaries can be quantitative (statistics) or visual (graphs), giving basis to extend the research with more specific approaches.
+
+Some instances of commonly used measurements are central tendency, variability and dispersion, which allow to broke down datasets and re-purpose each attribute into a smaller description. Indices give information on how a value is distributed, how spread-out it is and what shape it assumes. 
+
+Exploratory analysis allows to have a general overview of the available health data to then restrict the domain and identify areas of interest.
+
+\subsection{Time series analysis}
+There are two main goals of time series analysis: identifying the nature of a phenomenon represented by the sequence of observations, and forecasting (predicting future values of the time series variable). 
+
+Both of these goals require that the pattern of observed time series data is identified and more or less formally described. Once the pattern is established, it can interpreted and integrated with other data. 
+
+Regardless of the depth of understanding and the validity of interpretation (theory) of the phenomenon, the identified pattern can be used to predict future events\cite{timeseries}.
+
+Antibiotic resistance is the most common example of use case: observing trends during years and months helps understanding the growth (or recess) of the issue and its development.
+
+\subsection{Exploratory analysis}
+Exploratory data analysis (EDA) is a strategy of data analysis that emphasizes maintaining an open mind to alternative possibilities. EDA is a philosophy or an attitude about how data analysis should be carried out, rather than being a fixed set of techniques\cite{yu}.
+
+The approach, similarly to descriptive statistics, consists in summarizing the main characteristics of a dataset to eventually apply statistical models to search for mathematical relationships between variables.
+
+It is difficult to obtain a clear­ cut answer from “messy” human phenomena, and thus the exploratory character of EDA is very suitable to medical research.
+
+This is a systematic way to investigate relevant information from multiple perspectives: in many stages of inquiry, the working questions are non­-probabilistic and the focal point should be the data at hand rather than the probabilistic inference in the long run. Hence, prematurely adopting a specific statistical model would hinder from considering different possible solutions.
+
+The key point of EDA is the emphasis placed on using data to suggest hypotheses to test, rather than confirming existing hypotheses. Causes of observed phenomenon can be pinpointed, assessing assumptions for statistical inference through the appropriate statistical tools.
+
+Techniques consist in plotting features to visualize their behaviour, to then extract the most relevant ones through dimensionality reduction and projecting trends.
+
+Exploratory analysis gives a better insight on the information obtainable from the healthcare data, understanding unusual trends and defining detailed objectives.
+
+\subsection{PCA}
+PCA is mostly used as a tool in exploratory data analysis and for making predictive models. It is one of the most widely used methods to reduce dimensionality of large datasets while still preserving most information and variability.
+
+PCA allows to find meaningful projections of features, using an unsupervised approach, finding the subspace of largest variance and calculating the eigenvectors to project data into a subspace.
+
+This translates into finding new variables that are linear functions of those in the original dataset, translating data into a linear mapping with less dimensions, that successively maximize variance and with features that are uncorrelated with each other\cite{pca}. 
+
+Reduced variables can be used for an easier interpretation and visualisation, and successive methodologies such as clustering are applied to subsets to improve computational time. The obtained attributes are subject of further research in the healthcare field.
+
+\subsection{Clustering}
+Data clustering techniques are descriptive data analysis techniques that can be applied to multivariate data sets to uncover the structure present in the data. 
+
+They are particularly useful when classical second order statistics (the sample mean and covariance) cannot be used. Namely, in exploratory data analysis, one of the assumptions that is made is that no prior knowledge about the dataset, and therefore the dataset’s distribution, is available. In such a situation, data clustering can be a valuable tool. 
+
+Data clustering is a form of unsupervised classification, as the clusters are formed by evaluating similarities and dissimilarities of intrinsic characteristics between different cases, and the grouping of cases is based on those emergent similarities and not on an external criterion. 
+
+Also, these techniques can be useful for datasets of any dimensionality over three, as it is very difficult for humans to compare items of such complexity reliably without a support to aid the comparison\cite{kmeans}.
+
+Clustering healthcare data offers the opportunity to differentiate elements such as patients and doctors according to their characteristics and behavioural patterns, highlighting trends to possibly make predictions for the future.
+
+\subsubsection{\textit{k}-means}
+\textit{k}-means clustering belongs to partitioning-based techniques grouping, which are based on the iterative relocation of data points between clusters. It is used to divide either the cases or the variables of a dataset into non-overlapping groups, or clusters, based on the characteristics uncovered\cite{kmeans}. 
+
+The goal is to produce groups of cases/variables with a high degree of similarity within each group and a low degree of similarity between groups.
+
+The objective is therefore to minimise the following equation:
+$$C(z, \mu) = \sum_{i} ||x_i - \mu_{z_i}||^2$$
+$z_i$ are the assignment variables, which can take values $z_i = 1, \dots, K$ where $K$ is an arbitrary number of clusters.
+
+\textit{k}-means clustering is very useful in exploratory data analysis and data mining in any field of research, and as the growth in computer power has been followed by a growth in the occurrence of large data sets.
+ 
+A good cluster analysis is both efficient and effective, in that it uses as few clusters as possible while still capturing all statistically important clusters.
+
+The practical approach uses the algorithm of Hartigan and Wong, the most popular implementation, which searches for the partition of data space with locally optimal within-cluster sum of squares of errors (SSE).
+
+The Hartigan method examines every item in each cluster at random, calculates the distance to centroids and assigns it to the optimal partition, taking into account the motion during re-assignment.
+
+$k$-means can be used to classify prescription patterns, having the chance to construct a feature matrix with time series data.
+
+\subsection{Graph algorithms}
+While graphs originated in mathematics, they are also a pragmatic and high fidelity way of modelling and analyzing data. The objects that make up a graph are called nodes and vertices and the links between them are known as relationships, links, or edges. 
+
+Graph algorithms are a subset of tools for graph analytics. Graph pattern–based querying is often used for local data analysis, whereas graph computational algorithms usually refer to more global and iterative analysis.
+
+Graph algorithms provide one of the most potent approaches to analyzing connected data because their mathematical calculations are specifically built to operate on relationships. They describe steps to be taken to process a graph to discover its general qualities or specific quantities. 
+
+Based on the mathematics of graph theory, graph algorithms use the relationships between nodes to infer the organization and dynamics of complex systems\cite{neo4jbook}.
+
+Healthcare data can be represented using a graph, identifying main attributes along with their behaviour and interactions. 
+
+\subsubsection{Betweenness centrality}
+Centrality algorithms are used to understand the roles of particular nodes in a graph and their impact on that network. They’re useful because they identify the most important nodes and help us understand group dynamics such as credibility, accessibility, the speed at which things spread, and bridges between groups.
+
+Betweenness Centrality is a way of detecting the amount of influence a node has over the flow of information or resources in a graph. It is typically used to find nodes that serve as a bridge from one part of a graph to another.
+
+The Betweenness Centrality algorithm first calculates the shortest (weighted) path between every pair of nodes in a connected graph. Each node receives a score, based on the number of these shortest paths that pass through the node. The more shortest paths that a node lies on, the higher its score.
+
+The betweenness centrality of a node is calculated by adding the results of the follow‐ ing formula for all shortest paths:
+$$B(u) = \sum_{s \neq u \neq t} \frac{p(u)}{p}$$
+$u$ is the selected node, $p$ is the total number of shortest paths between nodes $s$ and $t$, and $p(u)$ is the number of shortest paths passing through $u$.
+
+Betweenness can be used to measure antibiotics' influence among co-prescriptions.
+
+\subsubsection{Degree centrality}
+Degree Centrality is the simplest of the algorithms, and counts the number of incoming and outcoming relationships from a node. It is used to find popular instances in a graph, concerning immediate connectedness and near-term probabilities. 
+
+The degree of a node is in fact the number of direct relationships it has, calculated for in-degree and out-degree.
+
+Degree is another indicator to analyse the influence of single products to highlight most common ones.
+
+\subsubsection{Community detection}
+Community formation is common in all types of networks, and identifying them is essential for evaluating group behaviour and emergent phenomena. 
+
+Connectedness is a core concept of graph theory that enables a sophisticated network analysis such as finding communities. Most real-world networks exhibit substructures (often quasi-fractal) of more or less independent subgraphs.
+
+Connectivity is used to find communities and quantify the quality of groupings. Evaluating different types of communities within a graph can uncover structures, like hubs and hierarchies, and tendencies of groups to attract or repel others.
+
+The general principle in finding communities is that its members will have more relationships within the group than with nodes outside their group. Identifying these related sets reveals clusters of nodes, isolated groups, and network structure. This information helps infer similar behaviour or preferences of peer groups, estimate resiliency, find nested relationships, and prepare data for other analyses.
+
+Modularity algorithms optimize communities locally and then globally, using multiple iterations to test different groupings and increasing coarseness. This strategy identifies community hierarchies and provides a broad understanding of the overall structure.
+
+Louvain Modularity is used for looking at grouping quality and hierarchies. It finds clusters by moving nodes into higher relationship density groups and aggregating into super-communities.
+
+It maximizes the presumed accuracy of groupings by comparing relationship weights and densities to a defined estimate or average, revealing hierarchies at different scales with distinct levels of granularity.
+
+Community detection in a healthcare graph schema can help dividing instances according to their habits, giving a structure in groups with different patterns.
+
+\subsubsection{Similarity detection}
+Similarity algorithms work out which nodes most resemble each other by using various methods to compare items like node attributes. It is useful for dense graphs, giving additional insights to clustering.
+
+Jaccard Similarity, a term coined by Paul Jaccard, measures similarities and differences between sample sets with discrete attributes, assigning a coefficient to each pair of nodes. It is defined as the size of the intersection divided by the size of the union of two sets. 
+
+Similarity can be applied to recognise prescription patterns, finding doctors with the same characteristics.
+
 \section{Tools}
 Modern technologies make possible to process big data with reduced costs: there are plenty of data stores, development and integration tools for each research purpose. 
 
@@ -84,7 +214,8 @@ Since the project requires a relational structure along with statistical computi
 	\item \textbf{PostgreSQL}\cite{pg}, an open source object-relational database management system known for its robustness and reliability:
 	\begin{itemize}
 		\item The development platform to interface with the web server containing the dataset is \textbf{PgAdmin 4};
-		\item Indexes and Common Table Expressions are useful to avoid huge computational times.
+		\item Indexes and Common Table Expressions are useful to avoid huge computational times;
+		\item Database interrogations and functions give a schema overview to then apply further grouping and filtering.
 	\end{itemize}
 	\item \textbf{Neo4j}\cite{neo}, a native graph database which gives data a different representation, processing entities as nodes while highlighting their connections:
 	\begin{itemize}

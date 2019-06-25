@@ -58,7 +58,7 @@ Drugs are dispensed according to the national guidelines\cite{ricette}, with the
 	\item RMR (Ministerial Tracing Prescription), for narcotics and psychotropic substances.
 \end{itemize}
 
-\subsection{Drugs and prescriptions}  
+\subsection{Pharmaceutical products and prescriptions}  
 The Italian Pharmacy Agency (AIFA) is the public institution for regulatory activity of drugs in Italy. Its main duty consists in all the activities related to the regulatory process of drugs, registering and authorising them to commercialization with a negotiated price. 
 
 Before a drug can be sold in pharmacies among the Italian territory, it must have received the authorisation by AIFA: each medicine is subject to checks regarding chemical, pharmaceutical, biological, toxicological, and clinical aspects and researches, to see if it satisfies security and efficacy standards\cite{aic}.
@@ -140,30 +140,57 @@ Health information is understood and appraised among Electronic Health Records, 
 Electronic Health Records is a widespread application of big data in medicine. Patients have their own digital record which includes demographics, medical history, allergies, laboratory test results etc. Records are shared via secure information systems and are available for providers from both public and private sector\cite{datapine}.
 
 \subsection{In Italy}
-% dati, collezione
+Italy has different typologies of data collection, distinguished by both the source and the practical applications. Production is gathered in three different channels, with eventual derivations.
 
-% come sono raccolti: società, promofarma (farmacisti, organizza informaticamente i dati e li vende → aziende farmaceutiche), agenzia delle entrate (codice fiscale), spiegare come sono organizzati ecc
+\subsubsection{Public data}
+Public data is produced by public institutions, using the national registries forms submitted by taxpayers and personal data of services users.
 
-Ministero della Salute (Health Ministry) is the national entity to promote health as a fundamental right, and has an open data system containing chronic and rare disease, public structures and medical devices classification. 
+Ministero della Salute (Health Ministry) is the national entity to promote health as a fundamental right, and owns an open data system containing information about chronic and rare diseases, public structures and medical devices classification. 
+
+The purpose of public datasets is mainly informative, since data is already presented in an aggregated form.
+
+Personal data of patients is collected by Agenzia delle Entrate, having the duty of collecting taxes and revenues. Sanitary expenses are detracted from taxes, including partial costs of pharmaceutical products. 
+
+Agenzia delle Entrate produces a preventive and consumptive balance sheet every year, elaborating results of various duties and concessions.
 
 Another national source of healthcare information is ISTAT (National Institute of Statistics), collecting data, microdata and metadata to make analysis and classifications. Its main areas concern suicides, road accidents and mental health.
 
 Public data consists in a small part compared to all the existing datasets concerning Italy, which are currently private.
 
+\subsubsection{Pharmaceutical data}
+Pharmaceutical data has as its source the activity of pharmacies, interacting with the market while buying and selling both OTC products and prescribed ones.
+
+Promofarma is the main commercial society dedicated to prescriptions data collecting, offering:
+\begin{itemize}
+	\item Studies on pharmaceutical expense and profitability;
+	\item Outsourcing services for local network handling.
+\end{itemize}
+
+It organises information to then aggregate and send it to public services, publishing private reports on consumption trends. Analysis is made according to various granularity levels.
+
+Data is electronically transmitted to Ministero dell'Economia e delle Finanze (Economy and Finance Ministry) and Ministero della Salute (Health Ministry), and all pharmacies must monthly submit records\cite{promofarma}. About 400 millions of prescriptions are sent every year.
+
+\subsubsection{Private service providers}
+Private healthcare data is produced by individuals (i.e.\ general practitioners) or structures agreeing to use a proprietary storage system, submitting information to companies.
+
 Instances of private healthcare industry services providers are:
 \begin{itemize}
-	\item IMS Health (IQVIA), one of the largest vendors of data, collecting electronic health records and prescription data;
+	\item IMS Health, one of the largest vendors of data, collecting electronic health records and prescription data:
+	\begin{itemize}
+		\item IQVIA integrates data science with human science, automatizing health processes with information services;
+	\end{itemize}
 	\item Complion, a document management and workflow platform for clinical research sites;
 	\item Millenium, offering a suite of proprietary systems of family medicine applications on a national level.
 \end{itemize}
 
+Those channels make a preprocessing action, outputting derived data to be linked with evidence and analytics for concrete decisions making.
 
- 
-
-% 3 canali di produzione del dato (medici, farmacisti, ae) + canale derivato aicuvia
+Results are sold to research centres and pharmaceutical companies to make custom analytics based on specific needs and desired outcomes. 
 
 \section{Data classification}
-Healthcare data needs to be classified according to national or international standards, in a way that information cannot be misinterpreted and fields can be mapped to wider categories. Some standardization exists in the way data is captured.
+Analytical processes require precise standards concerning data integrity and availability, since decision-making processes must be reliable and transparent.
+
+Healthcare data, during the collection and parsing processes, needs to be classified according to national or international standards, in a way that information cannot be misinterpreted and fields can be mapped to wider categories. Some standardization exists in the way data is captured.
 
 \subsection{ICD}
 ICD (International Classification of Diseases) is the foundation for global identification of health trends and statistics, and the international standard for reporting diseases and health conditions. It is the diagnostic classification standard for all clinical and research purposes\cite{who}, maintained by the World Health Organization (WHO).
@@ -243,6 +270,15 @@ AIC establishes:
 \end{itemize}
 
 Every possible modification of those characteristics involves a further request for authorization to AIFA. Official databases such as Fedefarma contain information related to every product, along with its eventual expire of authorisation.
+
+\subsection{Privacy concerns}
+Healthcare is a highly regulated industry where the ability to achieve, maintain and efficiently demonstrate regulatory compliance improves the organizations' overall security posture, allowing them to focus on patient care and improved outcomes. 
+
+When implemented with complimentary solutions, data classification can play a pivotal role in managing regulated data with precision, effectiveness and a level of efficiency that allows healthcare organizations the opportunity to properly focus on their core mission\cite{privacy}.
+
+The General Data Protection Regulation (GDPR) recognises data concerning health as a special category of data, and provides a definition for health data for data protection purposes. Specific safeguards for personal health data and for a definitive interpretation of the rules that allows an effective and comprehensive protection of such data have been addressed by the GDPR. 
+
+Processes that foster innovation and better quality healthcare need robust data protection safeguards in order to maintain the trust and confidence of individuals in the rules designed to protect their data\cite{gdpr}.
 
 \section{Healthcare analytics}
 \textbf{Healthcare analytics} is a field of growing importance which helps understanding the statistical perspective of results collected in the healthcare area. 

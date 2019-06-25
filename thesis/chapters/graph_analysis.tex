@@ -1,5 +1,23 @@
 \chapter{Graph analysis}
-% todo citare documentazione di neo4j
+
+\section{Graph databases}
+Graph databases are data management systems allowing persistent representation of entity and relationship in a graph structure, implementing the Property Graph Model efficiently down to the storage level.
+
+A graph $G\: =\: <E, V>$ is an abstract data type showing connections (edges $E$) between pairs of vertices ($V$). Nodes identify entities and their properties, while relationships are joining attributes between tables with eventual additional characteristics. 
+
+Unlike other databases, relationships take first priority. A graph database is purpose-built to handle highly connected data, providing great performance, flexibility and frictionless development.
+
+Queries allow to match pattern of nodes and relationships in a graph, providing ACID transaction compliance without specifying details on how to implement operations. Graph-crossing and related algorithms are highly efficient.
+
+\subsection{An overview on Neo4j}
+Neo4j is an online graph database management system with Create, Read, Update and Delete (CRUD) operations working on a graph data model. The data model for a graph database is also significantly simpler and more expressive than those of relational or other NoSQL databases.
+
+In Neo4j, everything is stored in the form of an edge, node, or attribute. Each node and edge can have any number of attributes, and both nodes and edges can be labelled. Labels can be used to narrow searches, improving speed.
+
+Queries are written using Cypher, a declarative graph query language that allows for expressive and efficient querying and updating of the graph. 
+
+Cypher is inspired by a number of different approaches and builds on established practices for expressive querying, with SQL-inspired keywords and high-level semantics\cite{neo4jdocumentation}.
+
 \section{Prescription coupling}
 An excessive usage of antibiotics causes death of microorganisms in the human body which provide to maintaining immune cells and killing certain oral infections\cite{bacteria}.
 
@@ -7,27 +25,20 @@ To equilibrate the intestinal flora, lactic ferments are often taken together wi
 
 If this hypothesis is correct, the dataset will show antibiotic prescriptions paired with other drugs, on the same date --- or it will highlight potential linkings between infections and other pathologies receiving a specific prescription.
 
-\section{Graph databases}
-Graph databases are data management systems allowing persistent representation of entity and relationship in a graph structure, implementing the Property Graph Model efficiently down to the storage level. % todo citare le slide di maurino
-
-A graph $G\: =\: <E, V>$ is an abstract data type showing connections (edges $E$) between pairs of vertices ($V$). Nodes identify entities and their properties, while relationships are joining attributes between tables with eventual additional characteristics. 
-
-Queries allow to match pattern of nodes and relationships in a graph, providing ACID transaction compliance without specifying details on how to implement operations. Graph-crossing and related algorithms are highly efficient.
-
 \section{Goals}
 Goals of analytics through graphs is completion of antibiotic patterns changes and patient journey, providing a different point of view on those two important aspects altogether.
 
 This part of the research aims to focus on:
 \begin{itemize}
 	\item Co-prescriptions, understanding whether specified couples of drugs are often prescribed together;
-	\item Clustering, to identify similar kinds of patients according to their prescription history;
+	\item Clustering in communities, to identify similar kinds of doctors according to their prescription history;
 	\item Centrality measures of nodes, to highlight particularly important entities in the graph.
 \end{itemize}
 
 \section{Practical approach}
 
 \subsection{Relational database structure}
-The available data comprehends patients, general practitioners, and their prescriptions in the time span from 2000 to 2018. Summarising the amount of records for each entity:
+The available data comprehends patients, general practitioners, and their prescriptions in the time span from 2000 to 2018, located in Campania. Summarising the amount of records for each entity:
 \begin{itemize}
 	\item 888 219 patients;
 	\item 2 486 doctors;
@@ -37,7 +48,7 @@ The available data comprehends patients, general practitioners, and their prescr
 
 Due to the amount and veracity of data, identifying a subset of records is useful to have detailed and targeted results, removing dispersive information and leaving a restricted pool of prescriptions, setting acceptability conditions. 
 
-Since analytics are aimed to identify antibiotic prescription patterns, similarly to previous work a new dataset has been extracted, imposing the following constraints:
+Since analytics are aimed to identify antibiotic prescription patterns, similarly to past approaches, a new dataset has been extracted, imposing the following constraints:
 \begin{enumerate}
 	\item AIC corresponding to an antibiotic;
 	\item Prescription date between 2008-01-01 and 2017-12-31;
@@ -45,7 +56,7 @@ Since analytics are aimed to identify antibiotic prescription patterns, similarl
 	\item Patients with usable information about sex, date of birth and location.
 \end{enumerate}
 
-This leads to obtaining a new relationship, composed by:
+This leads to obtaining a new model, composed by:
 \begin{itemize}
 	\item 670 634 patients;
 	\item 1 377 doctors;
@@ -59,8 +70,18 @@ To allow analytics on patient journey and co-prescriptions, it is necessary to a
 	\item Prescription date between 2008-01-01 and 2017-12-31.
 \end{enumerate}
 
-This reduces the number of other prescriptions, adding drugs not belonging to the antibiotic class. Duplicates, mistakes and empty fields are removed. The final composition of data is:
+This reduces the number of other prescriptions, adding drugs not belonging to the antibiotic class. Duplicates, mistakes and empty fields are removed. 
 
+Information loss is displayed in the figure below:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.33]{../plots/graph-barplots.png}
+	\caption{\small Information loss barplot, Campania Millennium database}
+\end{figure}
+
+Values of prescriptions and medicines are aggregated in the plot, including both antibiotics and other drugs. The amount of removed prescriptions is most likely caused by the strict constraint of couples having the same date.
+
+The final detailed composition of data is:
 \begin{itemize}
 	\item 670 634 patients;
 	\item 1 377 doctors;
@@ -70,7 +91,7 @@ This reduces the number of other prescriptions, adding drugs not belonging to th
 	\item 21 248 other medicines.
 \end{itemize}
 
-% todo grafici
+The resulting structure is an unweighted directed graph.
 
 \subsection{Migration of the database and graph modelling}
 The database has to be structured following the SQL to Cypher practices and guidelines, assigning nodes and relationships in an appropriate way considering the existing dataset and the related goals.
@@ -87,11 +108,11 @@ After having a final version of the data to import, the entity-relationship mode
 	\end{itemize}
 	\item Antibiotic;
 	\begin{itemize}
-		\item AIC code, ATC code, active principle;
+		\item AIC code, ATC code;
 	\end{itemize}
 	\item Medicine (anything not Antibiotic);
 	\begin{itemize}
-		\item AIC code, ATC code, active principle;
+		\item AIC code, ATC code;
 	\end{itemize}
 	\item Prescription;
 	\begin{itemize}
@@ -107,13 +128,11 @@ All nodes are imported, and main indexes are created for optimisation of queries
 \begin{itemize}
 	\item Prescription $-$ TO $\rightarrow$ Patient;
 	\item Prescription $-$ FROM $\rightarrow$ Doctor;
-	\item OtherPrescription $-$ OF $\rightarrow$ Antibiotic;
+	\item Prescription $-$ OF $\rightarrow$ Antibiotic;
 	\item OtherPrescription $-$ TO $\rightarrow$ Patient;
 	\item OtherPrescription $-$ FROM $\rightarrow$ Doctor;
 	\item OtherPrescription $-$ OF $\rightarrow$ Medicine.
 \end{itemize}
-
-After migrating all elements of the graph database, additional features of Patient representing age is added. Since age changes within years, and the considered timespan is 2008-2017, 10 node properties are created for each patient (age2008, age2009, \dots). %todo
 
 \section{Visualisation and analytics}
 \subsection{Sample graph}
@@ -122,15 +141,21 @@ A sample graph is obtained using the \texttt{apoc} functions.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{./images/sample-graph.png}
+	\caption{\small Sample graph, Campania Millennium database}
 \end{figure}
-
 
 \subsection{Examples}
 An example of graph subset can be obtained extracting one of the individuals with the most antibiotic prescriptions (the 10th in descending order), a male patient born in 1943, and his associated drugs and doctors.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.135]{./images/patient.png}
+	\caption{\small View focussed on patient, Campania Millennium database}
+\end{figure}
+
 The graph displays:
 \begin{enumerate}
-	\item 1 patient, the green node in the middle;
+	\item 1 patient, the green node in the centre;
 	\item 360 antibiotic prescriptions, the pink nodes;
 	\item 524 other prescriptions, the brown nodes;
 	\item 4 doctors, the light blue nodes;
@@ -138,25 +163,25 @@ The graph displays:
 	\item 59 other medicines, the blue nodes. 
 \end{enumerate}
 
+From this first patient-centred visualisation of the graph is possible to identify different behaviours of general practitioners: each one of them is linked to specific antibiotics and medicines.
+
+To have a view focussed on prescriptions, the same procedure is applied extracting the 500th antibiotic in descending order according to number of prescriptions, corresponding to Locabiotal spray bottle 15 ml (50 mg / 5 ml).
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.135]{./images/patient.png}
+	\includegraphics[scale=0.1]{./images/antibiotic.png}
+	\caption{\small View focussed on antibiotic, Campania Millennium database}
 \end{figure}
 
-Having a view focussed on prescriptions, the same procedure is applied extracting the 500th antibiotic in descending order according to number of prescriptions, corresponding to Locabiotal spray bottle 15 ml (50 mg / 5 ml).
-
-The graph displays:
+The previous graph displays:
 \begin{enumerate}
-	\item 1 antibiotic, the orange node in the middle;
+	\item 1 antibiotic, the orange node in the centre;
 	\item 896 antibiotic prescriptions, the pink nodes;
 	\item 107 doctors, the light blue nodes;
 	\item 817 patients, the green nodes.
 \end{enumerate}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.11]{./images/antibiotic.png}
-\end{figure}
+The same antibiotic is prescribed by several doctors, although only 7\% of total. There are nodes single-handedly taking a relevant slice of prescriptions (left center and right center), yet most of them is not a habitual prescriber.
 
 Those two examples allow to have a general idea of how nodes interact with each other, grouping in clusters. 
 
@@ -192,12 +217,13 @@ Since the restriction on generic prescriptions involves having the same date and
 
 After counting the number of repetitions for each couple Antibiotic-Medicine, the first 100 most popular ones are used to couple nodes, with the amount as property of the relationship PRESCRIBED\_WITH.
 
-Visualising the newly created relationships, two connected components are highlighted (orange antibiotics, blue other medicines).
-
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.4]{./images/couples-graph.png}
+	\includegraphics[scale=0.3]{./images/couples-graph.png}
+	\caption{\small Co-prescriptions graph, Campania Millennium database}
 \end{figure}
+
+Visualising the newly created relationships, two connected components are highlighted (orange antibiotics, blue other medicines).
 
 The component with only one couple corresponds to Plaquenil - Deltacortene, prescribed together approximately 5 000 times. Plaquenil can be used as antibiotic (antimalarial), but it is mostly given to treat arthritis, while Deltacortene is a corticosteroid for rheumatisms. 
 
@@ -217,6 +243,12 @@ All the antibiotics are among the most prescribed ones, which justifies their pr
 \subsection{Projecting prescriptive habits}
 Having a detailed view of doctors' most common prescriptions gives another insight on how antibiotics are related.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.09]{./images/doctors-antibiotics-graph.png}
+	\caption{\small Most prescribed antibiotics graph, Campania Millennium database}
+\end{figure}
+
 The three most prescribed antibiotics for each doctor are taken, along with their count, and a new relationship OFTEN\_PRESCRIBED between Doctor and Antibiotic is created. Only amounts of prescriptions greater or equal to 50 are taken into account, for consistency of results, resulting in 2 353 links.
 
 The obtained graph displays:
@@ -225,21 +257,28 @@ The obtained graph displays:
 	\item 95 antibiotics, the orange nodes.
 \end{enumerate}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.11]{./images/doctors-antibiotics-graph.png}
-\end{figure}
+There are a few antibiotics in the center, linked to a large amount of doctors, and external antibiotic nodes having rare prevalence.
 
-Comparing the quantity of antibiotics and doctors and their relationships, it can be seen that most doctors prescribe a very restricted set of antibiotics.
+Comparing the quantity of antibiotics and doctors and their relationships, it can be seen that most doctors prescribe a very restricted set of antibiotics. 
 
 To have a better understanding of the popularity of specific drugs, an auxiliary relationship PRESCRIBED\_BY\_SAME\_DOCTOR is created between Antibiotics. 
 
-Antibiotics are interlinked with 294 new relationships:
+Antibiotics are interlinked with new relationships:
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{./images/antibiotics-graph.png}
+	\caption{\small Antibiotics prescribed by same doctors, Campania Millennium database}
 \end{figure}
+
+95 nodes are connected by 294 relationships.
+
+The previous graph confirms the discrepancy between popularity of antibiotics. Nodes on the top left have a higher number of connections, while ones on the bottom right tend to have fewer prescriptions.
+
+One hypothesis consists in having a subset of common antibiotics shared between most general practitioners, and another one of individual preferences.
+
+\section{Graph algorithms}
+Graph algorithms are the powerhouse behind analytics for connected systems. These algorithms use the connections between data to evaluate and infer the organization and dynamics of real-world systems\cite{neo4jdocumentation}.
 
 \subsection{Centrality algorithms}
 
@@ -251,7 +290,7 @@ Each node receives a score, based on the number of these shortest paths that pas
 Betweenness among the top 5 antibiotics:
 \begin{center}
 	\begin{tabular}{c|c}
-		Antibiotic & Centrality \\
+		Antibiotic & Betweenness \\
 		\hline
 		Augmentin (tablets) & 2 562 \\
 		\hline
@@ -264,6 +303,8 @@ Betweenness among the top 5 antibiotics:
 		Augmentin (bottles) & 489,93 \\
 	\end{tabular}
 \end{center}
+
+As expected, the most prescribed antibiotics have the highest betweenness scores: since they often get prescribed, the number of relationships involving the nodes is high, increasing the probability of a shortest path crossing them.
 
 \subsubsection{Degree}
 Degree Centrality is the simplest of all the centrality algorithms. It measures the number of incoming and outgoing relationships from a node, analysing its influence.
@@ -285,6 +326,10 @@ Degree among the top 5 antibiotics, according to co-prescriptions:
 	\end{tabular}
 \end{center}
 
+Results are similar to Betweenness Centrality, as expected: most prescribed products have the largest number of paths.
+
+Another approach of Degree Centrality analysis involves general practitioners, to understand their influence as prescribers.
+
 Calculating degree among doctors is useful to determine whether the top antibiotics prescribers are also the top prescribers, using the top 5 doctors.
 
 \begin{center}
@@ -305,33 +350,99 @@ Calculating degree among doctors is useful to determine whether the top antibiot
 
 Seeing the obtained results, the overprescribing of some general practitioners is clear: most of them makes a number of antibiotic prescriptions equal to others having double the amount of patients.
 
-Doctors prescribing too much and not strictly when needed is one of the main causes of antibiotic resistance in Italy.
+Doctors prescribing too much and not strictly when needed is one of the main causes of antibiotic resistance in Italy, therefore further analysis is required to assess changes in patients numbers and break down results in shorter time spans.
 
-% todo closeness?
+\subsection{Graph sampling}
+Machine learning algorithms need a heavy amount of resources and computational time, therefore running clustering on a graph with nodes in the magnitude order of millions is not the best practice to extract insightful information in limited time.
 
-\subsection{Community detection}
-% cos'è la CD e perché
+Imposing small time ranges and only relevant features (lower bound on prescriptions) improves not only machine usage, but also accuracy of data. 
 
-Communities are identified according to patients getting the same antibiotic or other medicine. To ease computational time, a new relationship GETS is created, with an attribute representing the number of time a patient received that determined prescription.
+A new subset is extracted, selecting all data from the year 2017 of patients having at least 10 antibiotic prescriptions during that year.
 
- \begin{wrapfigure}{L}{0.4\textwidth}
-	\vspace{-10pt}
-	\includegraphics[width=0.4\textwidth]{./images/patient-gets-graph.png}
-	\vspace{-30pt}
-\end{wrapfigure}
+The new database is composed by:
+\begin{itemize}
+	\item 8 228 patients;
+	\item 115 443 antibiotic prescriptions;
+	\item 775 doctors;
+	\item 946 antibiotics;
+	\item 181 016 other prescriptions;
+	\item 4 654 other medicines.
+\end{itemize}
 
-Since data is in the magnitude order of millions, only the top 10 most frequent antibiotics and medicines are selected, creating roughly 2 millions of relationships between 580 282 patients and 20 total drugs.
+Having a time range of one year and only considering patients getting antibiotic prescriptions rather often does not offer additional information on antibiotic resistance, yet it allows to obtain relevant patterns of prescribing habits.
 
-This means 85,5\% of patients received a prescription among a subset representing 0,08\% of antibiotics and other medicines.
+The output of graph processing will be used to apply computationally expensive graph algorithms. 
 
 \subsection{Similarity detection}
+Jaccard similarity is computed among doctors, considering the Cartesian product of nodes (775 $\times$ 775) with a threshold of 0.4 as coefficient. The result consists in about 500 values, which show the presence of clusters. The considered parameter to determine similarity is antibiotic prescribing (relationship between doctors and antibiotics), therefore linked nodes have the same habits.
 
+The algorithm computes for each node, the most similar other node, according to the maximum Jaccard coefficient.
+
+Doctors are then assigned a link, connecting similar pairs. Since a single doctor can be the most similar to several ones, nodes tend to group in clusters: connected components have a high probability of having common prescription patterns. 
+
+A large cluster on the right groups most of general practitioners, confirming the hypothesis of popular antibiotics prescribed by the majority of individuals.
+
+Going into a higher level of detail, Augmentin and Normix are the most common prescriptions, yet a single doctor often leans towards one of the two instead of giving them both to patients. 
+
+There also is a pair of doctors connecting different components of the graph, acting as a ``bridge'' between prescribers of different antibiotics.\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.15]{./images/similarity-doctors.png}
+	\caption{\small Similarity on doctors, Campania Millennium database}
+\end{figure}
+
+\subsection{Community detection}
+The concept of community refers to the structure (topological and relational aspects) of dense sub-components of a graph. Node attributes are considered as well, to obtain additional inferences on their membership. Data is linked with discrete attributes, and applications are based on graphs properties.
+
+Identifying communities allows to understand the global functioning and relationships between individuals with the same features. Different groups interact between one another, and can be related, giving information on the global schema.
+
+Communities are identified between doctors according to their similarity, based on antibiotic prescriptions and resulting in 526 communities, 495 of which are composed by a singlet. The presence of clusters implies that groups of doctors have the same prescriptive habits, while others do not fall in any specific category.
+
+Results are similar to the $k$-means approach, although the considered dataset is significantly smaller: each community is distinguished by relevant characteristics, taking into account additional factors such as the amount of different products.
+
+The first 5 communities in terms of numerosity are:
+\begin{center}
+	\begin{tabular}{c|c|c}
+		Community & Doctors  & Characteristic \\
+		\hline
+		9 & 48 & Large Normix prescriptions \\
+		\hline
+		26 & 41 & Rare prescribers \\
+		\hline
+		11 & 31 & All antibiotics prescribers, large amount \\
+		\hline
+		0 $\cup$ 51 & 30 + 25 & All antibiotics prescribers, medium amount \\
+		\hline
+		17 & 16 & Large Augmentin prescribers \\
+		\hline
+	\end{tabular}
+\end{center}
+\medskip
+As expected, Normix and Augmentin prescribers are different classes of doctors: since both antibiotics are wide spectrum, the preference is most likely influenced by promotional factors or personal bias.
+\medskip
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.11]{./images/community-doctors.png}
+	\caption{\small Communities on doctors, Campania Millennium database}
+\end{figure}
 
 \section{Considerations}
+Graph databases offer a completely different perspective compared to relational ones, allowing to understand behaviour of nodes and linkage between them.
 
+Despite not having a relationship between each pair of node, the whole graph can be efficiently crossed through paths, displaying different views focussed on nodes or their type while linking them to the whole structure. 
 
+Building targeted datasets and extracting features is immediate, adding relationships with eventual weight and filtering according to properties.
 
+Those datasets or query results are fed to graph algorithms, which automatically stream or add resulting properties to then make further considerations without having to export data in a format readable by programming languages.
 
+The main issue is encountered while handling large amount of data: performance with ~200k nodes is optimal, yet scaling in the order of millions makes computationally expensive algorithms impossible to run in an acceptable amount of time.
 
+Results are consistent with other machine learning approaches and exploration analytics, providing different methodologies to improve speed and comprehension.
 
+Concrete outcomes after an approach with graphs consist in a further confirmation of the issue of antibiotic resistance, comparing doctors' degree to their number of patients and analyzing their prescriptive habits which, although clear, are concerning.
+
+Co-prescriptions also highlight a major prevalence of a smaller set of products, influenced by the pressure of pharmaceutical companies and majorly prescribed for common diseases. 
+
+Future work requires a detailed analysis on variations through time, understanding the relationship between number of patients and prescriptions. 
 
