@@ -36,10 +36,26 @@ png(filename=paste(image_path, "pj-barplots.png", sep=""), width=1390, height=60
 dev.off()
 
 
+df <- data.frame(Patients=c(888219, 670634), GPs=c(2486, 1377), Medicines=c(33523, 23713), Prescriptions=c(118, 16), Data=c("Total", "Graph"))
+
+p1 <-ggplot(data=df, aes(x=Data, y=Patients)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p2 <-ggplot(data=df, aes(x=Data, y=GPs)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p3 <-ggplot(data=df, aes(x=Data, y=Medicines)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma)
+p4 <-ggplot(data=df, aes(x=Data, y=Prescriptions)) +
+  geom_bar(stat="identity") + scale_y_continuous(labels=comma) + labs(y="Millions of prescriptions")
+
+png(filename=paste(image_path, "graph-barplots.png", sep=""), width=1400, height=450, res=200)
+
+  p <- grid.arrange(p1, p2, p3, p4, ncol=4)
+  print(p)
+
+dev.off()
+
+
 # information loss plot
-# ilp <- data.frame(label=c("Correct data", "Date out of range", "Incorrect sex", "Null province", "Two or more constraints not respected"), value=c(70, 20, 9, 1))
-                  
-# value=c(713352, 200159, 1919, 9052, 91136)
 
 ilp <- c("Correct data" = 70, "Date out of range" = 20, "Incorrect sex" = 9, "Null province" = 1, "Two or more constraints \nnot respected" = 10)
 

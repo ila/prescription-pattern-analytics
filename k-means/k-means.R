@@ -30,8 +30,8 @@ data2010 <- read.csv(paste(path, "dataset2010.csv", sep=""))
 data2017$userid <- as.factor(data2017$userid)
 data2010$userid <- as.factor(data2010$userid)
 
-subset2017 <- scale(data2017[,2:9])
-subset2010 <- scale(data2010[,2:9])
+subset2017 <- data2017[,2:9]
+subset2010 <- data2010[,2:9]
 
 # subset2017 <- data2017[-1]
 # subset2010 <- data2010[-1]
@@ -49,18 +49,37 @@ nc2010 <- NbClust(subset2010, min.nc=2, max.nc=20, method="centroid")
 
 w2017 <- fviz_nbclust(subset2017, kmeans, method = "wss")
 s2017 <- fviz_nbclust(subset2017, kmeans, method = "silhouette")
+n2017 <- grid.arrange(w2017, s2017, ncol=2, top="Year: 2017")
 
 w2010 <- fviz_nbclust(subset2010, kmeans, method = "wss")
 s2010 <- fviz_nbclust(subset2010, kmeans, method = "silhouette")
+n2010 <- grid.arrange(w2010, s2010, ncol=2, top = "\nYear: 2010")
 
-png(filename=paste(path, "optimal-clusters.png", sep=""), width=3500, height=2000, res=300)
-  print(do.call("grid.arrange", c(list(w2017, s2017, w2010, s2010), ncol=2)))
+png(filename=paste(path, "optimal-clusters.png", sep=""), width=2000, height=1750, res=300)
+  print(do.call("grid.arrange", c(list(n2017, n2010), nrow=2)))
 dev.off()
 
 
 # approach with 2 clusters
-clusters2017 <- kmeans(subset2017, centers=2, iter.max=100, nstart=25)
-clusters2010 <- kmeans(subset2010, centers=2, iter.max=100, nstart=25)
+clusters2017 <- kmeans(subset2017, centers=4, iter.max=100, nstart=25)
+clusters2010 <- kmeans(subset2010, centers=4, iter.max=100, nstart=25)
+
+clusters2017_2 <- kmeans(subset2017, centers=2, iter.max=100, nstart=25)
+clusters2010_2 <- kmeans(subset2010, centers=2, iter.max=100, nstart=25)
+
+c2010 <- grid.arrange(fviz_cluster(clusters2010, data = subset2010), ncol=1, top = "\nYear: 2010")
+c2017 <- grid.arrange(fviz_cluster(clusters2017, data = subset2017), ncol=1, top = "\nYear: 2017")
+
+c2010_2 <- grid.arrange(fviz_cluster(clusters2010_2, data = subset2010), ncol=1, top = "\nYear: 2010")
+c2017_2 <- grid.arrange(fviz_cluster(clusters2017_2, data = subset2017), ncol=1, top = "\nYear: 2017")
+
+png(filename=paste(path, "clusters-2.png", sep=""), width=2500, height=2500, res=300)
+  print(do.call("grid.arrange", c(list(c2010_2, c2017_2), nrow=2)))
+dev.off()
+
+png(filename=paste(path, "clusters-4.png", sep=""), width=2500, height=2500, res=300)
+print(do.call("grid.arrange", c(list(c2010, c2017), nrow=2)))
+dev.off()
 
 
 # plotcluster(subset2010, clusters2010$cluster)
@@ -83,13 +102,13 @@ sd(data2010[clusters2010$cluster==1,]$prescriptions)
 sd(data2010[clusters2010$cluster==2,]$prescriptions)
 # 5123.937
 
-mean(data2010[clusters2017$cluster==1,]$prescriptions)
+mean(data2017[clusters2017$cluster==1,]$prescriptions)
 # 12963.48
-mean(data2010[clusters2017$cluster==2,]$prescriptions)
+mean(data2017[clusters2017$cluster==2,]$prescriptions)
 # 12310.55
 
-sd(data2010[clusters2017$cluster==1,]$prescriptions)
+sd(data2017[clusters2017$cluster==1,]$prescriptions)
 # 7417.134
-sd(data2010[clusters2017$cluster==2,]$prescriptions)
+sd(data2017[clusters2017$cluster==2,]$prescriptions)
 # 6592.356
 

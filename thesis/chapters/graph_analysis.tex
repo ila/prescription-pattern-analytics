@@ -145,7 +145,7 @@ A sample graph is obtained using the \texttt{apoc} functions.
 \end{figure}
 
 \subsection{Examples}
-An example of graph subset can be obtained extracting one of the individuals with the most antibiotic prescriptions (the 10th in descending order), a male patient born in 1943, and his associated drugs and doctors.
+An example of graph subset can be obtained extracting one of the individuals with the most antibiotic prescriptions (the 10th in descending order), a male patient born in 1943, and his associated drugs and doctors. The prescriptions history in 10 years is displayed below.
 
 \begin{figure}[h]
 	\centering
@@ -186,7 +186,7 @@ The same antibiotic is prescribed by several doctors, although only 7\% of total
 Those two examples allow to have a general idea of how nodes interact with each other, grouping in clusters. 
 
 \subsection{Graph statistics}
-A first set of global and local statistics are used to get the first insight on the graph and its components.
+A first set of global and local statistics are used to get the first insight on the graph and its components, using 10 years of data.
 
 \begin{center}
 	\begin{tabular}{c|c}
@@ -257,7 +257,7 @@ The obtained graph displays:
 	\item 95 antibiotics, the orange nodes.
 \end{enumerate}
 
-There are a few antibiotics in the center, linked to a large amount of doctors, and external antibiotic nodes having rare prevalence.
+There are a few antibiotics in the centre (Augmentin and Normix), linked to a large amount of doctors, and external antibiotic nodes having rare prevalence.
 
 Comparing the quantity of antibiotics and doctors and their relationships, it can be seen that most doctors prescribe a very restricted set of antibiotics. 
 
@@ -294,11 +294,11 @@ Betweenness among the top 5 antibiotics:
 		\hline
 		Augmentin (tablets) & 2 562 \\
 		\hline
-		Normix & 1 852, 74 \\
+		Normix & 1 852,74 \\
 		\hline
-		Velamox & 683, 78 \\
+		Velamox & 683,78 \\
 		\hline
-		Ciproxin & 562, 71 \\
+		Ciproxin & 562,71 \\
 		\hline
 		Augmentin (bottles) & 489,93 \\
 	\end{tabular}
