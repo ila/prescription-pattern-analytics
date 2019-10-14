@@ -1,12 +1,14 @@
 \chapter{Antibiotic trends analytics}
-Having obtained a general analytical view on couples of first-time diagnoses and prescriptions, and cross-checking those results with global trends, the research focusses on antibiotic prescriptions to identify changes of patterns.
+This chapter deals with antibiotic resistance, highlighting values through aggregation and visualisation of time spans to verify trends and variations. 
 
-Defined time frames in limited temporal windows are selected to make a detailed trajectory analysis related to prescriptive appropriateness compared to antibiotic resistance, without going into details of pathologies.
+Having obtained a general analytical view on couples of first-time diagnoses and prescriptions, and cross-checking those results with global trends, the research can focus on \textbf{antibiotic prescriptions} to identify \textbf{changes of patterns.}
 
-Such analytics are useful for research, highlighting rising health issues alongside the AIFA reports, and to support pharmaceutical companies using the potentiality of healthcare data. Having information about AICs allows to give a new insight not only on ethical matters, but also on the global market trends.
+\textit{Defined time frames in limited temporal windows} are selected to make a detailed trajectory analysis related to prescriptive appropriateness compared to antibiotic resistance, without going into details of pathologies.
+
+Such analytics are useful for research, highlighting rising health issues alongside the AIFA reports, and to support pharmaceutical companies using the potentiality of healthcare data. Having information about AICs (different for each product) allows to give a new insight not only on ethical matters, but also on the \textit{global market trends}.
 
 \section{Identifying antibiotics}
-Antibiotics, also known as antibacterials, are medications produced by microorganisms that destroy or slow down the growth of bacteria. They include a range of powerful drugs and are used to treat diseases caused by bacteria. 
+Antibiotics, also known as antibacterials, are \textit{medications produced by microorganisms that destroy or slow down the growth of bacteria}\cite{antibiotic}. They include a range of powerful drugs and are used to treat diseases caused by bacteria. 
 
 A doctor can prescribe a broad-spectrum antibiotic to treat a wide range of infections. A narrow-spectrum antibiotic is only effective against a few types of bacteria. In some cases, a healthcare professional may prescribe to prevent rather than treat an infection, as might be the case before surgery. 
  
@@ -21,18 +23,20 @@ A doctor can prescribe a broad-spectrum antibiotic to treat a wide range of infe
  \end{itemize}
 
 \section{Subset extraction}
-The first criteria to impose, considering analytics is going to be made on antibiotic prescriptions, is the actual presence of such. This can be reworded by removing all data related to patients who never had a prescription of an ATC code among the ones previously listed.
+The first criteria to impose, considering analytics is going to be made on antibiotic prescriptions, is the actual presence of them. This can be reworded by removing all data related to patients who never had a prescription of an ATC code among the ones previously listed.
 
-There are 794 267 patient with at least one antibiotic prescription in the whole time range (2000-2018), whose total prescriptions consist in 114 044 470 tuples. This implies the remaining 200 000$\sim$ patients only have 4m$\sim$ prescriptions, which is probably justified by a healthier physical state.
+There are 794 267 patient with at least one antibiotic prescription in the whole time range (2000-2018), whose total prescriptions consist in 114 044 470 tuples. This implies the remaining $\sim$200 000 patients only have $\sim$4m of prescriptions, which is probably justified by a healthier physical state.
 
-Since antibiotics patterns are subject to major changes during years, a big amount of data can be dispersive: pharmaceutical companies make analysis only considering 2-3 years, yet for research purposes an intermediate range is the most informative. A good time span is 10 years, considering most recent ones: since 2018 has to be excluded due to incompleteness, 2008-2017 is the final choice.
+Since antibiotics patterns are subject to major changes during years, a big amount of data can be dispersive: pharmaceutical companies make analysis only considering 2-3 years, yet for research purposes an \textit{intermediate range} is the most informative. 
+
+A good time span consists in 10 years, considering most recent ones: since 2018 has to be excluded due to incompleteness, 2008-2017 is the final choice.
 
 Progressive data loss has to be considered, imposing additional constraints of completeness and accuracy. The latest version of the used dataset is a subset of the table prescriptions, with the following restrictions:
 \begin{itemize}
 	\item AIC corresponding to an antibiotic;
 	\item Prescription date between 2008-01-01 and 2017-12-31;
 	\item Active general practitioners;
-	\item Patients with usable information about sex, date of birth and location.
+	\item Patients with usable information about gender, date of birth and location.
 \end{itemize}
 
 The obtained record set is composed by 8 386 057 tuples, each representing a single prescription.
@@ -40,49 +44,56 @@ The obtained record set is composed by 8 386 057 tuples, each representing a sin
 \section{Global statistics}
 Global statistics help to have a general overview of the data, aggregating values to identify most impactful changes and the broad behaviour.
 
+Exploration analysis is performed again, extracting central tendency and dispersion to then perform time series analytics.
+
 \subsection{Average prescriptions}
 The average number of prescriptions has been calculated only considering the number of patients with at least one antibiotic prescription from 2008 onwards (670 634). 
 
-Values are calculated using the R functions \texttt{mean} and \texttt{sd}, only considering the number of patients who received at least one prescription in the determined year.
+Values are calculated only considering the number of patients who received at least one prescription in the determined year. Results are shown in table 8.1.
 
-\begin{center}
+\begin{table}
+	\centering
 	\begin{tabular}{c|c|c}
-		Year & Mean & Standard deviation \\
+		\textbf{Year} & \textbf{Mean} & \textbf{Standard deviation} \\
 		\hline
-		2008 & 2,72 & 2,73 \\
+		2008 & 2.72 & 2.73 \\
 		\hline
-		2009 & 2.75 & 2,78 \\
+		2009 & 2.75 & 2.78 \\
 		\hline
-		2010 & 2,72 &  2,76 \\
+		2010 & 2.72 &  2.76 \\
 		\hline
-		2011 & 2,69 &  2,73 \\
+		2011 & 2.69 &  2.73 \\
 		\hline
-		2012 & 2,68 & 2,76 \\
+		2012 & 2.68 & 2.76 \\
 		\hline
-		2013 & 2,74 & 2,84 \\
+		2013 & 2.74 & 2.84 \\
 		\hline
-		2014 & 2,79 & 2,88 \\
+		2014 & 2.79 & 2.88 \\
 		\hline
-		2015 & 2,79 & 2,79 \\
+		2015 & 2.79 & 2.79 \\
 		\hline
-		2016 & 2,77 & 2,91 \\
+		2016 & 2.77 & 2.91 \\
 		\hline
 		2017 & 2,72 & 2,84 \\
 	\end{tabular}
-\end{center}
+	\caption{\small Statistics on patients with antibiotic prescriptions}
+	\label{avgant}
+\end{table}
 
-Values show the mean tends to slowly increase, and although there are patients getting up to 30 antibiotic prescriptions each month, the standard deviation is low: the mode both for year and month is 1, so lower values weigh more.
+Values show the mean tends to slowly increase, and although there are patients getting up to 30 antibiotic prescriptions each month, the standard deviation is low: the mode both for year and month is 1, hence lower values weigh more.
 
-Statistics related to the number of patients with only one antibiotic prescription, making statistics comparing time spans between 2008-2017:
-\begin{center}
+Statistics related to the number of patients with \textbf{only one} antibiotic prescription, making statistics comparing time spans between 2008-2017:
+\begin{table}[h]
+	\centering
 	\begin{tabular}{c|c|c}
-		Interval & Mean & Standard deviation \\
+		\textbf{Interval} & \textbf{Mean for year} & \textbf{Standard deviation} \\
 		\hline
-		Year & 118 301,4 & 2 831,65 \\
+		Year & 118 301.4 & 2 831.65 \\
 		\hline
-		Month & 40 130,83 & 6 004,2 \\
+		Month & 40 130.83 & 6 004.2 \\
 	\end{tabular}
-\end{center}
+\caption{\small Statistics on patients with one prescription}
+\end{table}
 
 \subsection{Yearly prescriptions}
 The number of yearly antibiotic prescriptions is:
@@ -120,79 +131,101 @@ The number of yearly antibiotic prescriptions is:
 		\centering
 		\includegraphics[width=1\textwidth]{../plots/yearly_prescriptions.png}
 	\end{minipage}
+\caption{\small Yearly antibiotic prescriptions}
 \end{table}
 
-The 2012 fall might be caused by the substantial decrease of the approved antibiotics by AIFA\cite{calo}, but is noticeable that the number rises starting from 2013 due to antibiotic resistance. 
+The 2012 fall might be caused by a substantial decrease of the approved antibiotics by AIFA\cite{calo}, but is noticeable that the number rises starting from 2013 due to antibiotic resistance. 
 
-\subsection{Number of prescriptions trends}
-A barplot is the most informative way to visualise trending of number of prescriptions and highlight seasonality. For each month, the amount of patients having the number of prescriptions stated in the x-axis is plotted, using a logarithmic scale.
+\subsection{Seasonal prescriptions trends}
+A barplot is the most informative way to visualise trending of number of prescriptions and highlight seasonality. 
 
-The scale has been adopted to standardise the quantity of patients having a smaller number of prescriptions (1-2), giving higher bars to larger values.
+For winter and summer months, the amount of patients is crossed with the total prescriptions. The $x$-axis shows the number of prescription, while $y$ shows how many patients got that number. A logarithmic scale us used to standardise the quantity of patients having a smaller number of prescriptions (1-2), contrasting skewness towards large values.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.135]{../plots/prescriptions_number-month.png}
+	\includegraphics[scale=0.22]{../plots/prescriptions_number-month.png}
+	\caption{\small Number of prescriptions based on patients (2017)}
 \end{figure}
 
-In winter there are more patients having a larger number of prescriptions, while during the summer higher values tend to disappear and even patients with one prescription decrease.
+The considered year is 2017. The majority of patients gets only one prescription in all months, yet values change for instance from 28 000 to 40 000 from August to January.
+
+Furthermore, the number of patients having more than 2 prescriptions increases in winter: they are around 3 000 in January and less than 1 500 in August.
 
 \section{ATC rankings}
-For each year and each month, the 3 most common antibiotics are extracted, according to their ATC code. Top 3 changes during the years, hence why there are more than 3 labels in the plots. 
+For each year and each month, the 3 most common antibiotics are extracted, according to their ATC code. Rankings show different popular antibiotics for each year, therefore there are more than 3 labels in the plots. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_atc-year.png}
+	\caption{\small Top ATC for years}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_atc-month.png}
+	\caption{\small Top ATC for month}
 \end{figure}
 
-Most ATCs follow a similar pattern: the amount decreases in 2010-2012 to then have a small peak in 2016 and get lower again in 2017, similarly to the global amount of prescriptions.
+Most ATCs follow a similar pattern: the amount decreases in 2010-2012 (years of economic crisis and revoked authorisations), to then have a small peak in 2016 and get lower again in 2017, similarly to the global amount of prescriptions.
 
-The most noticeable unusual trend corresponds to amoxicillin and beta-lactose inhibitors (ATC J01CR02), which considerably detaches from the others. Amoxicillin is one of the most popular group of drugs, confirmed by global analytics on the database and USA trends\cite{usa}.
+The most noticeable unusual trend corresponds to \textbf{amoxicillin and beta-lactose inhibitors} (ATC J01CR02), which considerably detaches from the others. Amoxicillin is one of the most popular group of drugs, confirmed by global analytics on the database, AIFA reports and USA trends\cite{usa}.
 
 It is evident that the monthly prescriptions follow a seasonal trend: the number of prescription rises during the winter and falls during the summer.
 
-\subsection{Comparison with ICD-9}
-Since ICD-9 have some unusual trends, comparing them with antibiotics might provide additional information. The interested area comprehends ICD-9 class A, diseases of the digestive tract whose diagnoses have doubled in the span of 10 years. Antibiotics to treat this subset are:
+\subsection{Digestive tract antibiotics}
+Since ICD-9 codes have some unusual trends, comparing them with antibiotics might provide additional information. The interested area comprehends ICD-9 class A, diseases of the digestive tract, whose diagnoses have doubled in the span of 10 years. 
+
+Antibiotics to treat this subset of diseases include:
 \begin{itemize}
 	\item Nyastatin;
 	\item Rifaximin;
 	\item Paromomycin.
 \end{itemize}
 
+The purpose of analysing digestive tract antibiotics is the highlight of peaks of prescriptions, to understand whether they follow the same trends as Omeprazole and Pantoprazole (chapter 5.4). Those values are subject of an increase of more than 100 000 prescriptions from 2010 to 2017.
+
 Cross-checking related codes with the antibiotics dataset, rifaximin is indeed one of the most prescribed drugs, while its numbers are still considerably inferior to amoxicillin (the most popular antibiotic). Seasonality is still present, yet less pronounced. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_atc_a-month.png}
+	\caption{\small Seasonality of digestive tract antibiotics}
 \end{figure}
 
+In 2017, all prescriptions of those antibiotics are 79 138, although there is a growth of about 10 000 from 2010. This value is still not comparable to 350 000 prescriptions of Pantoprazole, therefore it is fair to assume trends of antibiotics for digestive tract are not related to the considerable increase of other medicines.
+
 \section{AIC rankings}
-Prescriptions with AICs don't have a public lookup table, yet drugs can be singularly searched on a public database by AIFA. Analytics have been made on the antibiotics subset of data, using the 5 most prescribed medicines for months and years.
+AIC rankings are useful to have an insight not only on active principle classes and treatment of diseases, but also on pharmaceutical products, companies and popularity within general practitioners.
 
-Augmentin is the top ranked prescription, detaching from the others and with a progressive increase starting from 2010: values go up to 100 000 prescriptions in 2017, and January 2017 is the month with the maximum number.
+AIC is, in fact, different for each medicine based on brand and dosage, despite having the same AIC and belonging to the same class.
 
-Having a difference of 30 000 between 2010 and 2017 without a correspondent increase of diagnoses shows frequent episodes of antibiotic resistance and overprescribing.
+This allows to identify external causes for unusual trends, such as marketing campaigns, aggressive advertisement and pressure to use a specific drug rather than an equivalent one.
+
+Prescriptions with AICs do not have a public lookup table, yet drugs can be singularly searched on a public database by AIFA. Analytics have been made on the antibiotics subset of data, using the 5 most prescribed medicines.
+
+Trends are shown for both months and years, focussing on the gradual growth.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_aic-year.png}
+	\caption{\small Top AICs for years}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_aic-month.png}
+	\caption{\small Top AICs for months}
 \end{figure}
 
-The drug Velamox has an opposite behaviour compared to the others: while most medicines are increasing their number of prescriptions, while Velamox is subject to progressive decrease until disappearance from the most prescribed drugs.
+\textbf{Augmentin} is the top ranked prescription, detaching from the others and with a progressive increase starting from 2010: values go up to 100 000 prescriptions in 2017, and January 2017 is the month with the maximum number.
 
-A better understanding between orders of magnitudes could be obtained counting the total prescriptions in 10 years of the most common AICs:
+Having a difference of 30 000 between 2010 and 2017 without a correspondent increase of diagnoses shows frequent episodes of antibiotic resistance and overprescribing.
 
-\begin{center}
+A better understanding of magnitude orders can be obtained counting the total prescriptions in 10 years of the most common AICs:
+
+\begin{table}[h]
+	\centering
 	\begin{tabular}{c|c|c}
-		Code & Prescriptions & Antibiotic \\
+		\textbf{Code} & \textbf{Prescriptions} & \textbf{Antibiotic} \\
 		\hline
 		026089019 & 934 942 & Augmentin 875 mg + 125 mg 12 coated tablets \\
 		\hline
@@ -206,41 +239,33 @@ A better understanding between orders of magnitudes could be obtained counting t
 		\hline
 		023097102 & 132 787 & Velamox 1 g 12 dispersible tablets \\
 	\end{tabular}
-\end{center}
+	\caption{\small Total prescriptions of top antibiotics}
+\end{table}
+
+The drug Velamox has an opposite behaviour compared to the others: while most medicines are increasing their number of prescriptions, Velamox is subject to \textbf{progressive decrease} until disappearance from the most prescribed drugs.
 
 \subsection{An insight on Velamox}
 Velamox, according to AIFA, is an amoxicillin-based drug used for respiratory trait, ear and genital infections. It is sold in different packages, whose the most popular is the 1 g dispersible tablets with 12 tablets.
 
-Since the general trending of most prescribed antibiotics only gave a partial vision of the comparisons between products, a complete chart is extracted using Velamox and three other popular drugs: Augmentin, Normix and Levoxacin. The difference is evident:
+Since the general trending of most prescribed antibiotics only gives a partial vision of the comparisons between products, a complete chart is extracted using Velamox and three other popular drugs: Augmentin, Normix and Levoxacin. The difference is evident.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/aic_4-year.png}
+	\caption{\small Velamox trends for years}
 \end{figure}
 
 The first hypothesis of such a drastic drop of a product is its switch with another one, changing prescriptive habits of doctors. If that was the case, graphs related to the specific subset of patients would have a correspondent rise of values belonging to another antibiotic.
 
 Velamox in 2008, the year of maximum amount of prescriptions, has been given to approximately 32 000 patients. Extracting only the top 3 antibiotic prescriptions of those, in the last 10 years, along with Velamox, shows no substitution by another drug.
 
-The fall starts in 2009, having a drop of 30 000 units, and gradually continues until 2017 with only 3 037 prescriptions:
+The fall starts in 2009, having a drop of 30 000 units, and gradually continues until 2017 with only 3 037 prescriptions.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/top_aic_subset-year.png}
+	\caption{\small Prescriptions of Velamox subset of patients}
 \end{figure}
-
-ATC trends related to Velamox's AIC show usual patterns: since the same ATC is linked with more products, the curve is still leaning upwards, yet there is an offset equal to the decrease in Velamox.
-
-Since analysis on a subset of patients gives little insight, a wider time range can give additional information on a complete picture of global trends. 
-
-Further knowledge is obtained counting the total number of Velamox prescriptions among all patients from 2000 to 2017:
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.3]{../plots/velamox-year.png}
-\end{figure}
-
-Velamox has acquired popularity from 2005 to 2010, when antibiotic resistance still hadn't been recognised as a problem and before the advent of generic drugs, yet this does not provide an explanation for the decrease.
 
 Additional analysis is made on the subset of 32 000 patients:
 \begin{itemize}
@@ -252,6 +277,22 @@ Additional analysis is made on the subset of 32 000 patients:
 \end{itemize}
 
 General practitioners assigned to the subset of patients have generally decreased their prescriptions quota, roughly halving it comparing 2008 to 2017.
+
+Another hypothesis is the general decrease of the active principle, of which Velamox is the main representative medicine.
+
+ATC trends related to Velamox's AIC, however, show usual patterns: since the same ATC is linked with more products, the curve is still leaning upwards, yet there is an offset equal to the decrease in Velamox.
+
+Since analysis on a subset of patients gives little insight, a wider time range can give additional information on a complete picture of global trends. 
+
+Further knowledge is obtained counting the total number of Velamox prescriptions among all patients from 2000 to 2017 (figure 8.9).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{../plots/velamox-year.png}
+	\caption{\small Velamox trends in 2000-2017}
+\end{figure}
+
+Velamox has acquired popularity from 2005 to 2010, when antibiotic resistance still hadn't been recognised as a problem and before the advent of generic drugs, yet this does not provide an explanation for the decrease.
 
 AIFA has also revoked authorisation for most instances of Velamox packages, only leaving three out of ten. The company which produces the drug, Mediolanum Farmacy, has been acquired by Neopharmed Gentili in 2018.
 
@@ -266,24 +307,26 @@ Summarising, changes in Velamox prescriptions are partially caused by:
 \subsection{An insight on Augmentin}
 After analysing a drug with an unusual decrease, the focus can shift to the opposite side, considering the one with a noticeable increase.
 
-Augmentin is the most prescribed antibiotic, with an almost constant positive trend:
+Augmentin is the most prescribed antibiotic, with an almost constant positive trend.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/augmentin-year.png}
+	\caption{\small Augmentin trends in 2000-2017}
 \end{figure}
 
 2010 and 2011 have lower values, possibly explained by the Italian economic crisis or the diffusion of generic drugs. Starting from 2013 numbers continue to rise, reaching their highest peak in 2017.
 
-Most Augmentin consumers are adults in the range of 45-64 years of age, following global trends previously obtained.
+Most Augmentin consumers are adults in the range of 45-64 years of age, following global trends previously obtained. The range of 15-24 years of age does not contribute to the progressive increase.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/augmentin_age-year.png}
+	\caption{\small Augmentin trends in for age and year}
 \end{figure}
 
-\subsection{According to geographical area}
-There is information loss on geographical area of patients, therefore it is necessary to extract a further subset of antibiotic prescriptions, applying a level of cleansing.
+\subsection{Analysis on geographical area}
+There is information loss on geographical area of patients, therefore it is necessary to extract a further subset of antibiotic prescriptions, applying an additional level of cleansing.
 
 Patients with complete and correct province of residence fields are selected, obtaining:
 \begin{itemize}
@@ -291,12 +334,19 @@ Patients with complete and correct province of residence fields are selected, ob
 	\item 7 458 312 prescriptions, 88,94\%.
 \end{itemize}
 
-Campania has five provinces: Naples, Avellino, Caserta, Benevento and Salerno. Analytics are expected to show an uniform distribution of prescriptions among those, yet outcomes are skewed towards Naples (significantly bigger) and other cities.
+Campania has five provinces: Naples, Avellino, Caserta, Benevento and Salerno. Analytics are expected to show an uniform distribution of prescriptions among those, yet outcomes are skewed towards Naples (significantly bigger) and other smaller cities.
 
-Top 5 municipalities for total prescriptions in 2008-2017:
-\begin{center}
+Prescriptions come from 932 different cities, while there are 550 distinct cities in Campania. This implies a slice of patients having residence in a different place outside the region.
+
+Results might be altered by the non-uniform provenance of doctors and patients (mostly from the Naples area), and other big municipalities have large population although not qualifying as provinces. 
+
+Another factor of influence consists in doctors inserting the general CAP of the region (80100), which corresponds to Naples, in the database, instead of looking for the specific one of each city.
+
+Results can be summarized listing the 5 municipalities for total prescriptions in 2008-2017:
+\begin{table}[h]
+	\centering
 	\begin{tabular}{c|c|c}
-		Postcode & Province & Prescriptions \\
+		\textbf{Postcode} & \textbf{City} & \textbf{Prescriptions} \\
 		\hline
 		063049 & Naples & 2 854 056 \\
 		\hline
@@ -308,20 +358,20 @@ Top 5 municipalities for total prescriptions in 2008-2017:
 		\hline
 		063035 & Gragnano & 210.960 \\
 	\end{tabular}
-\end{center}
+\caption{\small Prescriptions per province}
+\end{table}
 
-Prescriptions come from 932 different cities, while there are 550 distinct cities in Campania. This implies a slice of patients having residence in a different place outside the region.
-
-Results might be altered by the non-uniform provenance of doctors and patients (mostly from the Naples area), and other big municipalities have large population although not qualifying as provinces. 
+It can be seen that none of those cities aside from Naples belongs to the provinces. The population of each smaller place is around 50 000 inhabitants, making the average prescriptions per individual high.
 
 Discrepancies among provinces are also shown by the following plot, identifying trends:
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{../plots/provinces.png}
+	\caption{\small Prescriptions trends per province}
 \end{figure}
 
 \subsubsection{Pharmacies}
-The number of pharmacies divided by province with related population (ISTAT 2018) confirms the gap between Naples and the others: 
+The number of pharmacies for each province with related population (ISTAT 2018) confirms the gap between Naples and the others: 
 \begin{enumerate}
 	\item 857 pharmacies in the Naples area, 3 101 002 inhabitants;
 	\item 375 pharmacies in the Salerno area, 1 101 763 inhabitants;
@@ -330,54 +380,22 @@ The number of pharmacies divided by province with related population (ISTAT 2018
 	\item 107 pharmacies in the Benevento area, 279 127 inhabitants.
 \end{enumerate}
 
-\section{ATC and AIC trends}
+\section[ATC-AIC]{ATC and AIC correlation}
+Since both ATC and AIC trends show seasonality and unusual increases of amoxicillin-based products, both are compared to underline potential correlation.
 
-\subsection{By sex}
-
-\subsection{By age}
-Analytics by age are deployed dividing the subset in the 5 official age ranges, however since patients in the youngest group should receive prescriptions by paediatricians and there is no related information in the database, the range 1-14 has to be considered incorrect and therefore removed.
-
-This causes a difference of approximately 150 000 tuples, and the remaining ones are arranged by age of patient counting the amount of prescriptions in 2008-2017:
-
-\begin{center}
-	\begin{tabular}{c|c|c}
-		Age range & Prescriptions & Mean\\
-		\hline
-		15-24 & 643 540 & 5,25 \\
-		\hline
-		25-44 & 1 776 228 & 7,29 \\
-		\hline
-		45-64 & 2 674 494 & 10,81 \\
-		\hline
-		65+ & 3 115 334 & 16,16 \\
-	\end{tabular}
-\end{center}
-
-A patient on average receives 9,8 prescriptions in 10 years, but there are big differences between older and younger people: the number progressively increases.
-
-ATC and AIC popular codes are related, observing that some of the most common ones gets prescribed starting from an early age while others are prevalent between higher ranges.
-
-5 top AICs and ATCs for age, yearly and monthly: % todo fixare i grafici, togliere qualche etichetta
+Statistics related to amoxicillin and beta-lactose inhibitors and Augmentin are extracted and plotted together.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.29]{../plots/top_atc_age-year.png}
+	\includegraphics[scale=0.3]{../plots/atc_aic-month.png}
+	\caption{\small AIC and ATC trends}
 \end{figure}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.29]{../plots/top_atc_age-month.png}
-\end{figure}
+The two sets of values have a \textbf{Pearson correlation} of 0.88107, enough to affirm there is correlation between them:
+\begin{itemize}
+	\item Amoxicillin and beta-lactose inhibitors mean: 14 369.53;
+	\item Augmentin mean: 7 308.57;
+	\item Mean of differences between couples of points: 7 011.5.
+\end{itemize}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.29]{../plots/top_aic_age-year.png}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.29]{../plots/top_aic_age-month.png}
-\end{figure}
-
-\subsection{ATC and AIC correlation}
-
+About 50\% of amoxicillin and beta-lactose inhibitors prescriptions is composed by Augmentin, a relevant amount confirming its popularity.

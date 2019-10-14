@@ -1,39 +1,41 @@
-\chapter[k-means]{\textit{k}-means approach for cluster analysis}
-$k$-means clustering is the most commonly used unsupervised machine learning algorithm for dividing a given dataset into $k$ clusters. 
+\chapter[k-means approach]{\textit{k}-means approach for cluster analysis}
+This chapter illustrates the implementations of the $k$-mean algorithm on a matrix of general practitioners and prescriptions for antibiotic, to classify them according to their behaviour.
 
-This method related to antibiotic resistance research consists in applying a time series clustering approach to group general practitioners according to their prescriptive habits of antibiotics, using medicines as profiling instrument to obtain models of usage for each product.
+\textbf{\textit{k}-means clustering} is the most commonly used unsupervised machine learning algorithm for dividing a given dataset into $k$ clusters. 
+
+This method related to antibiotic resistance research consists in applying a time series clustering approach to \textit{group general practitioners according to their prescriptive habits of antibiotics}, using medicines as profiling instrument to obtain models of usage for each product.
 
 Additional layers (factors) to consider while profiling are space, time, structure and personal information of patients, to highlight potential behaviours to classify doctors and co-prescription activities. 
 
-Data has therefore to be subject of parsing, grouping values according to chosen features and selecting a subset according to consistency and potential given information. 
+Data has therefore to be subject of parsing, grouping values b to chosen features and selecting subsets based on consistency, maximising potential given information. 
 
-Records will be mapped into an $n$-dimensional matrix which will be fed to the algorithm, obtaining a cluster of belonging for each element. Dimensions will represent individuals, relevant features and time, yet time slices will be taken separately to be able to make comparisons and predictions. 
+Records will be mapped into a $n$-dimensional matrix which will be fed to the algorithm, obtaining a cluster of belonging for each element. Dimensions will represent \textbf{individuals}, \textbf{relevant features} and \textbf{time}, yet time slices will be taken separately to be able to make comparisons and predictions. 
 
-Results aim to identify whether general practitioners are ``loyal'' prescribers: having most prescribed antibiotics, check whether there exist typologies of patterns according to active and illustrative variables. 
+Results aim to identify whether general practitioners are ``loyal'' prescribers: having most prescribed antibiotics, checking whether there exist typologies of patterns according to active and illustrative variables. 
 
 $k$-means is the chosen clustering algorithm, since the approach is non-hierarchical and simple: its minimum computation complexity and ease of use make it the most suitable algorithm to perform an initial clustering on raw data, reducing the space into disjoint smaller sub-spaces to then perform additional analysis.
 
-After identifying the clusters and linking each one with a specific prescription patten, it is possible to discriminate between GPs with changing and constant behaviours among time.
+After identifying the clusters and linking each one with a specific prescription patten, it is possible to discriminate between GPs with \textit{changing} and \textit{constant} behaviours among time.
 
 \section{Range of time}
-Since the aim of clustering is identifying prescription patterns and their changes, extracting different time slices allows better insights on evolutions of trends.
+Since the aim of clustering is identifying prescription patterns and their changes, extracting \textbf{different time slices} allows better insights on evolutions of trends.
 
-To avoid the impact of seasonality, having values increasing in the winter months, data is collected and aggregated in a range of one year: the final table contains cumulative results and features, without distinction between different times of the year.
+To avoid the impact of seasonality, having values increasing in the winter months, data is collected and aggregated in a range of \textbf{one year}: the final table contains cumulative results and features, without distinction between different times of the year.
 
-Comparisons are made selecting two photographies of data according to different years, and visualising outcomes to understand whether values have shifted cluster (general practitioners have changed habits).
+Comparisons are made selecting two snapshots of data according to different years, and visualising outcomes to understand whether values have shifted cluster (general practitioners have changed habits).
 
 Data in two years needs to be distant enough to ensure the presence of potential changes, yet consistent enough to prevent information loss. 
 
-Selected years are 2010 and 2017, 2017 being the latest complete time range and 2010 being the first year considered for antibiotics analysis.
+Selected years are \textbf{2010} and \textbf{2017}, 2017 being the latest complete time range and 2010 being the first year considered for antibiotics analysis.
 
 \section{Dataset construction}
-Before being able to apply a clustering algorithm, data has to be cleaned, arranged and aggregated: having a format of single prescription records would not give the desired outcome, since grouping has to be made according to counts in years.
+Before being able to apply a clustering algorithm, data has to be cleaned, arranged and aggregated: having a format of single prescription records would not give the desired outcome, since grouping has to be made according to \textit{counts in years}.
 
-Transposing information from a row to a column visualisation allows to emphasise the values of each feature.
+\textbf{Transposing} information from a row to a column visualisation allows to emphasise the values of each feature.
 
 The most important constraint while constructing the matrix is consistency of data: all general practitioners must be active in both years, to make comparison possible.
 
-The number of constantly active doctors is 372, having respectively 228.022 and 214.316 patients in 2010 and 2017. This represent a data loss of about 75\% in both values.
+The number of constantly active doctors is 372, having respectively 228 022 and 214 316 patients in 2010 and 2017. This implies a data loss of about 75\% in both sets.
 
 Features to consider are:
 \begin{itemize}
@@ -44,41 +46,41 @@ Features to consider are:
 
 To limit horizontal expansion of the matrix, a limited number of attributes are taken into account, chosen by their relevancy:
 \begin{itemize}
-	\item Antibiotic prescriptions are broken and counting according to the 8 most popular products (Augmentin, Normix, Ciproxin, Levoxacin, Monuril, Velamox, Rocefin, Zitromax);
-	\item Patients data only includes sex and most common age range in $\{1, 2, 3, 4\}$. 
+	\item Antibiotic prescriptions are broken and counting according to the \textbf{8 most popular products} (Augmentin, Normix, Ciproxin, Levoxacin, Monuril, Velamox, Rocefin, Zitromax);
+	\item Patients data only includes \textbf{gender} and most common \textbf{age range} in $\{1, 2, 3, 4\}$. 
 \end{itemize}
 
-Other prescriptions' data has been limited to the total number of prescriptions for each year. Information about the total amount of prescriptions might be helpful to understand the percentage of antibiotics respecting to the whole, and therefore their influence.
+Other prescriptions' data has been limited to the \textit{total number of prescriptions} (not strictly related to antibiotics) for each year. Information about the total amount of prescriptions might be helpful to understand the percentage of antibiotics respecting to the whole, and therefore their influence.
 
-According to the goal of the analysis, every sample is represented as a 13-dimensional vector, with each row containing information on a single general practitioner.
+According to the goal of the analysis, every sample is represented as a \textbf{13-dimensional vector}, with each row containing information on a single general practitioner.
 
 Displayed below is an extract of the final table for 2017:
 \begin{center}
 	\begin{table}[h]
 	 \makebox[\textwidth][c]{
 	\begin{tabular}{c|c|c|c|c|c|c|c|c}
-		\# & Doctor ID & Augmentin & Normix & \dots & M. patients & F. patients & Age & Prescriptions \\
+		\textbf{\#} & \textbf{Doctor ID} & \textbf{Aug.} & \textbf{Normix} & \dots & \textbf{M. patients} & \textbf{F. patients} & \textbf{Age} & \textbf{Prescriptions} \\
 		\hline
 		1 & DRTQRGJ & 5 & 123 & \dots & 303 & 397 & 3 & 17 862 \\
 		\hline 2 & DSJRY7B & 242 & 131 & \dots & 322 & 399 & 4 & 15 845 \\
 	\end{tabular}}
-\caption{\small $k$-means matrix extract, Campania Millennium database}
+\caption{\small $k$-means matrix extract}
 \vspace{-20px}
 \end{table}
 \end{center}
 
-Input matrix has dimensions of $372 \times 13$, and an additional time dimension which distinguishes between 2000 and 2017, which is going to be removed splitting the dataset to run the algorithm separately in the two years.
+Input matrix has dimensions of $372 \times 13 \times 2$, where the latter is an additional time dimension which distinguishes between 2000 and 2017, removed splitting the dataset to run the algorithm separately in the two years.
 
 \section{Features selection}
 Having too many features, despite the initial grouping, may lead to overfitting and having general practitioners clustered according to irrelevant information.
 
 Among all features, some are relevant for the outcome of the algorithm, while others are purely descriptive to be checked after clustering results.
 
-All the amounts of prescriptions for each antibiotic (columns 1-9) have to be considered to extract similarity, and scaled to normalise numbers. Those count as active variables, and clustering will be performed considering the subset of belonging.
+All the amounts of \textit{prescriptions} for each antibiotic (columns 1-9) have to be considered to extract similarity, and scaled to normalise numbers. Those count as \textbf{active variables}, and clustering will be performed considering the subset of belonging.
 
 Doctors' IDs are removed during computation, to then be added back to map each row with its belonging individual. 
 
-The other attributes are illustrative, and will be attached to clustering results, to offer further information to be compared after having a general idea of each doctor's group. 
+The other attributes are \textbf{illustrative}, and will be attached to clustering results, to offer further information to be compared after having a general idea of each doctor's group. 
 
 \section{Optimal number of clusters}
 Determining the most suitable number of clusters in a data set is a fundamental issue in $k$-means clustering, which requires the user to specify the number of clusters $k$ to be generated. There are various approaches to pick the best value, yet the method is ultimately subjective\cite{silhouette}.
@@ -123,6 +125,8 @@ Results for 2017:
 * According to the majority rule, the best number of clusters is  2 
 \end{lstlisting}
 
+It can be seen that indices give 2 as optimal number of clusters for both matrices.
+
 \subsection{Elbow and silhouette}
 Direct methods consist in optimizing a criterion, such as the within cluster sums of squares or the average silhouette. The corresponding methods are named elbow and silhouette methods, respectively.
 
@@ -139,14 +143,14 @@ The optimal number of clusters $k$ is the one that maximize the average silhouet
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.22]{../k-means/optimal-clusters.png}
-	\caption{\small WSS and silhouette indexes for $k$-means, Campania Millennium database}
+	\caption{\small WSS and silhouette indexes for $k$-means}
 \end{figure}
 
-It can be seen in the figure that both indexes show 2 as the best number, yet 5 or 6 clusters give an acceptable score as well.
+It can be seen in the figure that both indexes show 2 as the best number, coherently with \texttt{NbClust}, yet 5 or 6 clusters give an acceptable score as well.
 
-Having 2 clusters increases the risk of classification according to irrelevant features, such as large and small prescribers. Although distinctions are evident, there is no additional useful information obtained after grouping. 
+Having 2 clusters increases the risk of classification according to \textbf{irrelevant features}, such as large and small prescribers, giving no other useful information.
 
-Therefore, the algorithm is subject of an additional run with an arbitrary amount of 4 clusters, observing how many individuals compose each cluster and eventually adjusting the value of $k$.
+Therefore, the algorithm is subject of an \textbf{additional run} with an arbitrary amount of 4 clusters, observing how many individuals compose each cluster and eventually adjusting the value of $k$.
 
 \section{Results}
 
@@ -157,13 +161,13 @@ Therefore, the algorithm is subject of an additional run with an arbitrary amoun
 	\begin{table}[h]
 	\makebox[\textwidth][c]{
 		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-			\# & Augmentin & Normix & Ciproxin & Levoxacin & Monuril & Velamox & Rocefin & Zitromax & Size \\
+			\textbf{\#} & \textbf{Augmentin} & \textbf{Normix} & \textbf{Ciproxin} & \textbf{Levox.} & \textbf{Mon.} & \textbf{Vel.} & \textbf{Roc.} & \textbf{Zitr.} & \textbf{Size} \\
 			\hline
 			1 & 64,44 & 52,95 & 36,96 & 37,39 & 32,23 & 34,45 & 25,88 & 25,15 & 232 \\
 			\hline
 			2 & 224,59 & 131,29 & 86,29 & 80,10 & 80,25 & 99,74 & 62,08 & 54,15 & 140 \\
 	\end{tabular}}
-\caption{\small $k$-means with 2 clusters, 2010, Campania Millennium database}
+\caption{\small $k$-means with 2 clusters, 2010}
 \vspace{-30px}
 \end{table}
 \end{center}
@@ -174,28 +178,28 @@ Therefore, the algorithm is subject of an additional run with an arbitrary amoun
 	\begin{table}[h]
 	\makebox[\textwidth][c]{
 		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-			\# & Augmentin & Normix & Ciproxin & Levoxacin & Monuril & Velamox & Rocefin & Zitromax & Size \\
+			\textbf{\#} & \textbf{Augmentin} & \textbf{Normix} & \textbf{Ciproxin} & \textbf{Levox.} & \textbf{Mon.} & \textbf{Vel.} & \textbf{Roc.} & \textbf{Zitr.} & \textbf{Size} \\
 			\hline
 			1 & 95,69 & 70,46 & 49,27 & 42,37 & 37,51 & 21,74 & 36,17 & 32,14 & 242 \\
 			\hline
 			2 & 316,50 & 185,61 & 104,90 & 86,72 & 89,07 & 42,25 & 77,11 & 79,42 & 130 \\
 	\end{tabular}}
-\caption{\small $k$-means with 2 clusters, 2017, Campania Millennium database}
+\caption{\small $k$-means with 2 clusters, 2017}
 \vspace{-30px}
 \end{table}
 \end{center}
 \medskip
 
 \subsubsection{Considerations}
-The two clusters have a consistent different between the means of antibiotic prescriptions' amounts, especially Augmentin and Velamox, which are the most popular. 
+The two clusters have a consistent different between the \textbf{means} of antibiotic prescriptions' amounts, especially Augmentin and Velamox, which are the most popular. 
 
-This leads to considering two clusters as heavy prescribers and light ones, as expected.
+This leads to considering two clusters as \textit{heavy} prescribers and \textit{light} ones, as expected.
 
 Comparison between total prescriptions of members of each cluster:
 \begin{table}[h]
 	\centering
 	\begin{tabular}{c|c|c|c}
-		Year & Cluster & Mean & SD \\
+		\textbf{Year} & \textbf{Cluster} & \textbf{Mean} & \textbf{SD} \\
 		\hline
 		2010 & 1 & 9 043,41 & 5 120,81 \\
 		\hline
@@ -205,7 +209,7 @@ Comparison between total prescriptions of members of each cluster:
 		\hline
 		2017 & 2 & 19 755,14 & 5 360,95 \\
 	\end{tabular}
-\caption{\small Comparison of total prescriptions within clusters, Campania Millennium database}
+\caption{\small Comparison of total prescriptions within clusters}
 \end{table}
 
 Standard deviation of total amount of prescription is overall the same, which implies clustering has consistent and related results. Mean between first and second cluster tends to increase during the years, yet is still close.
@@ -219,14 +223,14 @@ The amount of general practitioners in the clusters is almost the same from 2010
 \end{itemize}
 The difference of 10 switching doctors is the same as the difference between cluster 1 in 2010 and cluster 1 in 2017.
 
-General practitioners overall remained mostly stable with their amount of prescriptions, yet some switched habits while the mean of total prescriptions increased. This most likely means that doctors classified as large prescribers still consistently increased their numbers, so that the mean grew by roughly 1 000 in 7 years, although some doctors started to prescribe less.
+General practitioners overall remained mostly stable with their amount of prescriptions, yet some switched habits while the mean of total prescriptions increased. This most likely implies that doctors classified as large prescribers still consistently increased their numbers, so that the mean grew by roughly 1 000 in 7 years, although some doctors started to prescribe less.
 
 Clusters for each year are shown performing a PCA among the considered features (number of prescriptions for each antibiotic) with the \texttt{fviz\_cluster} function from package \texttt{factoextra}. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.18]{../k-means/clusters-2.png}
-	\caption{\small PCA with 2 clusters, Campania Millennium database}
+	\caption{\small PCA with 2 clusters}
 \end{figure}
 
 Each number represents the row corresponding to a general practitioner, while the axes are principal components. Clusters tend to overlap because of the dimensionality reduction.
@@ -238,7 +242,7 @@ Each number represents the row corresponding to a general practitioner, while th
 	\begin{table}[h]
  \makebox[\textwidth][c]{
 		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-			\# & Augmentin & Normix & Ciproxin & Levoxacin & Monuril & Velamox & Rocefin & Zitromax & Size \\
+			\textbf{\#} & \textbf{Augmentin} & \textbf{Normix} & \textbf{Ciproxin} & \textbf{Levox.} & \textbf{Mon.} & \textbf{Vel.} & \textbf{Roc.} & \textbf{Zitr.} & \textbf{Size} \\
 			\hline
 			1 & 291,35 & 187,93 & 107,84 & 94,42 & 102,02 & 159,28 & 70,68 & 65,37 & 45 \\
 			\hline
@@ -248,22 +252,18 @@ Each number represents the row corresponding to a general practitioner, while th
 			\hline
 			4 & 48,27 & 37,02 & 27,59 & 30,61 & 23,15 & 25,51 & 20,97 & 19,14 & 163 \\
 	\end{tabular}}
-\caption{\small $k$-means with 4 clusters, 2010, Campania Millennium database}
+\caption{\small $k$-means with 4 clusters, 2010}
 \vspace{-30px}
 \end{table}
 \end{center}
 \medskip
-% 1 = 4 in kmeans (large)
-% 2 = 2 in kmeans (normx)
-% 3 = 3 in kmeans (small)
-% 4 = 1 in kmeans (augmentin)
 
 \subsubsection{Year 2017}
 \begin{center}
 	\begin{table}[h]
 	\makebox[\textwidth][c]{
 		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-			\# & Augmentin & Normix & Ciproxin & Levoxacin & Monuril & Velamox & Rocefin & Zitromax & Size \\
+			\textbf{\#} & \textbf{Augmentin} & \textbf{Normix} & \textbf{Ciproxin} & \textbf{Levox.} & \textbf{Mon.} & \textbf{Vel.} & \textbf{Roc.} & \textbf{Zitr.} & \textbf{Size} \\
 			\hline
 			1 & 397,54 & 236,54 & 124,08 & 101,05 & 107,93 & 55,01 & 87,51 & 112,71 & 59 \\
 			\hline
@@ -273,7 +273,7 @@ Each number represents the row corresponding to a general practitioner, while th
 			\hline
 			4 & 78,24 & 52,33 & 39,33 & 33,88 & 28,84 & 16,92 & 28,36 & 25,03 & 170 \\
 	\end{tabular}}
-\caption{\small $k$-means with 4 clusters, 2017, Campania Millennium database}
+\caption{\small $k$-means with 4 clusters, 2017}
 \vspace{-30px}
 \end{table}
 \end{center}
@@ -305,7 +305,7 @@ Comparison between total prescriptions of members of each cluster:
 \begin{table}[h]
 	\centering
 	\begin{tabular}{c|c|c|c}
-		Year & Cluster & Mean & SD \\
+		\textbf{Year} & \textbf{Cluster} & \textbf{Mean} & \textbf{SD} \\
 		\hline
 		2010 & 1 & 22 244,29 & 4 540,88 \\
 		\hline
@@ -323,7 +323,7 @@ Comparison between total prescriptions of members of each cluster:
 		\hline
 		2017 & 4 & 8 459,83 & 4 601,97 \\
 	\end{tabular}
-	\caption{\small Comparison of total prescriptions within clusters, Campania Millennium database}
+	\caption{\small Comparison of total prescriptions within clusters}
 \end{table}
 
 Standard deviation tends to stay constant, and mean for large and small prescribers is widely different, therefore the predictions seem to be correct. Mean between Normix and Augmentin prescribers is similar, meaning that both general practitioners having this behaviour do not tend to overprescribe other medicines.
@@ -351,5 +351,5 @@ Clusters for each year are again shown performing a PCA with \texttt{fviz\_clust
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.18]{../k-means/clusters-4.png}
-	\caption{\small PCA with 4 clusters, Campania Millennium database}
+	\caption{\small PCA with 4 clusters}
 \end{figure}

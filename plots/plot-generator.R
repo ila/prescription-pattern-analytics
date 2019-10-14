@@ -16,6 +16,13 @@ csv_path = "/Users/ila/Desktop/codes/cmr-internship/plots/csv/"
 image_path = "/Users/ila/Desktop/codes/cmr-internship/plots/"
 
 
+# i csv necessitano di parsing: etichette come factor, date come data
+# data frame: tabelle
+# c: array
+# factor: costanti (per group by su numeri (ie icd9))
+# grid.arrange -> più plot nella stessa immagine
+
+
 # creating custom barplots
 df <- data.frame(Patients=c(27733, 230381), GPs=c(422, 412), Diagnoses=c(1381, 4324), Prescriptions=c(904, 1280), Year=c("'10-'18", "'16-'18"))
 
@@ -57,7 +64,7 @@ dev.off()
 
 # information loss plot
 
-ilp <- c("Correct data" = 70, "Date out of range" = 20, "Incorrect sex" = 9, "Null province" = 1, "Two or more constraints \nnot respected" = 10)
+ilp <- c("Correct data" = 70, "Date out of range" = 20, "Incorrect gender" = 9, "Null province" = 1, "Two or more constraints \nnot respected" = 10)
 
 png(filename=paste(image_path, "patients-waffle.png", sep=""), width=1000, height=400, res=200)
 
@@ -187,6 +194,38 @@ png(filename=paste(image_path, "top_aic-year.png", sep=""), width=1500, height=6
   aicyearplot <- ggplot(aicyear, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=10000), labels=comma) + labs(x="Year", y="Total prescriptions") + scale_color_discrete(name="AIC code", labels=c("Velamox", "Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin"))
 
   print(aicyearplot)
+
+dev.off()
+
+
+# thesis version of the graph
+aicyear <- read.csv(paste(csv_path, "top_aic-year.csv", sep=""))
+
+# turning values to factors and removing 2018
+aicyear$co_codifa <- factor(aicyear$co_codifa)
+aicyear <- aicyear[which(aicyear$anno <= 2017),]
+
+png(filename=paste(image_path, "top_aic-year-thesis.png", sep=""), width=950, height=850, res=200)
+
+aicyearplot <- ggplot(aicyear, aes(x=anno, y=count, color=co_codifa)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)) + scale_y_continuous(breaks = seq(0, 100000, by=10000), labels=comma) + labs(x="Anno", y="Totale prescrizioni") + scale_color_manual(name="Antibiotico", labels=c("Velamox", "Normix", "Monuril", "Augmentin", "Ciproxin", "Levoxacin"), values=c('#81ecec', '#324b4b', '#95b1b0', '#b9c3ff', '#828ec7', '#63adeb')) + theme(legend.position="bottom")
+
+print(aicyearplot)
+
+dev.off()
+
+
+# pathologies
+pyear <- read.csv(paste(csv_path, "pathologies.csv", sep=""))
+
+# turning values to factors and removing 2018
+pyear$cp_code <- factor(pyear$cp_code)
+pyear <- pyear[which(pyear$cp_code != '789'),]
+
+png(filename=paste(image_path, "pathologies.png", sep=""), width=1050, height=550, res=200)
+
+pathologiesplot <- ggplot(pyear, aes(x=date_part, y=count, color=cp_code)) + geom_point() + geom_line() + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 16000, by=1000), labels=comma) + labs(x="Anno", y="Totale diagnosi") + scale_color_manual(name="Diagnosi", labels=c("Ipertensione", "Faringite acuta", "Tracheite acuta", "Malattie dei denti", "Reflusso esofageo", "Cistite"), values=c('#81ecec', '#324b4b', '#95b1b0', '#b9c3ff', '#828ec7', '#63adeb')) + theme(legend.position="bottom")
+
+print(pathologiesplot)
 
 dev.off()
 
@@ -344,11 +383,11 @@ for (range in 2:5) {
   aic_year$co_codifa <- factor(aic_year$co_codifa)
   aic_month$co_codifa <- factor(aic_month$co_codifa)
   
-  for (year in 2008:2017) {
-    
-    augmentinageyear <- rbind(augmentinageyear, data.frame(year=year, range=range, count=aic_year[which(aic_year$anno == year & aic_year$co_codifa == '26089019'),]$count))
-  
-  }
+  # for (year in 2008:2017) {
+  #   
+  #   augmentinageyear <- rbind(augmentinageyear, data.frame(year=year, range=range, count=aic_year[which(aic_year$anno == year & aic_year$co_codifa == '26089019'),]$count))
+  # 
+  # }
   
   plotsatcyear[[length(plotsatcyear) + 1]] <- ggplot(atc_year, aes(x=anno, y=count, color=co_atc)) + geom_point() + geom_line() + scale_colour_manual(values=atccolors, name="ATC code", labels=atcyearlabels[[range-1]]) + scale_x_continuous(breaks=c(2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)) + scale_y_continuous(breaks = seq(0, 200000, by=10000), labels=comma, limits=c(0, 70000)) + labs(x="Year", y="Total ATC prescriptions") + ggtitle(paste("Age range: ", agerange[range-1], sep="")) 
     
@@ -420,23 +459,6 @@ png(filename=paste(image_path, "top_atc_sex-year.png", sep=""), width=2500, heig
   print(grid.arrange(women, men, ncol=2))
 
 dev.off()
-
-# 
-# # mf
-# mf$mese <- as.Date(mf$mese)
-# a <- mf[which(mf$co_atc == 'A07AA11'),]
-# j <- mf[which(mf$co_atc == 'J01MA12'),]
-# plot1 <- ggplot(a, aes(x=mese, y=count, color=sesso)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=500), limits=c(0, 4500)) + labs(x="Mese", y="Totale prescrizioni", color="Codice ATC") + ggtitle("A07AA11")
-# plot2 <- ggplot(j, aes(x=mese, y=count, color=sesso)) + geom_point() + geom_line() + scale_x_date(labels=date_format("%y/%m"), breaks=date_breaks("1 year")) + scale_y_continuous(breaks=seq(0, 30000, by=500), limits=c(0, 4500)) + labs(x="Mese", y="Totale prescrizioni", color="Codice ATC") + ggtitle("J01MA12")
-# grid.arrange(plot1, plot2, ncol=2)
-# 
-# # anno
-# a$mese <- format(a$mese, format="%Y")
-# j$mese <- format(j$mese, format="%Y")
-# aanno <- aggregate(a$count, by=list(anno=a$mese, sesso=a$sesso), FUN=sum)
-# janno <- aggregate(j$count, by=list(anno=a$mese, sesso=a$sesso), FUN=sum)
-# plot1 <- ggplot(aanno, aes(x=anno, y=x, group=sesso, color=sesso)) + geom_point() + geom_line() + scale_y_continuous(breaks=seq(0, 45000, by=5000), limits=c(0, 45000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("A07AA11")
-# plot2 <- ggplot(janno, aes(x=anno, y=x, group=sesso, color=sesso)) + geom_point() + geom_line() + scale_y_continuous(breaks=seq(0, 45000, by=5000), limits=c(0, 45000)) + labs(x="Anno", y="Totale prescrizioni", color="Codice ATC") + ggtitle("J01MA12")
 
 
 # trending by province

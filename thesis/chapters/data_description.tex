@@ -1,46 +1,50 @@
 \chapter{Data description}
+This chapter aims to give a full understanding of the database on which analytics is performed, getting into a first level of technical detail with the description of fields, ER model, primary keys, number of records and a basic example of analysis.
+
+From now on, all images and tables are obtained using the dataset illustrated below.
 
 \section{Dataset description}
-The available dataset is provided by Dedalus, market leader of the clinical software area, supporting doctors and their processes through its society Millennium. 
-
-Dedalus offers a wide range of solutions, such as surgical journey management, drug management systems, tracking for healthcare and enterprise resource planning\cite{dedalus}.
-
-Millenium is a specific national infrastructure focussing on primary healthcare, using Dedalus products to develop national and regional level projects. 
+The available database is collected, managed and complied with current privacy regulations, by \textit{Consorzio Nazionale delle Cooperative Mediche} (CNCM), using software provided by Dedalus\footnote{\href{https://www.dedalus.eu/}{Dedalus official website}}, market leader of the clinical software area, supporting doctors and their processes through its society Millennium. 
 
 Research is conducted using data collected by an interface used by general practitioners to track interactions between them and the population benefiting of the national healthcare system.
 
-The database contains recorded medical history of patients using healthcare services in the region Campania, focussing on the doctor-patient relationship.
+The database contains recorded \textbf{medical history of patients} using healthcare services in the southern-Italy region \textbf{Campania}, focussing on the doctor-patient relationship.
+
+It is composed of pseudonymised data by encryption before acquisition and is related to eighteen years data about outpatient visits at GPs’ ambulatories located in several Health Districts.
 
 Since the database is not regulated by local laws, it encounters a greater risk of inaccuracy, unlike pharmacies or tax registers. 
 
-General practitioners are the only responsible of filling values, therefore there is no assurance of completeness and correctness of data: mistakes are common, as well as missing information. A part of patients journey happens in hospitals or specialised medical offices, and those records aren't present since belonging to external sources.
+General practitioners are the only responsible of filling values, therefore there is \textit{no assurance of completeness and correctness of data}: mistakes are common, as well as missing information. A part of patients journey happens in hospitals or specialised medical offices, and those records aren't present since belonging to external sources.
 
 Only a part of the whole amount of drugs (and examinations) require a written prescription: most medicines are given over the counter, and there is no certainty that a patient is going to buy that specific drug or the generic equivalent. Linkage between prescriptions and actual purchase is missing.
 
-Furthermore, not all prescriptions are ethical: antibiotic resistance is an ascertained issue, and general practitioners can be influenced by pharmaceutical companies, resulting in lack of objectiveness.
+Furthermore, \textbf{not all prescriptions are ethical}: antibiotic resistance is an ascertained issue, and general practitioners can be influenced by pharmaceutical companies, resulting in \textit{lack of objectiveness}.
 
-Data is highly sensitive: despite encryption of all names, a considerable amount of geographical information is available. To avoid cross-checking using location, for results to be published patients or doctors must be aggregated in groups whose numerousness exceeds a fixed value (rule of thumb states 3). 
+Data is \textbf{highly sensitive}: despite encryption of all names, a considerable amount of geographical information is available. To avoid cross-checking using location, for results to be published patients or doctors should be aggregated in groups whose numerousness exceeds a fixed value (rule of thumb states 3). 
 
 Other sensitive information such as email addresses and passwords to log in the system is irrelevant for analytics, therefore it is safe to remove anything not strictly related to the research purposes.
 
 \section{Database overview}
 The database used for analytics contains data on medical histories of patients between \textbf{January 2000} and \textbf{October 2018}. This leads to some observations:
 \begin{enumerate}
-	\item The year 2018 is present only up to June, so it cannot be used while making time series within years (there is going to be a drop of values due to incompleteness which may lead to wrong conclusions);
+	\item The year 2018 is present only up to June, so it cannot be used while making time series within years (there is going to be a drop of values due to incompleteness, which may lead to wrong conclusions);
 	\item A timespan of 20 years is too wide to make consistent analytics;
 	\item Early dated records might contain outdated or incomplete information.
 \end{enumerate}
 
 Global inferences have been made with the entire dataset, while the need of detailed recent reports leads to the decision of using a limited range of years for prescription pattern changes and patient journey.
 
-The research work has been done on only a part of the original Millewin database, consisting in \textbf{4 tables}. There is information available on \textbf{general practitioners}, \textbf{patients}, \textbf{diagnoses} and \textbf{prescriptions}: each macro-category is included in a separated table, so it's necessary to identify the relationship between fields.
+The research work has been done on only a part of the original Millewin database, consisting in \textbf{4 tables}. There is information available on \textbf{general practitioners}, \textbf{patients}, \textbf{diagnoses} and \textbf{prescriptions}: each macro-category is included in a separated table, therefore identifying the relationship between fields is necessary to make interrogations with co-joined data.
 
 The 4 tables with their sizes are:
 \begin{itemize}
 	\item \textit{patients}, 1 015 618 tuples; \\
 	Basic information about patients, identified by an encrypted UID;
 	\item \textit{patients\_doctors}, 1 015 618 tuples; \\
-	Extension of \textit{patients} with the same key, containing more detailed information about patient-doctor relationships and linkage with GPs identifiers;
+	Extension of \textit{patients} with the same key, containing more detailed information about patient-doctor relationships and linkage with GPs identifiers:
+	\begin{itemize}
+		\item There are 1 356 general practitioners;
+	\end{itemize}
 	\item \textit{diagnoses}, 15 460 199 tuples; \\
 	Information about diagnoses and relative description;
 	\item \textit{prescriptions}, 118 716 403 tuples; \\
@@ -49,29 +53,29 @@ The 4 tables with their sizes are:
 
 It is noticeable that the number of rows is varying: there are more prescriptions than diagnoses, since the first tend to happen more often.
 
-Each diagnosis and prescription is uniquely distinguished by the triplet {patient, doctor, date}. Dates are at level of timestamp, making each one different from the others (it's improbable to have a diagnosis or prescription for the same patient, by the same doctor and at the same exact moment). 
+Each diagnosis and prescription is uniquely distinguished by the triplet \{\textit{patient}, \textit{doctor}, \textit{date}\}. Dates are at level of timestamp, making each one different from the others (it is improbable to have a diagnosis or prescription for the same patient, by the same doctor and at the same exact moment). 
 
 Analysis is performed using dates in the \textit{YYYY-MM-DD} format, since non-unique data still allows to aggregate results and identify patterns. There are several different prescriptions for the same patient made on the same day.
 
 \section{Description of the tables}
-Before being able to work with the data, it is essential to understand its structure, functioning and trending within time.
+Before being able to work with the data, it is essential to understand its structure, functioning and behaviour within time.
 
 Below is reported a brief description of the 4 tables, along with the main fields used for analytics, statistics and machine learning.
 
 \subsection{\textit{patients}}
-The table \textit{patients} includes information about patients. To ensure privacy dealing with sensitive data, there are no full names: everything is \textbf{encrypted} as a 22-character string containing letters, numbers and special symbols.
+The table \textit{patients} includes information about patients. To ensure privacy dealing with sensitive data, there are no full names: fields are \textbf{encrypted} as a 22-character string containing letters, numbers and special symbols.
 
 Other relevant fields are:
 \begin{itemize}
 	\item \textit{birthdate}, date of birth;
 	\item \textit{death}, eventual date of death;
 	\item \textit{birth\_municipality}, name (and code) of the birth municipality;
-	\item \textit{sex}, birth sex;
+	\item \textit{gender}, birth sex;
 	\item \textit{convention}, type of convention with the Italian insurance system.
 \end{itemize}
 
 \subsection{\textit{patients\_doctors}}
-The table \textit{patients\_doctors} contains information similar to \textit{pazienti}, with additional fields focussing on their relationship with the general practitioners, which are essential to link and analyse data:
+The table \textit{patients\_doctors} contains information similar to \textit{patients}, with additional fields focussing on their relationship with the general practitioners, which are essential to link and analyse data:
 \begin{itemize}
 	\item \textit{userid}, \textbf{encrypted} UID of the general practitioner of the patient;
 	\item \textit{date}, date of beginning of the doctor-patient relationship;
@@ -96,7 +100,7 @@ Summary of most important features:
 \end{itemize}
 
 \subsection{\textit{prescriptions}}
-The table \textit{prescriptions} contains the prescribed medicines for each patient. There is no linkage between diagnoses and prescriptions in the database, so additional work is required to detect correlation.
+The table \textit{prescriptions} contains the prescribed medicines for each patient. There is no linkage between diagnoses and prescriptions in the database, therefore additional work is required to detect correlation.
 
 Each prescription is defined by an \textbf{ATC code}, from the Anatomical Therapeutical Chemical classification system maintained by the World Health Organization. Furthermore, there are \textbf{active principle code} and \textbf{authorisation for commerce code}(AIC).
 
@@ -115,39 +119,64 @@ Fields summary:
 \end{itemize}
 
 \section{ER model}
-After identifying the main fields, it is possible to build and include an \textbf{ER model}\cite{draw}, to provide immediate comprehension of how entities are related, visualising information to identify keys and unique fields, essential for joining data.
+After identifying the main fields, it is possible to build and include an \textbf{ER model}\footnote{Image made with \texttt{\href{draw.io}{draw.io}}} (figure \ref{er}), to provide immediate comprehension of how entities are related, visualising information to identify keys and unique fields, essential for joining data.
 \smallskip
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.58]{images/er.png}
+	\caption{\small ER model}
+	\label{er}
 \end{figure}
 
-\section{Variations through time}
-To give a general idea of variations of patients and magnitude orders, a snapshot of 2010-2017 is used to show patterns and differences, counting the number of patients getting at least a diagnosis for each year:
-\begin{center}
-	\small
-	\begin{tabular}{c|c|c|c|c|c|c|c|c}
-		  & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\
-		\hline
-		Number & 329 715 & 320 253 & 316 431 & 320 948 & 324 920 & 323 441 & 330 641 & 326 987 \\
-		\hline
-		Age mean & 47,43 & 47,89 & 48,44 & 48,68 & 48,98 & 49,78 & 50,12 & 50,54 \\
-		\hline
-		Age st.\ dev. & 20,7 & 20,81 & 20,84 & 20,86 & 20,87 & 20,84 & 20,85 & 20,79 \\
-		\hline
-		Women & 185 035 & 179 700 & 178 248 & 180 304 & 182 286 & 181 313 & 185 729 & 183 419 \\
-		\hline
-		Men & 144 016 & 140 330 & 137 514 & 139 780 & 141 727 & 141 158 & 143 931 & 142 363 \\
-	\end{tabular}
-\end{center}
-\bigskip
-Another example can be obtained counting the number of prescriptions each year:
-\begin{center}
-	\small
-	\begin{tabular}{c|c|c|c|c|c|c|c}
-		2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\
-		\hline
-		7 326 923 & 7 108 288 & 7 269 855 & 7 541 539 & 7 777 753 & 7 847 313 & 7 856 246 & 7 785 325 \\
-	\end{tabular}
-\end{center}
+\section[Preliminary analysis]{Example of preliminary analysis}
+Analysis on patients' gender, on 1 015 618 distinct patients, with approx. percentages:
+\begin{itemize}
+	\item Males: 479 556, 47\%;
+	\item Females: 533 256, 52\%;
+	\item Other or null, 2 806,  < 1\%.
+\end{itemize}
 
+Percentages of males and females are coherent with ISTAT data of 2018, showing 48\% males and 52\% females in the whole region Campania\footnote{\href{http://demo.istat.it/bil2018/index.html}{ISTAT 2018}}, confirming the validity of data.
+
+The 1\% of missing data introduces the \textbf{information loss} issue, which will be examined in detail in the next part of the research.
+
+\subsection{Variations through time}
+To give a general idea on variations of available information and magnitude orders, a \textbf{snapshot} of 2010-2017 is used to show patterns and differences.
+
+It is expected for data to progressively increase, since more and more general practitioners have familiarised with the electronic recording systems within years.
+
+A first analytical approach consists in counting the number of patients getting at least a diagnosis for each year:
+\begin{table}[h]
+	\centering
+	 \makebox[\textwidth][c]{
+	\begin{tabular}{c|c|c|c|c|c|c|c|c}
+		  & \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013} & \textbf{2014} & \textbf{2015} & \textbf{2016} & \textbf{2017} \\
+		\hline
+		\textbf{Patients} & 329 715 & 320 253 & 316 431 & 320 948 & 324 920 & 323 441 & 330 641 & 326 987 \\
+		\hline
+		\textbf{Age mean} & 47,43 & 47,89 & 48,44 & 48,68 & 48,98 & 49,78 & 50,12 & 50,54 \\
+		\hline
+		\textbf{Age s.\ d.} & 20,7 & 20,81 & 20,84 & 20,86 & 20,87 & 20,84 & 20,85 & 20,79 \\
+		\hline
+		\textbf{Women} & 185 035 & 179 700 & 178 248 & 180 304 & 182 286 & 181 313 & 185 729 & 183 419 \\
+		\hline
+		\textbf{Men} & 144 016 & 140 330 & 137 514 & 139 780 & 141 727 & 141 158 & 143 931 & 142 363 \\
+	\end{tabular}}
+\caption{\small Number of patients with diagnoses}
+\vspace{-10px}
+\end{table}
+\bigskip
+
+Another example can be obtained counting the number of prescriptions each year:
+\begin{table}[h]
+	\centering
+	 \makebox[\textwidth][c]{
+	\begin{tabular}{c|c|c|c|c|c|c|c|c}
+		& \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013} & \textbf{2014} & \textbf{2015} & \textbf{2016} & \textbf{2017} \\
+		\hline
+		\textbf{P.} & 7 326 923 & 7 108 288 & 7 269 855 & 7 541 539 & 7 777 753 & 7 847 313 & 7 856 246 & 7 785 325 \\
+	\end{tabular}}
+\caption{\small Number of patients with prescriptions}
+\end{table}
+
+Patients getting diagnoses tend to remain stable, yet prescriptions have a difference of more than 450 000 records, confirming the hypothesis of information registering increase while raising the concern of an effective general overprescribing.

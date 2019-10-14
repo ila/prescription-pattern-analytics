@@ -1,34 +1,40 @@
 \chapter{Goals definition} 
-\section{Methodologies}
-This research is specifically focussed on the doctor-patient relationship: person-centred care concerning diagnoses and prescriptions, analysing their changes according to habits, physiological aspects, time and geographical area of both interested parts. 
+This chapter implements theoretical knowledge into a practical context, applying healthcare analytics to the Italian sanitary system through specific methodologies and illustrating results to expect.
 
-There are several external factors influencing market trends of medicines, for instance the advent of generic drugs, having the same active principle and bioequivalence with brand medicines, but lower prices thanks to their dissociation from pharmaceutical companies.
+It gives an overview of the potential problems and concerns, such as information loss and privacy, and ways to address them.
+
+\section{Methodologies}
+Reported work is performed within the project ``Territorial Analysis on Local Antibiotic Resistance through Data Analytics Techniques'', by Consorzio Milano Ricerche, concerning medical data in the region Campania.
+
+This part of the research is specifically focussed on the \textbf{doctor-patient relationship}: person-centred care concerning \textit{diagnoses} and \textit{prescriptions}, analysing their changes according to habits, physiological aspects, time and geographical area of both interested parts. 
+
+There are several external factors influencing market trends of medicines, for instance the advent of \textbf{generic drugs}, having the same active principle and bioequivalence with brand medicines, but lower prices thanks to their dissociation from pharmaceutical companies.
 
 The concept of generic drug has been introduced in Italy in 1995, to be legally formalised in 1996\cite{generico}, yet it has initially been perceived by general practitioners and pharmacists as a mere instrument to save money at the expense of quality\cite{medicinaliequivalenti}.
 
 Only in the past 10 years, advertisement efforts have been made to make the population aware of the strict quality checks and the reliability of generic drugs, starting a slow switching process. If sales of a brand product decrease, then, it might have been replaced with its equivalent.
 
-This is only an instance of event which cannot be predicted using the raw data: information about market withdrawals, advertisement or economic availability need to be cross-checked with analytical results.
+This is only an instance of event which cannot be predicted using the raw data: information about \textit{market withdrawals}, \textit{advertisement} or \textit{economic availability} need to be \textbf{cross-checked} with analytical results.
 
-Considering a wide time span is essential to have an overall idea of data quality, information loss and potentiality of available resources. All those factors contribute to progressive rescaling of the dataset:
+Considering a \textbf{wide time span} is essential to have an overall idea of data quality, information loss and potentiality of available resources. All those factors contribute to progressive rescaling of the dataset:
 \begin{enumerate}
 	\item Detailed analytics must be done according to restricted areas (pathologies, products);
 	\item Different time spans can be compared, going deeper into the general view;
-	\item Incorrect or unclear information has to be removed, causing retention of total records whose amount gets narrower while cleaning is in progress (funnel).
+	\item Incorrect or unclear information has to be removed, causing retention of total records whose amount gets narrower while cleaning is in progress (\textit{funnel} effect).
 \end{enumerate}
 
-The dataset is modelled in a relational schema, which allows organization of records in structures (tables) to maintain integrity and compatibility between different kind of fields. This allows flexibility using dynamic views and query optimisation based on set theory. 
+The available dataset is modelled in a \textbf{relational schema}, which allows organization of records in structures (tables) to maintain integrity and compatibility between different kind of fields. This allows flexibility using dynamic views and query optimisation based on set theory. 
 
 For a better fruition of the workload, table names have been changed to standard English keywords.
 
 \section{Considerations}
 Since health big data can provide a high variety of information, it is required to have some clear \textit{objectives} in mind to keep on track and avoid losing focus. 
 
-The research is centred on the \textbf{changes of prescription patterns of antibiotics}: this is a wide goal, and more information is needed to achieve results. It's necessary to narrow the field down, only concentrating on some classes of medicines, and define subgroups of GPs and patients in a restricted amount of time.
+The research is centred on the \textbf{changes of prescription patterns of antibiotics}: this is a wide goal, and more information is needed to achieve results. It is necessary to narrow the field down, only concentrating on some \textbf{classes} of medicines, and define subgroups of GPs and patients in a restricted amount of time.
 
-To obtain constraints the more objective as possible, some further analysis can be useful. For instance, focussing on chronic patients is a relatively fast way to reduce the huge amount of rows to elaborate, but causes the loss of most information.
+To obtain constraints the more objective as possible, some additional analysis can be useful. For instance, focussing on chronic patients is a relatively fast way to reduce the huge amount of rows to elaborate, but causes the loss of most information.
 
-The first step to take, having a deep understanding of the data, is recognising the extent and impact of the \textbf{progressive information loss}, to define the final amount of clear records. Trying to fix mistakes is a risk, since the outcome could be incorrect, so deleting is the most practical option.
+The first step to take, having a deep understanding of the data, is recognising the extent and impact of the \textbf{progressive information loss}, to define the final amount of clear records. Trying to fix mistakes is a risk, since the outcome could be incorrect, therefore deleting is the most practical option.
 
 Removing unclear and futile data may not be enough to have consistent results: 18 years of data is a wide range, and \textit{splitting the dataset} or deciding to only consider a smaller scope can be beneficial for the analysis quality. 
 
@@ -38,8 +44,8 @@ The creation of cohorts (chronic patients) among the statistical population is a
 
 After the initial parsing, there will be a rough draft of the final result which then will be subject of the following steps:
 \begin{enumerate}
-	\item Further analysis on data correctness (record linkage);
-	\item Elaboration of the statistics and time series clustering.
+	\item Further analysis on data correctness (\textit{record linkage});
+	\item Elaboration of the statistics and \textit{time series clustering}.
 \end{enumerate}
 
 Another relevant instance for analysis is the \textbf{subset} of diseases to consider: choices have to be made according to \textit{external studies}, \textit{marketing researches} and further \textit{discoveries on the provided data}. Focussing on the \textbf{most common ones} is a guideline to start.
@@ -54,20 +60,20 @@ Some examples of analytics are:
 	\item Changes of prescriptions based on the patient phenotype or market trends.
 \end{itemize}
 
-An obstacle to perceiving the meaning of results is the restricted domain knowledge: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
+An obstacle to perceiving the meaning of results is the \textbf{restricted domain knowledge}: to compensate, confronting some experts in the field is required. The team comprehends computer scientists, statisticians, biologists and healthcare workers.
 
 \section{Practical methods}
-Having a better vision of the medical domain and the rising issues in the Italian system, before approaching analytical procedures it is necessary to underline practical objectives and expected outcomes.
+Having a better vision of the medical domain and the growing issues in the Italian system still requires the underline of \textbf{practical objectives} and \textbf{expected outcomes}, before approaching analytical procedures.
 
-The first essential statistic to extract is about progressive information loss: this makes possible to estimate how much data can give reliable and complete results, compared to the total. It is defined \textit{progressive} since the more iterations of cleaning are being made, the more data is going to be lost. 
+The first essential statistic to extract is about \textbf{progressive information loss}: this makes possible to estimate how much data can give reliable and complete results, compared to the total. It is defined \textit{progressive} since the more iterations of cleaning are being made, the more data is going to be lost. 
 
-Parsing remaining data is essential to have a correct functioning of database interrogations. Fields need to be checked for correctness using lookup tables, record linkage or regular expression matching; text has to be cast to numbers to apply mathematical operations, and dates can be divided into months and years.
+Parsing remaining data is essential to have a stable functioning of database interrogations. Fields need to be checked for correctness using lookup tables, record linkage or regular expression matching; text has to be cast to numbers to apply mathematical operations, and dates can be divided into months and years.
 
-Performances require a high level of optimisation due to the huge workload of information, obtained through targeted expressions, strict constraints and better memory management of records. 
+Performances require a high level of \textbf{optimisation} due to the huge workload of information, obtained through targeted expressions, strict constraints and better memory management of records. 
 
-A global overview of the data allows to detect anomalies or trends of specific areas to focus on: potential analysis pertains dividing patients according to distinctive characteristics (sex, age group) to observe variations of diagnoses and prescriptions. 
+A global overview of the data allows to detect anomalies or trends of specific areas to focus on: potential analysis pertains dividing patients according to distinctive characteristics (gender, age group) to observe variations of diagnoses and prescriptions. 
 
-After collecting the first batch of results and checking them using external knowledge, information with unusual patterns is outlined, and further examination is made on a subset of features.
+After collecting the first batch of results and checking them using external knowledge, information with \textit{unusual pattern}s is outlined, and further examination is made on a subset of features.
 
 Final outcomes are then subject of more advanced techniques, which include:
 \begin{itemize}
@@ -77,67 +83,67 @@ Final outcomes are then subject of more advanced techniques, which include:
 \end{itemize}
 
 \section{Approaches description}
-While systematically applying methodologies, it is essential to make a difference based on use cases and types of algorithms, to have an overview of different techniques and results to expect.
+While systematically applying methodologies, it is essential to make a difference based on \textbf{use case}s and types of algorithms, to have an overview of different techniques and results to expect.
 
 \subsection{Descriptive statistics}
-Descriptive statistics are used to summarize and describe basic features of information, to give a full picture of a sample without generalizing beyond the data in hand.
+\textbf{Descriptive statistics} are used to summarize and describe basic features of information, to give a full picture of a sample without generalizing beyond the data in hand.
 
-They are used to offer an insight without getting into conclusions, presenting values in a manageable form and simplifying large amounts of records. Such summaries can be quantitative (statistics) or visual (graphs), giving basis to extend the research with more specific approaches.
+They are used to offer an insight without getting into conclusions, presenting values in a manageable form and simplifying large amounts of records. Such summaries can be quantitative (\textit{statistics}) or visual (\textit{graphs}), giving basis to extend the research with more specific approaches.
 
-Some instances of commonly used measurements are central tendency, variability and dispersion, which allow to broke down datasets and re-purpose each attribute into a smaller description. Indices give information on how a value is distributed, how spread-out it is and what shape it assumes. 
+Some instances of commonly used measurements are \textbf{central tendency}, \textbf{variability} and \textbf{dispersion}, which allow to broke down datasets and re-purpose each attribute into a smaller description. Indices give information on how a value is distributed, how spread-out it is and what shape it assumes. 
 
-Exploratory analysis allows to have a general overview of the available health data to then restrict the domain and identify areas of interest.
+Descriptive statistics allows to have a general overview of the available health data to then restrict the domain and identify areas of interest.
 
 \subsection{Time series analysis}
-There are two main goals of time series analysis: identifying the nature of a phenomenon represented by the sequence of observations, and forecasting (predicting future values of the time series variable). 
+There are two main goals of \textbf{time series analysis}: identifying the \textit{nature} of a phenomenon represented by the sequence of observations, and \textit{forecasting} (predicting future values of the time series variable). 
 
 Both of these goals require that the pattern of observed time series data is identified and more or less formally described. Once the pattern is established, it can interpreted and integrated with other data. 
 
 Regardless of the depth of understanding and the validity of interpretation (theory) of the phenomenon, the identified pattern can be used to predict future events\cite{timeseries}.
 
-Antibiotic resistance is the most common example of use case: observing trends during years and months helps understanding the growth (or recess) of the issue and its development.
+Antibiotic resistance is the most immediate example of use case: observing \textbf{trends} during years and months helps understanding the growth (or recess) of the issue and its development.
 
 \subsection{Exploratory analysis}
-Exploratory data analysis (EDA) is a strategy of data analysis that emphasizes maintaining an open mind to alternative possibilities. EDA is a philosophy or an attitude about how data analysis should be carried out, rather than being a fixed set of techniques\cite{yu}.
+\textbf{Exploratory data analysis} (EDA) is a strategy of data analysis that emphasizes maintaining an open mind to alternative possibilities. EDA is a philosophy or an attitude about how data analysis should be carried out, rather than being a fixed set of techniques\cite{yu}.
 
-The approach, similarly to descriptive statistics, consists in summarizing the main characteristics of a dataset to eventually apply statistical models to search for mathematical relationships between variables.
+The approach, similarly to descriptive statistics, consists in \textit{summarizing the main characteristics} of a dataset to eventually apply statistical models to search for mathematical relationships between variables.
 
-It is difficult to obtain a clear­ cut answer from “messy” human phenomena, and thus the exploratory character of EDA is very suitable to medical research.
+It is difficult to obtain a clear cut answer from “messy” human phenomena, and thus the exploratory character of EDA is very suitable to medical research.
 
 This is a systematic way to investigate relevant information from multiple perspectives: in many stages of inquiry, the working questions are non­-probabilistic and the focal point should be the data at hand rather than the probabilistic inference in the long run. Hence, prematurely adopting a specific statistical model would hinder from considering different possible solutions.
 
 The key point of EDA is the emphasis placed on using data to suggest hypotheses to test, rather than confirming existing hypotheses. Causes of observed phenomenon can be pinpointed, assessing assumptions for statistical inference through the appropriate statistical tools.
 
-Techniques consist in plotting features to visualize their behaviour, to then extract the most relevant ones through dimensionality reduction and projecting trends.
+Techniques consist in \textbf{plotting features} to visualize their behaviour, to then extract the most relevant ones through dimensionality reduction and projecting trends.
 
 Exploratory analysis gives a better insight on the information obtainable from the healthcare data, understanding unusual trends and defining detailed objectives.
 
 \subsection{PCA}
-PCA is mostly used as a tool in exploratory data analysis and for making predictive models. It is one of the most widely used methods to reduce dimensionality of large datasets while still preserving most information and variability.
+\textbf{Principal Component Analysis} is mostly applied as a tool in exploratory data analysis for making \textit{predictive models}. It is one of the most widely used methods to \textit{reduce dimensionality} of large datasets while still preserving most information and variability.
 
-PCA allows to find meaningful projections of features, using an unsupervised approach, finding the subspace of largest variance and calculating the eigenvectors to project data into a subspace.
+PCA allows to find \textbf{meaningful projections of features}, using an unsupervised approach, finding the subspace of largest variance and calculating the eigenvectors to project data into a subspace.
 
-This translates into finding new variables that are linear functions of those in the original dataset, translating data into a linear mapping with less dimensions, that successively maximize variance and with features that are uncorrelated with each other\cite{pca}. 
+This translates into finding new variables that are linear functions of those in the original dataset, converting data into a linear mapping with less dimensions, that successively maximize variance and with features that are uncorrelated with each other\cite{pca}. 
 
-Reduced variables can be used for an easier interpretation and visualisation, and successive methodologies such as clustering are applied to subsets to improve computational time. The obtained attributes are subject of further research in the healthcare field.
+Reduced variables can be used for an easier interpretation, and successive methodologies such as clustering are applied to subsets to improve computational time. The obtained attributes are subject of further research in the healthcare field and multi-dimensional data visualisation.
 
 \subsection{Clustering}
-Data clustering techniques are descriptive data analysis techniques that can be applied to multivariate data sets to uncover the structure present in the data. 
+\textbf{Data clustering} techniques are descriptive data analysis techniques that can be applied to multivariate data sets to uncover the structure present in the data. 
 
 They are particularly useful when classical second order statistics (the sample mean and covariance) cannot be used. Namely, in exploratory data analysis, one of the assumptions that is made is that no prior knowledge about the dataset, and therefore the dataset’s distribution, is available. In such a situation, data clustering can be a valuable tool. 
 
-Data clustering is a form of unsupervised classification, as the clusters are formed by evaluating similarities and dissimilarities of intrinsic characteristics between different cases, and the grouping of cases is based on those emergent similarities and not on an external criterion. 
+Data clustering is a form of unsupervised classification, as the clusters are formed by \textit{evaluating similarities and dissimilarities} of intrinsic characteristics between different cases, and the grouping of cases is based on those emergent similarities and not on an external criterion. 
 
 Also, these techniques can be useful for datasets of any dimensionality over three, as it is very difficult for humans to compare items of such complexity reliably without a support to aid the comparison\cite{kmeans}.
 
-Clustering healthcare data offers the opportunity to differentiate elements such as patients and doctors according to their characteristics and behavioural patterns, highlighting trends to possibly make predictions for the future.
+Clustering healthcare data offers the opportunity to \textbf{differentiate elements} such as patients and doctors according to their characteristics and behavioural patterns, highlighting trends to possibly make predictions for the future.
 
 \subsubsection{\textit{k}-means}
-\textit{k}-means clustering belongs to partitioning-based techniques grouping, which are based on the iterative relocation of data points between clusters. It is used to divide either the cases or the variables of a dataset into non-overlapping groups, or clusters, based on the characteristics uncovered\cite{kmeans}. 
+\textbf{\textit{k}-means} clustering belongs to partitioning-based techniques grouping, which are based on the iterative relocation of data points between clusters. It is used to divide either the cases or the variables of a dataset into non-overlapping groups, or clusters, based on the characteristics uncovered\cite{kmeans}. 
 
-The goal is to produce groups of cases/variables with a high degree of similarity within each group and a low degree of similarity between groups.
+The goal is to produce groups of cases/variables with a \textbf{high} degree of similarity within \textbf{each group} and a \textbf{low} degree of similarity between \textbf{groups}.
 
-The objective is therefore to minimise the following equation:
+The objective is therefore to \textit{minimise} the following equation:
 $$C(z, \mu) = \sum_{i} ||x_i - \mu_{z_i}||^2$$
 $z_i$ are the assignment variables, which can take values $z_i = 1, \dots, K$ where $K$ is an arbitrary number of clusters.
 
@@ -145,64 +151,62 @@ $z_i$ are the assignment variables, which can take values $z_i = 1, \dots, K$ wh
  
 A good cluster analysis is both efficient and effective, in that it uses as few clusters as possible while still capturing all statistically important clusters.
 
-The practical approach uses the algorithm of Hartigan and Wong, the most popular implementation, which searches for the partition of data space with locally optimal within-cluster sum of squares of errors (SSE).
+The practical approach uses the algorithm of \textit{Hartigan and Wong}, the most popular implementation, which searches for the partition of data space with locally optimal within-cluster \textit{sum of squares of errors} (SSE).
 
 The Hartigan method examines every item in each cluster at random, calculates the distance to centroids and assigns it to the optimal partition, taking into account the motion during re-assignment.
 
 $k$-means can be used to classify prescription patterns, having the chance to construct a feature matrix with time series data.
 
 \subsection{Graph algorithms}
-While graphs originated in mathematics, they are also a pragmatic and high fidelity way of modelling and analyzing data. The objects that make up a graph are called nodes and vertices and the links between them are known as relationships, links, or edges. 
+While graphs originated in mathematics, they are also a pragmatic and high fidelity way of modelling and analyzing data. The objects that make up a graph are called \textbf{nodes} or vertices and the links between them are known as \textbf{relationships}, links, or edges. 
 
-Graph algorithms are a subset of tools for graph analytics. Graph pattern–based querying is often used for local data analysis, whereas graph computational algorithms usually refer to more global and iterative analysis.
+Graph algorithms are a subset of tools for graph analytics. Graph pattern–based querying is often used for \textit{local data analysis}, whereas graph computational algorithms usually refer to more global and iterative analysis.
 
-Graph algorithms provide one of the most potent approaches to analyzing connected data because their mathematical calculations are specifically built to operate on relationships. They describe steps to be taken to process a graph to discover its general qualities or specific quantities. 
+Graph algorithms provide one of the most potent approaches to analyzing \textbf{connected data} because their mathematical calculations are specifically built to operate on relationships. They describe steps to be taken to process a graph to discover its general qualities or specific quantities. 
 
 Based on the mathematics of graph theory, graph algorithms use the relationships between nodes to infer the organization and dynamics of complex systems\cite{neo4jbook}.
 
 Healthcare data can be represented using a graph, identifying main attributes along with their behaviour and interactions. 
 
 \subsubsection{Betweenness centrality}
-Centrality algorithms are used to understand the roles of particular nodes in a graph and their impact on that network. They’re useful because they identify the most important nodes and help us understand group dynamics such as credibility, accessibility, the speed at which things spread, and bridges between groups.
+\textbf{Centrality algorithms} are used to understand the roles of particular nodes in a graph and their impact on that network. They’re useful because they identify the \textit{most important nodes} and help understanding group dynamics such as credibility, accessibility, the speed at which things spread, and bridges between groups.
 
-Betweenness Centrality is a way of detecting the amount of influence a node has over the flow of information or resources in a graph. It is typically used to find nodes that serve as a bridge from one part of a graph to another.
+\textbf{Betweenness Centrality} is a way of detecting the amount of influence a node has over the flow of information or resources in a graph. It is typically used to find nodes that serve as a bridge from one part of a graph to another.
 
-The Betweenness Centrality algorithm first calculates the shortest (weighted) path between every pair of nodes in a connected graph. Each node receives a score, based on the number of these shortest paths that pass through the node. The more shortest paths that a node lies on, the higher its score.
+The Betweenness Centrality algorithm first calculates the \textit{shortest (weighted) path} between every pair of nodes in a connected graph. Each node receives a score, based on the number of these shortest paths that pass through the node. The more shortest paths that a node lies on, the higher its score.
 
-The betweenness centrality of a node is calculated by adding the results of the follow‐ ing formula for all shortest paths:
+The betweenness centrality of a node is calculated by adding the results of the following formula for all shortest paths:
 $$B(u) = \sum_{s \neq u \neq t} \frac{p(u)}{p}$$
 $u$ is the selected node, $p$ is the total number of shortest paths between nodes $s$ and $t$, and $p(u)$ is the number of shortest paths passing through $u$.
 
 Betweenness can be used to measure antibiotics' influence among co-prescriptions.
 
 \subsubsection{Degree centrality}
-Degree Centrality is the simplest of the algorithms, and counts the number of incoming and outcoming relationships from a node. It is used to find popular instances in a graph, concerning immediate connectedness and near-term probabilities. 
+\textbf{Degree Centrality} is the simplest of the algorithms, and counts the \textit{number of incoming and outcoming relationships} from a node. It is used to find \textbf{popular instances} in a graph, concerning immediate connectedness and near-term probabilities. 
 
-The degree of a node is in fact the number of direct relationships it has, calculated for in-degree and out-degree.
+The \textbf{degree} of a node is in fact the number of direct relationships it has, calculated for in-degree (incoming edges) and out-degree (out-coming edges).
 
 Degree is another indicator to analyse the influence of single products to highlight most common ones.
 
 \subsubsection{Community detection}
-Community formation is common in all types of networks, and identifying them is essential for evaluating group behaviour and emergent phenomena. 
+A \textbf{community} is a group of individuals having the same particular characteristic, sharing or having certain attitudes and interests in common\footnote{\href{https://www.lexico.com/en/definition/community}{Lexico dictionary definition}}.
 
-Connectedness is a core concept of graph theory that enables a sophisticated network analysis such as finding communities. Most real-world networks exhibit substructures (often quasi-fractal) of more or less independent subgraphs.
+Community formation is common in all types of networks, and identifying them is essential for evaluating group behaviour and emergent phenomena. Most real-world networks exhibit substructures (often quasi-fractal) of more or less independent subgraphs.
 
-Connectivity is used to find communities and quantify the quality of groupings. Evaluating different types of communities within a graph can uncover structures, like hubs and hierarchies, and tendencies of groups to attract or repel others.
+Connectivity is used to \textit{find communities} and \textit{quantify the quality} of groupings, uncovering structures and tendencies of groups to attract or repel others.
 
-The general principle in finding communities is that its members will have more relationships within the group than with nodes outside their group. Identifying these related sets reveals clusters of nodes, isolated groups, and network structure. This information helps infer similar behaviour or preferences of peer groups, estimate resiliency, find nested relationships, and prepare data for other analyses.
+The general principle in finding communities is that \textit{its members will have more relationships within the group than with nodes outside their group}. Identifying these related sets reveals \textbf{clusters} of nodes, isolated groups, and network structure. This information helps to infer \textbf{similar behaviour} or preferences of peer groups, estimate resiliency, find nested relationships, and prepare data for other analyses.
 
-Modularity algorithms optimize communities locally and then globally, using multiple iterations to test different groupings and increasing coarseness. This strategy identifies community hierarchies and provides a broad understanding of the overall structure.
+Modularity algorithms optimize communities locally and then globally, using multiple iterations to test different groupings and increasing coarseness. \textbf{Louvain Modularity}, in particular, is used for looking at grouping quality and hierarchies.
 
-Louvain Modularity is used for looking at grouping quality and hierarchies. It finds clusters by moving nodes into higher relationship density groups and aggregating into super-communities.
-
-It maximizes the presumed accuracy of groupings by comparing relationship weights and densities to a defined estimate or average, revealing hierarchies at different scales with distinct levels of granularity.
+It maximizes the presumed accuracy of groupings by comparing relationship weights and densities to a defined estimate or average, revealing hierarchies at different scales with distinct levels of granularity and aggregating into super-communities.
 
 Community detection in a healthcare graph schema can help dividing instances according to their habits, giving a structure in groups with different patterns.
 
 \subsubsection{Similarity detection}
-Similarity algorithms work out which nodes most resemble each other by using various methods to compare items like node attributes. It is useful for dense graphs, giving additional insights to clustering.
+\textbf{Similarity algorithm}s work out which nodes most resemble each other by using various methods to compare items like node attributes. It is useful for dense graphs, giving additional insights to clustering.
 
-Jaccard Similarity, a term coined by Paul Jaccard, measures similarities and differences between sample sets with discrete attributes, assigning a coefficient to each pair of nodes. It is defined as the size of the intersection divided by the size of the union of two sets. 
+\textbf{Jaccard Similarity}, a term coined by Paul Jaccard, measures similarities and differences between sample sets with discrete attributes, assigning a \textbf{coefficient} to each pair of nodes. It is defined as the size of the intersection divided by the size of the union of two sets. 
 
 Similarity can be applied to recognise prescription patterns, finding doctors with the same characteristics.
 
@@ -211,24 +215,21 @@ Modern technologies make possible to process big data with reduced costs: there 
 
 Since the project requires a relational structure along with statistical computing and machine learning, analysing and elaborating the health data is made through:
 \begin{itemize}
-	\item \textbf{PostgreSQL}\cite{pg}, an open source object-relational database management system known for its robustness and reliability:
+	\item \textbf{PostgreSQL}\footnote{\href{https://www.postgresql.org/}{PostgreSQL official website}}, an open source object-relational database management system known for its robustness and reliability:
 	\begin{itemize}
-		\item The development platform to interface with the web server containing the dataset is \textbf{PgAdmin 4};
 		\item Indexes and Common Table Expressions are useful to avoid huge computational times;
 		\item Database interrogations and functions give a schema overview to then apply further grouping and filtering.
 	\end{itemize}
-	\item \textbf{Neo4j}\cite{neo}, a native graph database which gives data a different representation, processing entities as nodes while highlighting their connections:
+	\item \textbf{Neo4j}\footnote{\href{https://neo4j.com/}{Neo4j official website}}, a native graph database which gives data a different representation, processing entities as nodes while highlighting their connections:
 	\begin{itemize}
 		\item Queries are expressed using \textbf{Cypher};
 		\item The additional plugin Graph Algorithms returns implemented, parallel version of common network problems. 
 	\end{itemize}
-	\item \textbf{R}\cite{r}, a free software environment for statistics and graphics computing, offering a wide range of techniques and formulae:
+	\item \textbf{R}\footnote{\href{https://www.r-project.org/}{R project official website}}, a free software environment for statistics and graphics computing, offering a wide range of techniques and formulae:
 	\begin{itemize}
 		\item \textit{ggplot2} is a package to create and visualise plots;
 		\item Clustering is performed using embedded functions.
 	\end{itemize}
 \end{itemize}
-
-Reports and slide-shares have been created and accessed using the \textbf{Google Suite}.
 
 Due to the amount of sensitive data, detailed results are going to be omitted: the final conclusions will be a product of aggregation and schematisation.
