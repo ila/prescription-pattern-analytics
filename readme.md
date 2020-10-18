@@ -1,0 +1,1 @@
+This repository contains my Bachelor's degree thesis. The PDF version can be found at [thesis/Battiston_Ilaria_relfin_22luglio2019.pdf](https://github.com/ila/prescription-pattern-analytics/blob/master/thesis/Battiston_Ilaria_relfin_22luglio2019.pdf), and the other folders are mainly for storing code necessary to generate plots and PNG files embedded inside. 
